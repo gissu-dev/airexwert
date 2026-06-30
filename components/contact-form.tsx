@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +20,22 @@ export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle"
   );
+  const [reason, setReason] = useState(reasons[0]);
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedReason = params.get("reason");
+    const requestedMessage = params.get("message");
+
+    if (requestedReason && reasons.includes(requestedReason)) {
+      setReason(requestedReason);
+    }
+
+    if (requestedMessage) {
+      setMessage(requestedMessage);
+    }
+  }, []);
 
   return (
     <form
@@ -36,6 +52,8 @@ export function ContactForm() {
             return;
           }
           setStatus("success");
+          setReason(reasons[0]);
+          setMessage("");
           form.reset();
         }, 450);
       }}
@@ -56,7 +74,12 @@ export function ContactForm() {
       </div>
       <div className="grid gap-2">
         <Label htmlFor="reason">Reason</Label>
-        <Select id="reason" name="reason" defaultValue="Job opportunity">
+        <Select
+          id="reason"
+          name="reason"
+          value={reason}
+          onChange={(event) => setReason(event.target.value)}
+        >
           {reasons.map((reason) => (
             <option key={reason} value={reason}>
               {reason}
@@ -70,6 +93,8 @@ export function ContactForm() {
           id="message"
           name="message"
           placeholder="Share the opportunity, project, or context."
+          value={message}
+          onChange={(event) => setMessage(event.target.value)}
           required
         />
       </div>

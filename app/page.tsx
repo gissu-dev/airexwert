@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Bot, Briefcase, Plane, Radar } from "lucide-react";
 import { Hero } from "@/components/hero";
+import { HomeActionPanel } from "@/components/home-action-panel";
 import { SectionHeader } from "@/components/section-header";
 import { SkillCard } from "@/components/skill-card";
 import { StatCard } from "@/components/stat-card";
@@ -26,6 +27,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <HomeActionPanel />
 
       <section className="section-shell">
         <SectionHeader

@@ -6,7 +6,6 @@ import {
   ArrowRight,
   Download,
   FolderOpen,
-  Mail,
   MapPin,
   Plane,
   Radar,
@@ -65,15 +64,15 @@ export function Hero() {
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg">
-              <Link href="/projects">
-                <FolderOpen className="h-4 w-4" aria-hidden="true" />
-                View Projects
+              <Link href="#start-here">
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                Start Here
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link href="/contact">
-                <Mail className="h-4 w-4" aria-hidden="true" />
-                Contact Me
+              <Link href="/projects">
+                <FolderOpen className="h-4 w-4" aria-hidden="true" />
+                View Projects
               </Link>
             </Button>
             <Button asChild size="lg" variant="amber">
