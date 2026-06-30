@@ -18,10 +18,10 @@ export const timeline = [
       "Building Discord bots, workflow tools, dashboards, and automation that solve concrete daily problems."
   },
   {
-    title: "Drone business planning",
+    title: "Drone operations planning",
     timeframe: "Developing direction",
     description:
-      "Planning Keystone Aerial Services around responsible capability growth, local needs, and clear boundaries."
+      "Planning a Keystone Aerial concept around responsible capability growth, local needs, launch requirements, and clear boundaries."
   },
   {
     title: "Professional aviation goals",

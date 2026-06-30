@@ -9,6 +9,7 @@ export const profile = {
   email: "airexwert@yahoo.com",
   phone: "(570) 392-9857",
   discord: "daehzushriexh",
+  discordUrl: "https://discordapp.com/users/565334237226467353",
   resumeDownloadPath: "/resume.pdf",
   githubUrl: "",
   linkedinUrl: "https://www.linkedin.com/in/airex-wert-4326a1155/",

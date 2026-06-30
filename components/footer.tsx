@@ -83,8 +83,8 @@ export function Footer() {
             ) : null}
           </div>
           <p className="mt-4 text-xs leading-5 text-muted-foreground">
-            Drone service capabilities depend on equipment, licensing, location,
-            and project requirements.
+            Aerial services are in development; future capabilities depend on
+            equipment, licensing, location, insurance, and project requirements.
           </p>
         </div>
       </div>

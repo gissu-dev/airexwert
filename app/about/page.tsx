@@ -48,9 +48,9 @@ export default function AboutPage() {
                 </p>
                 <p>
                   The long-term direction is clear: build toward professional
-                  aviation, responsible drone services, automation tools, bots,
-                  and practical technology projects that help people operate
-                  with more clarity.
+                  aviation, responsible drone operations planning, automation
+                  tools, bots, and practical technology projects that help
+                  people operate with more clarity.
                 </p>
               </div>
             </CardContent>

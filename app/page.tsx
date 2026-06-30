@@ -12,7 +12,7 @@ import { profile } from "@/data/profile";
 
 export const metadata = {
   description:
-    "WertWorks is Airex Wert's personal site for automation, aviation goals, drone service planning, bots, job tools, and practical applied technology projects.",
+    "WertWorks is Airex Wert's personal site for automation, aviation goals, drone operations planning, bots, job tools, and practical applied technology projects.",
   openGraph: {
     title: "WertWorks | Automation, Aviation & Applied Tech",
     description:
@@ -31,7 +31,7 @@ export default function HomePage() {
         <SectionHeader
           eyebrow="Core signals"
           title={`${profile.brandName} is built around aviation discipline, service experience, and useful technology.`}
-          description="The site presents a real career direction: veteran background, aviation maintenance mindset, direct support work, drone services planning, and automation projects."
+          description="The site presents a real career direction: veteran background, aviation maintenance mindset, direct support work, drone operations planning, and automation projects."
         />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {quickStats.map((stat) => (
@@ -104,8 +104,8 @@ export default function HomePage() {
                 icon: Plane
               },
               {
-                title: "Drone services",
-                text: "Keystone Aerial direction with responsible wording around equipment, licensing, location, and requirements.",
+                title: "Aerial planning",
+                text: "Keystone Aerial concept development with roadmap, equipment planning, licensing boundaries, and local NEPA use-case research.",
                 href: "/drone-services",
                 icon: Radar
               },

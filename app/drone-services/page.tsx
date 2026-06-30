@@ -14,51 +14,51 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata = {
-  title: "Drone Services Planning | WertWorks",
+  title: "Aerial Services Planning | WertWorks",
   description:
-    "WertWorks drone services planning for future aerial documentation, inspection support, mapping, and responsible commercial operations in Northeastern Pennsylvania.",
+    "WertWorks aerial services planning for future property documentation, inspection support, mapping, emergency support use cases, and responsible drone operations in Northeastern Pennsylvania.",
   openGraph: {
-    title: "Drone Services Planning | WertWorks",
+    title: "Aerial Services Planning | WertWorks",
     description:
-      "Building toward responsible aerial services in Northeastern Pennsylvania with clear equipment, licensing, and project requirement boundaries."
+      "Aerial services concept in development for Northeastern Pennsylvania with clear equipment, licensing, insurance, and project requirement boundaries."
   }
 };
 
 const serviceAreas = [
   {
-    title: "Thermal inspection",
+    title: "Thermal use-case planning",
     description:
-      "Planning around thermal-capable use cases where equipment, training, and project requirements support responsible work.",
+      "Exploring thermal-capable use cases where equipment, training, licensing, and project requirements would support responsible future work.",
     icon: Thermometer
   },
   {
-    title: "Roof/property inspection",
+    title: "Property documentation planning",
     description:
-      "Aerial documentation for roofs, lots, structures, and properties where drone operations are appropriate.",
+      "Planning how aerial documentation could support roofs, lots, structures, and property records when operations are appropriate.",
     icon: Home
   },
   {
     title: "Search/support use cases",
     description:
-      "Support-oriented possibilities that require clear coordination, authority, equipment, and legal boundaries.",
+      "Exploring support-oriented possibilities that would require clear coordination, authority, equipment, insurance, and legal boundaries.",
     icon: Search
   },
   {
-    title: "Mapping/documentation",
+    title: "Mapping and documentation model",
     description:
-      "Visual records, site context, progress capture, and organized deliverables for property or project teams.",
+      "Developing ideas for visual records, site context, progress capture, and organized deliverables for future projects.",
     icon: Map
   },
   {
     title: "Emergency support potential",
     description:
-      "Potential future support where conditions, permissions, and capabilities make drone operations useful.",
+      "Researching where future drone operations could be useful only when permissions, capabilities, and conditions support it.",
     icon: RadioTower
   },
   {
-    title: "Commercial operations planning",
+    title: "Launch preparation",
     description:
-      "Building toward responsible commercial workflows, intake, safety checks, and repeatable client communication.",
+      "Building toward responsible commercial workflows, intake, safety checks, equipment decisions, and launch requirements.",
     icon: ClipboardCheck
   }
 ];
@@ -67,9 +67,9 @@ export default function DroneServicesPage() {
   return (
     <>
       <PageIntro
-        eyebrow="Keystone Aerial"
-        title="Building toward professional aerial services in Northeastern Pennsylvania."
-        description="This page represents a drone business direction, not a claim that every service is currently active. The focus is responsible growth, clear boundaries, local usefulness, and practical operations planning."
+        eyebrow="Aerial Services Planning"
+        title="Developing a NEPA-focused drone operations model."
+        description="This area is currently in development. It represents launch planning, use-case research, and operational preparation, not a claim that commercial aerial work is currently being offered."
       />
 
       <section className="section-shell pt-4">
@@ -78,26 +78,26 @@ export default function DroneServicesPage() {
             <CardContent className="p-6">
               <Radar className="h-9 w-9 text-primary" aria-hidden="true" />
               <h2 className="mt-5 text-2xl font-semibold">
-                Capability-first, claim-light.
+                Responsible launch planning.
               </h2>
               <p className="mt-4 text-sm leading-7 text-muted-foreground">
-                The right drone service depends on the aircraft, sensors,
-                licensing, airspace, site conditions, weather, client needs, and
-                deliverables. This page is structured to grow with the business
-                without pretending current capabilities are broader than they
-                are.
+                The drone business has not officially launched yet. This page is
+                structured around roadmap, equipment planning, local market
+                research, use cases, and operating boundaries so the concept can
+                develop without overstating current capabilities.
               </p>
               <Badge variant="amber" className="mt-6 leading-5">
-                Services and capabilities depend on equipment, licensing,
-                location, and project requirements.
+                This area is currently in development. Services and capabilities
+                depend on equipment, licensing, location, insurance, and project
+                requirements.
               </Badge>
             </CardContent>
           </Card>
 
           <div>
             <SectionHeader
-              eyebrow="Service directions"
-              title="Use cases being evaluated and built toward."
+              eyebrow="Planning tracks"
+              title="Use cases and launch requirements being evaluated."
             />
             <div className="mt-8 grid gap-5 sm:grid-cols-2">
               {serviceAreas.map((area) => (

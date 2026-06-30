@@ -21,7 +21,7 @@ export const siteConfig = {
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/projects", label: "Projects" },
-    { href: "/drone-services", label: "Drone Services" },
+    { href: "/drone-services", label: "Aerial Planning" },
     { href: "/aviation", label: "Aviation" },
     { href: "/automation-bots", label: "Automation" },
     { href: "/resume", label: "Resume" },
@@ -47,8 +47,8 @@ export const quickStats = [
     icon: Bot
   },
   {
-    title: "Drone business development",
-    description: "Building toward professional aerial services in NEPA.",
+    title: "Drone operations planning",
+    description: "Developing a responsible NEPA-focused aerial services model.",
     icon: Crosshair
   },
   {
@@ -74,7 +74,7 @@ export const focusAreas = [
   {
     title: "Career growth",
     description:
-      "A grounded portfolio for employers, aviation contacts, drone clients, and project collaborators.",
+      "A grounded portfolio for employers, aviation contacts, future aerial planning conversations, and project collaborators.",
     icon: Briefcase
   }
 ];

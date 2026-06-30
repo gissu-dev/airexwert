@@ -1,6 +1,6 @@
 # WertWorks Personal Website
 
-WertWorks is the personal website and project hub for Airex Wert. The site is built around automation, aviation, drone service planning, bots, job tools, and practical applied technology.
+WertWorks is the personal website and project hub for Airex Wert. The site is built around automation, aviation, drone operations planning, bots, job tools, and practical applied technology.
 
 ## Project Overview
 
@@ -8,7 +8,7 @@ WertWorks is the personal website and project hub for Airex Wert. The site is bu
 - Abstract aviation HUD / radar / command-interface hero
 - About page with professional story, values, and timeline
 - Filterable project showcase
-- Drone services planning page with claim-safe wording
+- Aerial services planning page with claim-safe wording
 - Aviation direction page
 - Automation and bots page
 - Employer-friendly resume page
@@ -155,6 +155,6 @@ Vercel will detect the push, run the build, and publish the new version if the b
 - Connect the contact form to Resend, Formspree, or a Vercel server action
 - Add optional auth and database sync for the job dashboard
 - Add detailed project case study pages
-- Add drone service intake form and quote workflow
+- Add future aerial work intake and launch-planning workflow
 - Add calendar export or browser notifications for follow-ups
 - Add privacy-conscious analytics after tracking preferences are decided

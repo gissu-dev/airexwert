@@ -11,7 +11,7 @@ import {
 export type ProjectCategory =
   | "Automation"
   | "Bots"
-  | "Drone Business"
+  | "Drone Planning"
   | "Aviation"
   | "Websites"
   | "Job Search Tools";
@@ -23,7 +23,7 @@ export type Project = {
   problem: string;
   solution: string;
   tech: string[];
-  status: "Planning" | "In Progress" | "MVP" | "Active Build";
+  status: "Planning" | "In Progress" | "MVP" | "Active Build" | "Launch Planning";
   nextStep: string;
   icon: typeof Radar;
 };
@@ -32,7 +32,7 @@ export const projectCategories: Array<ProjectCategory | "All"> = [
   "All",
   "Automation",
   "Bots",
-  "Drone Business",
+  "Drone Planning",
   "Aviation",
   "Websites",
   "Job Search Tools"
@@ -42,14 +42,14 @@ export const projects: Project[] = [
   {
     title: "Keystone Aerial Services",
     slug: "keystone-aerial-services",
-    category: "Drone Business",
+    category: "Drone Planning",
     problem:
-      "Local property, inspection, and documentation work often needs clear aerial context without inflated promises.",
+      "A future NEPA-focused drone concept needs clear service boundaries before it can responsibly launch.",
     solution:
-      "A planning site and intake flow for future NEPA drone services with capability disclaimers and lead capture.",
-    tech: ["Next.js", "Tailwind CSS", "Forms", "Local SEO"],
-    status: "Planning",
-    nextStep: "Define equipment, licensing, insurance, and service boundaries.",
+      "A business concept and roadmap for aerial documentation, inspection support, mapping, and emergency support use cases.",
+    tech: ["Launch planning", "Local research", "Operations design", "Web intake"],
+    status: "Launch Planning",
+    nextStep: "Define equipment, licensing, insurance, market fit, and responsible launch requirements.",
     icon: Radar
   },
   {

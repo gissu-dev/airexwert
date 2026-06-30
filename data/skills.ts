@@ -25,7 +25,7 @@ export const automationSkills = [
   {
     title: "Simple dashboards",
     description:
-      "Focused dashboards for jobs, projects, contacts, drone leads, and personal operations.",
+      "Focused dashboards for jobs, projects, contacts, aerial planning leads, and personal operations.",
     icon: LayoutDashboard
   },
   {
@@ -70,13 +70,13 @@ export const automationIdeas = [
   {
     title: "Quote/contact form automation",
     description:
-      "Capture project details and route requests for drone, website, or bot work.",
+      "Capture project details and route requests for future aerial planning, website, or bot work.",
     icon: FileText
   },
   {
-    title: "Drone client intake form",
+    title: "Future aerial work intake form",
     description:
-      "Collect location, property type, requested deliverables, timing, and licensing constraints.",
+      "Collect location, property type, requested documentation, timing, and licensing constraints for future planning.",
     icon: Radar
   }
 ];

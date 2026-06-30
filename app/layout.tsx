@@ -11,14 +11,14 @@ export const metadata: Metadata = {
     template: "%s | WertWorks"
   },
   description:
-    "WertWorks is the personal site of Airex Wert, a NEPA-based Army veteran building toward professional aviation, drone services, automation tools, bots, and applied technology projects.",
+    "WertWorks is the personal site of Airex Wert, a NEPA-based Army veteran building toward professional aviation, drone operations planning, automation tools, bots, and applied technology projects.",
   keywords: [
     "WertWorks",
     "Airex Wert",
     "Northeastern Pennsylvania",
     "Wilkes-Barre",
     "aviation",
-    "drone services",
+    "drone operations planning",
     "automation",
     "Discord bots",
     "Army veteran"

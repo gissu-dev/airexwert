@@ -1,6 +1,6 @@
 export const resume = {
   summary:
-    "U.S. Army veteran with aviation maintenance background and direct support / mental health work experience. Building toward professional aviation, drone services, automation tools, bots, and practical technology projects. Known for reliability, calm execution, practical problem solving, and a service-minded approach.",
+    "U.S. Army veteran with aviation maintenance background and direct support / mental health work experience. Building toward professional aviation, drone operations planning, automation tools, bots, and practical technology projects. Known for reliability, calm execution, practical problem solving, and a service-minded approach.",
   experience: [
     {
       role: "Mental Health Worker / Direct Support Experience",
@@ -38,7 +38,7 @@ export const resume = {
     "Technical troubleshooting",
     "Documentation",
     "Local service planning",
-    "Drone business planning"
+    "Drone operations planning"
   ],
   projects: [
     "Personal job-search dashboard",
@@ -49,7 +49,7 @@ export const resume = {
   ],
   careerGoals: [
     "Continue building toward professional aviation and corporate/business aviation opportunities.",
-    "Develop responsible drone service capabilities in Northeastern Pennsylvania.",
+    "Develop a responsible drone operations model in Northeastern Pennsylvania.",
     "Build practical automation tools that save time and improve follow-through."
   ]
 };

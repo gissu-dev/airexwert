@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 const reasons = [
   "Job opportunity",
-  "Drone services",
+  "Aerial services planning",
   "Automation/bot project",
   "Aviation/networking",
   "General"
