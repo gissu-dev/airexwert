@@ -11,7 +11,7 @@ export const profile = {
   discord: "daehzushriexh",
   discordUrl: "https://discordapp.com/users/565334237226467353",
   resumeDownloadPath: "/resume.png",
-  resumePdfPath: "/resume.pdf",
+  resumePdfPath: "/resume.png",
   githubUrl: "",
   linkedinUrl: "https://www.linkedin.com/in/airex-wert-4326a1155/",
   siteUrl: "https://airexwert.com"
