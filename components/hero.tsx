@@ -199,10 +199,11 @@ function CommandRadar() {
   const ActiveIcon = active.icon;
   const PrimaryIcon = active.primaryCta.icon;
   const SecondaryIcon = active.secondaryCta?.icon;
+  const hasSecondaryCta = Boolean(active.secondaryCta);
 
   return (
     <div className="relative overflow-hidden rounded-lg border border-white/10 bg-[#0a1420]/90 p-4 shadow-2xl shadow-black/35 backdrop-blur-xl sm:p-5">
-      <div className="absolute inset-0 radar-grid opacity-20" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-0 radar-grid opacity-20" aria-hidden="true" />
       <div className="relative grid gap-4">
         <div className="flex items-center justify-between rounded-md border border-white/10 bg-white/[0.04] px-4 py-3">
           <div className="flex items-center gap-3">
@@ -223,7 +224,7 @@ function CommandRadar() {
           </Badge>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-[0.88fr_1.12fr] md:items-stretch">
+        <div className="grid gap-4">
           <div className="flex justify-center rounded-md border border-white/10 bg-black/[0.18] px-4 py-5 sm:px-6">
             <div className="relative aspect-square w-full max-w-[235px] overflow-hidden rounded-full border border-primary/30 bg-[radial-gradient(circle,rgba(31,214,154,0.13)_0%,rgba(31,214,154,0.04)_44%,rgba(2,6,12,0.64)_74%)] sm:max-w-[280px]">
               <div className="absolute inset-5 rounded-full border border-primary/20" aria-hidden="true" />
@@ -273,7 +274,7 @@ function CommandRadar() {
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-primary/25 bg-primary/10 text-primary">
                 <ActiveIcon className="h-5 w-5" aria-hidden="true" />
               </span>
-              <div>
+              <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 className="text-lg font-semibold text-white">
                     {active.title}
@@ -288,15 +289,24 @@ function CommandRadar() {
               </div>
             </div>
 
-            <div className="mt-5 grid gap-3 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
-              <Button asChild>
+            <div
+              className={cn(
+                "mt-5 grid gap-3",
+                hasSecondaryCta && "sm:grid-cols-2"
+              )}
+            >
+              <Button asChild className="h-auto min-h-11 px-4 py-2.5 text-center leading-tight">
                 <Link href={active.primaryCta.href}>
                   <PrimaryIcon className="h-4 w-4" aria-hidden="true" />
                   {active.primaryCta.label}
                 </Link>
               </Button>
               {active.secondaryCta ? (
-                <Button asChild variant="outline">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-auto min-h-11 px-4 py-2.5 text-center leading-tight"
+                >
                   <Link href={active.secondaryCta.href}>
                     {SecondaryIcon ? (
                       <SecondaryIcon className="h-4 w-4" aria-hidden="true" />
@@ -323,7 +333,7 @@ function CommandRadar() {
                 key={target.id}
                 type="button"
                 className={cn(
-                  "focus-ring flex min-h-12 items-center gap-3 rounded-md border px-3 py-2 text-left text-sm font-semibold transition-colors",
+                  "focus-ring flex min-h-12 min-w-0 items-center gap-3 rounded-md border px-3 py-2 text-left text-sm font-semibold transition-colors",
                   selected
                     ? "border-primary/45 bg-primary/[0.12] text-foreground"
                     : "border-white/10 bg-white/[0.035] text-muted-foreground hover:border-white/20 hover:bg-white/[0.06] hover:text-foreground"
@@ -332,7 +342,7 @@ function CommandRadar() {
                 onClick={() => setActiveId(target.id)}
               >
                 <Icon className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                <span>{target.label}</span>
+                <span className="min-w-0 leading-5">{target.label}</span>
               </button>
             );
           })}
