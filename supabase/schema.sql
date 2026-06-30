@@ -47,7 +47,7 @@ for each row
 execute function public.set_updated_at();
 
 create table if not exists public.jobs (
-  id uuid primary key default gen_random_uuid(),
+  id text primary key,
   title text not null,
   company text not null,
   location text not null default '',

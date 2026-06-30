@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -9,7 +9,7 @@ import {
   projectCategories,
   projectStages,
   projectStatuses,
-  type Project
+  type Project,
 } from "@/data/projects";
 import {
   createEmptyProject,
@@ -17,7 +17,7 @@ import {
   formatListInput,
   parseListInput,
   saveProject,
-  slugify
+  slugify,
 } from "@/lib/projects";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -38,7 +38,8 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
   const [techText, setTechText] = useState("");
   const [loaded, setLoaded] = useState(!projectId);
   const [notFound, setNotFound] = useState(false);
-
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
   const mode = projectId ? "edit" : "new";
 
   useEffect(() => {
@@ -46,18 +47,26 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
       return;
     }
 
-    const existing = findProjectById(projectId);
+    async function loadProject() {
+      try {
+        const existing = await findProjectById(projectId);
 
-    if (!existing) {
-      setNotFound(true);
-      setLoaded(true);
-      return;
+        if (!existing) {
+          setNotFound(true);
+          return;
+        }
+
+        setProject(existing);
+        setFeaturesText(formatListInput(existing.features));
+        setTechText(formatListInput(existing.techUsed));
+      } catch {
+        setError("Could not load this project. Make sure admin is unlocked.");
+      } finally {
+        setLoaded(true);
+      }
     }
 
-    setProject(existing);
-    setFeaturesText(formatListInput(existing.features));
-    setTechText(formatListInput(existing.techUsed));
-    setLoaded(true);
+    loadProject();
   }, [projectId]);
 
   const timestampLabel = useMemo(() => {
@@ -66,29 +75,23 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
     }
 
     return `Created ${formatTimestamp(project.createdAt)}. Updated ${formatTimestamp(
-      project.updatedAt
+      project.updatedAt,
     )}.`;
   }, [mode, project.createdAt, project.updatedAt]);
 
   if (!loaded) {
-    return (
-      <Card className="bg-card/75">
-        <CardContent className="p-6 text-sm text-muted-foreground">
-          Loading project...
-        </CardContent>
-      </Card>
-    );
+    return <p className="text-sm text-muted-foreground">Loading project...</p>;
   }
 
   if (notFound) {
     return (
       <Card className="bg-card/75">
         <CardContent className="grid gap-4 p-6">
-          <h2 className="text-xl font-semibold">Project not found</h2>
+          <h2 className="text-2xl font-semibold">Project not found</h2>
           <p className="text-sm text-muted-foreground">
-            This local project record does not exist in the current browser.
+            This project does not exist in Supabase, or admin is not unlocked.
           </p>
-          <Button asChild variant="outline" className="w-fit">
+          <Button asChild variant="outline">
             <Link href="/admin/projects">Back to projects</Link>
           </Button>
         </CardContent>
@@ -99,70 +102,90 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
   return (
     <form
       className="grid gap-6"
-      onSubmit={(event) => {
+      onSubmit={async (event) => {
         event.preventDefault();
-        const saved = saveProject({
-          ...project,
-          slug: project.slug || slugify(project.title),
-          features: parseListInput(featuresText),
-          techUsed: parseListInput(techText)
-        });
-        setProject(saved);
-        setFeaturesText(formatListInput(saved.features));
-        setTechText(formatListInput(saved.techUsed));
-        router.push(`/admin/projects/${saved.id}/edit`);
-        router.refresh();
+        setError("");
+        setSaving(true);
+
+        try {
+          const saved = await saveProject({
+            ...project,
+            slug: project.slug || slugify(project.title),
+            features: parseListInput(featuresText),
+            techUsed: parseListInput(techText),
+          });
+
+          setProject(saved);
+          setFeaturesText(formatListInput(saved.features));
+          setTechText(formatListInput(saved.techUsed));
+          router.push(`/admin/projects/${saved.id}/edit`);
+          router.refresh();
+        } catch {
+          setError("Could not save project. Go back to /admin/projects and unlock admin first.");
+        } finally {
+          setSaving(false);
+        }
       }}
     >
+      <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+        <div>
+          <div className="mb-3 flex flex-wrap gap-2">
+            <Badge>{project.status}</Badge>
+            <Badge variant="outline">{project.stage}</Badge>
+          </div>
+
+          <h2 className="text-2xl font-semibold">
+            {mode === "new" ? "New project" : "Edit project"}
+          </h2>
+
+          <p className="mt-2 text-sm text-muted-foreground">
+            Project data is saved to Supabase. Published records appear on the public projects page.
+          </p>
+
+          {error ? <p className="mt-3 text-sm text-amber-300">{error}</p> : null}
+        </div>
+      </div>
+
       <Card className="bg-card/75">
         <CardHeader>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <CardTitle>
-                {mode === "new" ? "New project" : "Edit project"}
-              </CardTitle>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                Project data is stored locally for Phase 1. Publish status controls
-                whether it appears on the public projects page.
-              </p>
-            </div>
-            <Badge variant={project.status === "published" ? "default" : "secondary"}>
-              {project.status}
-            </Badge>
-          </div>
+          <CardTitle>Project basics</CardTitle>
         </CardHeader>
+
         <CardContent className="grid gap-5">
           <div className="grid gap-5 md:grid-cols-2">
             <Field label="Title" htmlFor="title">
               <Input
                 id="title"
                 value={project.title}
-                placeholder="Kith Bot"
-                required
+                placeholder="Project title"
                 onChange={(event) => {
                   const title = event.target.value;
+
                   setProject((current) => ({
                     ...current,
                     title,
-                    slug: current.slug || slugify(title)
+                    slug: current.slug || slugify(title),
                   }));
                 }}
               />
             </Field>
+
             <Field label="Slug" htmlFor="slug">
               <Input
                 id="slug"
                 value={project.slug}
-                placeholder="kith-bot"
-                required
+                placeholder="project-slug"
                 onChange={(event) =>
                   setProject((current) => ({
                     ...current,
-                    slug: slugify(event.target.value)
+                    slug: slugify(event.target.value),
                   }))
                 }
               />
             </Field>
+          </div>
+
+          <div className="grid gap-5 md:grid-cols-4">
             <Field label="Category" htmlFor="category">
               <Select
                 id="category"
@@ -170,7 +193,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
                 onChange={(event) =>
                   setProject((current) => ({
                     ...current,
-                    category: event.target.value as Project["category"]
+                    category: event.target.value as Project["category"],
                   }))
                 }
               >
@@ -181,6 +204,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
                 ))}
               </Select>
             </Field>
+
             <Field label="Status" htmlFor="status">
               <Select
                 id="status"
@@ -188,7 +212,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
                 onChange={(event) =>
                   setProject((current) => ({
                     ...current,
-                    status: event.target.value as Project["status"]
+                    status: event.target.value as Project["status"],
                   }))
                 }
               >
@@ -199,14 +223,15 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
                 ))}
               </Select>
             </Field>
-            <Field label="Public stage" htmlFor="stage">
+
+            <Field label="Stage" htmlFor="stage">
               <Select
                 id="stage"
                 value={project.stage}
                 onChange={(event) =>
                   setProject((current) => ({
                     ...current,
-                    stage: event.target.value as Project["stage"]
+                    stage: event.target.value as Project["stage"],
                   }))
                 }
               >
@@ -217,14 +242,15 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
                 ))}
               </Select>
             </Field>
-            <Field label="Case study status" htmlFor="caseStudyStatus">
+
+            <Field label="Case study" htmlFor="caseStudyStatus">
               <Select
                 id="caseStudyStatus"
                 value={project.caseStudyStatus}
                 onChange={(event) =>
                   setProject((current) => ({
                     ...current,
-                    caseStudyStatus: event.target.value as Project["caseStudyStatus"]
+                    caseStudyStatus: event.target.value as Project["caseStudyStatus"],
                   }))
                 }
               >
@@ -237,31 +263,29 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
             </Field>
           </div>
 
-          <label className="flex items-center gap-3 rounded-md border border-white/10 bg-white/[0.035] px-3 py-3 text-sm">
+          <label className="flex items-center gap-3 text-sm text-muted-foreground">
             <input
               type="checkbox"
-              className="h-4 w-4 accent-primary"
               checked={project.featured}
               onChange={(event) =>
                 setProject((current) => ({
                   ...current,
-                  featured: event.target.checked
+                  featured: event.target.checked,
                 }))
               }
             />
-            <span className="font-semibold">Featured project</span>
+            Featured project
           </label>
 
           <Field label="Short description" htmlFor="shortDescription">
             <Textarea
               id="shortDescription"
-              className="min-h-[90px]"
               value={project.shortDescription}
-              placeholder="Add description here."
+              placeholder="Short card description."
               onChange={(event) =>
                 setProject((current) => ({
                   ...current,
-                  shortDescription: event.target.value
+                  shortDescription: event.target.value,
                 }))
               }
             />
@@ -275,7 +299,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
               onChange={(event) =>
                 setProject((current) => ({
                   ...current,
-                  fullDescription: event.target.value
+                  fullDescription: event.target.value,
                 }))
               }
             />
@@ -287,6 +311,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
         <CardHeader>
           <CardTitle>Case study content</CardTitle>
         </CardHeader>
+
         <CardContent className="grid gap-5">
           <Field label="Problem" htmlFor="problem">
             <Textarea
@@ -294,20 +319,28 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
               value={project.problem}
               placeholder="Add problem here."
               onChange={(event) =>
-                setProject((current) => ({ ...current, problem: event.target.value }))
+                setProject((current) => ({
+                  ...current,
+                  problem: event.target.value,
+                }))
               }
             />
           </Field>
+
           <Field label="Solution" htmlFor="solution">
             <Textarea
               id="solution"
               value={project.solution}
               placeholder="Add solution here."
               onChange={(event) =>
-                setProject((current) => ({ ...current, solution: event.target.value }))
+                setProject((current) => ({
+                  ...current,
+                  solution: event.target.value,
+                }))
               }
             />
           </Field>
+
           <div className="grid gap-5 md:grid-cols-2">
             <Field label="Features" htmlFor="features">
               <Textarea
@@ -318,6 +351,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
               />
               <p className="text-xs text-muted-foreground">One feature per line.</p>
             </Field>
+
             <Field label="Tech used" htmlFor="techUsed">
               <Textarea
                 id="techUsed"
@@ -328,6 +362,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
               <p className="text-xs text-muted-foreground">One technology per line.</p>
             </Field>
           </div>
+
           <Field label="Next step" htmlFor="nextStep">
             <Textarea
               id="nextStep"
@@ -336,7 +371,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
               onChange={(event) =>
                 setProject((current) => ({
                   ...current,
-                  nextStep: event.target.value
+                  nextStep: event.target.value,
                 }))
               }
             />
@@ -348,6 +383,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
         <CardHeader>
           <CardTitle>Links and media</CardTitle>
         </CardHeader>
+
         <CardContent className="grid gap-5 md:grid-cols-2">
           <Field label="GitHub URL" htmlFor="githubUrl">
             <Input
@@ -355,20 +391,28 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
               value={project.githubUrl}
               placeholder="https://github.com/..."
               onChange={(event) =>
-                setProject((current) => ({ ...current, githubUrl: event.target.value }))
+                setProject((current) => ({
+                  ...current,
+                  githubUrl: event.target.value,
+                }))
               }
             />
           </Field>
+
           <Field label="Live demo URL" htmlFor="liveUrl">
             <Input
               id="liveUrl"
               value={project.liveUrl}
               placeholder="https://..."
               onChange={(event) =>
-                setProject((current) => ({ ...current, liveUrl: event.target.value }))
+                setProject((current) => ({
+                  ...current,
+                  liveUrl: event.target.value,
+                }))
               }
             />
           </Field>
+
           <Field label="External case study URL" htmlFor="caseStudyUrl">
             <Input
               id="caseStudyUrl"
@@ -377,18 +421,22 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
               onChange={(event) =>
                 setProject((current) => ({
                   ...current,
-                  caseStudyUrl: event.target.value
+                  caseStudyUrl: event.target.value,
                 }))
               }
             />
           </Field>
+
           <Field label="Image URL" htmlFor="imageUrl">
             <Input
               id="imageUrl"
               value={project.imageUrl}
               placeholder="https://..."
               onChange={(event) =>
-                setProject((current) => ({ ...current, imageUrl: event.target.value }))
+                setProject((current) => ({
+                  ...current,
+                  imageUrl: event.target.value,
+                }))
               }
             />
           </Field>
@@ -397,13 +445,15 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
 
       <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.035] p-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs leading-5 text-muted-foreground">{timestampLabel}</p>
+
         <div className="flex flex-col gap-2 sm:flex-row">
           <Button asChild variant="outline">
             <Link href="/admin/projects">Cancel</Link>
           </Button>
-          <Button type="submit">
+
+          <Button type="submit" disabled={saving}>
             <Save className="h-4 w-4" aria-hidden="true" />
-            Save project
+            {saving ? "Saving..." : "Save project"}
           </Button>
         </div>
       </div>
@@ -414,7 +464,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
 function Field({
   label,
   htmlFor,
-  children
+  children,
 }: {
   label: string;
   htmlFor: string;
@@ -435,6 +485,6 @@ function formatTimestamp(value: string) {
 
   return new Intl.DateTimeFormat("en", {
     dateStyle: "medium",
-    timeStyle: "short"
+    timeStyle: "short",
   }).format(new Date(value));
 }

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -8,7 +8,7 @@ import {
   CheckCircle2,
   ExternalLink,
   FolderKanban,
-  Github
+  Github,
 } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { findPublishedProjectBySlug } from "@/lib/projects";
@@ -21,169 +21,146 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    setProject(findPublishedProjectBySlug(slug) ?? null);
-    setLoaded(true);
+    async function loadProject() {
+      const nextProject = await findPublishedProjectBySlug(slug);
+      setProject(nextProject ?? null);
+      setLoaded(true);
+    }
+
+    loadProject();
   }, [slug]);
 
   if (!loaded) {
-    return (
-      <section className="section-shell">
-        <Card className="bg-card/75">
-          <CardContent className="p-6 text-sm text-muted-foreground">
-            Loading case study...
-          </CardContent>
-        </Card>
-      </section>
-    );
+    return <p className="text-sm text-muted-foreground">Loading case study...</p>;
   }
 
   if (!project) {
     return (
-      <section className="section-shell">
-        <Card className="bg-card/75">
-          <CardContent className="grid gap-4 p-6">
-            <h1 className="text-2xl font-semibold">Project not available</h1>
-            <p className="text-sm leading-6 text-muted-foreground">
-              This project is either unpublished, archived, or does not exist in
-              the current local project store.
-            </p>
-            <Button asChild variant="outline" className="w-fit">
-              <Link href="/projects">
-                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-                Back to projects
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </section>
+      <Card className="bg-card/75">
+        <CardContent className="grid gap-4 p-6">
+          <h1 className="text-3xl font-semibold">Project not available</h1>
+          <p className="text-sm text-muted-foreground">
+            This project is either unpublished, archived, or does not exist in Supabase.
+          </p>
+          <Button asChild variant="outline">
+            <Link href="/projects">
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              Back to projects
+            </Link>
+          </Button>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <>
-      <section className="section-shell pb-8">
-        <Button asChild variant="ghost" className="mb-6 w-fit">
-          <Link href="/projects">
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            Projects
-          </Link>
-        </Button>
+    <article className="grid gap-8">
+      <Button asChild variant="ghost" className="w-fit">
+        <Link href="/projects">
+          <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+          Projects
+        </Link>
+      </Button>
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-start">
-          <div>
-            <div className="flex flex-wrap gap-2">
-              <Badge>{project.category}</Badge>
-              <Badge variant={project.stage === "Future planning" ? "amber" : "secondary"}>
-                {project.stage}
-              </Badge>
-              {project.featured ? <Badge variant="amber">Featured</Badge> : null}
-              {project.caseStudyStatus === "coming-soon" ? (
-                <Badge variant="secondary">Case study coming soon</Badge>
-              ) : null}
-            </div>
-            <h1 className="mt-5 text-4xl font-semibold text-white sm:text-5xl">
-              {project.title}
-            </h1>
-            <p className="mt-5 max-w-3xl text-lg leading-8 text-muted-foreground">
-              {project.shortDescription || "Project details are being documented."}
+      <div className="grid gap-4">
+        <div className="flex flex-wrap gap-2">
+          <Badge>{project.category}</Badge>
+          <Badge variant="outline">{project.stage}</Badge>
+          {project.featured ? <Badge>Featured</Badge> : null}
+          {project.caseStudyStatus === "coming-soon" ? (
+            <Badge variant="amber">Case study coming soon</Badge>
+          ) : null}
+        </div>
+
+        <h1 className="max-w-4xl text-4xl font-semibold tracking-tight md:text-6xl">
+          {project.title}
+        </h1>
+
+        <p className="max-w-3xl text-lg leading-8 text-muted-foreground">
+          {project.shortDescription || "Project details are being documented."}
+        </p>
+      </div>
+
+      {project.imageUrl ? (
+        <div className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.035]">
+          <img
+            src={project.imageUrl}
+            alt=""
+            className="h-72 w-full object-cover"
+          />
+        </div>
+      ) : (
+        <div className="grid min-h-72 place-items-center rounded-xl border border-white/10 bg-white/[0.035] p-8">
+          <div className="grid gap-3 text-center">
+            <FolderKanban className="mx-auto h-10 w-10 text-primary" aria-hidden="true" />
+            <p className="text-sm uppercase tracking-[0.24em] text-muted-foreground">
+              {project.category}
             </p>
-          </div>
-
-          <div className="overflow-hidden rounded-lg border border-white/10 bg-white/[0.035]">
-            {project.imageUrl ? (
-              <img
-                src={project.imageUrl}
-                alt={`${project.title} preview`}
-                className="aspect-video w-full object-cover"
-              />
-            ) : (
-              <div className="relative aspect-video overflow-hidden p-5">
-                <div className="absolute inset-0 radar-grid opacity-25" aria-hidden="true" />
-                <div
-                  className="absolute inset-0 bg-[radial-gradient(circle_at_22%_24%,rgba(31,214,154,0.22),transparent_30%),linear-gradient(135deg,rgba(245,158,11,0.14),transparent_42%)]"
-                  aria-hidden="true"
-                />
-                <div className="relative flex h-full flex-col justify-between rounded-md border border-white/10 bg-background/70 p-5">
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-md border border-primary/25 bg-primary/10 text-primary">
-                      <FolderKanban className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <Badge variant="secondary">{project.category}</Badge>
-                  </div>
-                  <div>
-                    <div className="text-xs font-semibold uppercase text-primary/90">
-                      Project brief
-                    </div>
-                    <div className="mt-2 text-2xl font-semibold text-white">
-                      {project.title}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+            <p className="text-2xl font-semibold">Project brief</p>
+            <p className="text-muted-foreground">{project.title}</p>
           </div>
         </div>
-      </section>
+      )}
 
-      <section className="border-t border-white/10 bg-white/[0.025]">
-        <div className="section-shell grid gap-6 lg:grid-cols-[1fr_0.8fr] lg:items-start">
-          <div className="grid gap-6">
-            <CaseSection title="Overview">
-              {project.fullDescription || "The full project overview is being documented."}
-            </CaseSection>
-            <CaseSection title="Problem">
-              {project.problem || "The project problem statement is being documented."}
-            </CaseSection>
-            <CaseSection title="Solution">
-              {project.solution || "The project solution notes are being documented."}
-            </CaseSection>
-            <CaseSection title="Next Step">
-              {project.nextStep || "The next step is being documented."}
-            </CaseSection>
-          </div>
+      <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+        <div className="grid gap-6">
+          <CaseSection title="Overview">
+            {project.fullDescription || "The full project overview is being documented."}
+          </CaseSection>
 
-          <div className="grid gap-6">
-            <Card className="bg-card/75">
-              <CardContent className="p-6">
-                <h2 className="text-lg font-semibold">Features</h2>
-                <ul className="mt-4 grid gap-2 text-sm leading-6 text-muted-foreground">
-                  {(project.features.length
-                    ? project.features
-                    : ["Feature documentation is pending."]
-                  ).map((feature) => (
-                    <li key={feature} className="flex items-start gap-2">
-                      <CheckCircle2
-                        className="mt-1 h-4 w-4 shrink-0 text-primary"
-                        aria-hidden="true"
-                      />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+          <CaseSection title="Problem">
+            {project.problem || "The project problem statement is being documented."}
+          </CaseSection>
 
-            <Card className="bg-card/75">
-              <CardContent className="p-6">
-                <h2 className="text-lg font-semibold">Tech used</h2>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {(project.techUsed.length
-                    ? project.techUsed
-                    : ["Documentation pending"]
-                  ).map(
-                    (tech) => (
-                      <Badge key={tech} variant="outline">
-                        {tech}
-                      </Badge>
-                    )
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+          <CaseSection title="Solution">
+            {project.solution || "The project solution notes are being documented."}
+          </CaseSection>
 
-            <Card className="bg-card/75">
-              <CardContent className="grid gap-3 p-6">
-                <h2 className="text-lg font-semibold">Links</h2>
+          <CaseSection title="Next step">
+            {project.nextStep || "The next step is being documented."}
+          </CaseSection>
+        </div>
+
+        <div className="grid gap-6">
+          <Card className="bg-card/75">
+            <CardContent className="grid gap-4 p-6">
+              <h2 className="text-xl font-semibold">Features</h2>
+
+              <ul className="grid gap-3 text-sm text-muted-foreground">
+                {(project.features.length
+                  ? project.features
+                  : ["Feature documentation is pending."]
+                ).map((feature) => (
+                  <li key={feature} className="flex gap-3">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/75">
+            <CardContent className="grid gap-4 p-6">
+              <h2 className="text-xl font-semibold">Tech used</h2>
+
+              <div className="flex flex-wrap gap-2">
+                {(project.techUsed.length ? project.techUsed : ["Documentation pending"]).map(
+                  (tech) => (
+                    <Badge key={tech} variant="outline">
+                      {tech}
+                    </Badge>
+                  ),
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card/75">
+            <CardContent className="grid gap-4 p-6">
+              <h2 className="text-xl font-semibold">Links</h2>
+
+              <div className="flex flex-col gap-2">
                 {project.githubUrl ? (
                   <Button asChild variant="outline">
                     <a href={project.githubUrl} target="_blank" rel="noreferrer">
@@ -192,6 +169,7 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
                     </a>
                   </Button>
                 ) : null}
+
                 {project.liveUrl ? (
                   <Button asChild variant="outline">
                     {isInternalHref(project.liveUrl) ? (
@@ -207,6 +185,7 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
                     )}
                   </Button>
                 ) : null}
+
                 {project.caseStudyUrl ? (
                   <Button asChild variant="outline">
                     <a href={project.caseStudyUrl} target="_blank" rel="noreferrer">
@@ -215,17 +194,18 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
                     </a>
                   </Button>
                 ) : null}
+
                 {!project.githubUrl && !project.liveUrl && !project.caseStudyUrl ? (
                   <p className="text-sm text-muted-foreground">
                     External links have not been added yet.
                   </p>
                 ) : null}
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </section>
-    </>
+      </div>
+    </article>
   );
 }
 
@@ -235,16 +215,16 @@ function isInternalHref(href: string) {
 
 function CaseSection({
   title,
-  children
+  children,
 }: {
   title: string;
   children: React.ReactNode;
 }) {
   return (
     <Card className="bg-card/75">
-      <CardContent className="p-6">
-        <h2 className="text-lg font-semibold">{title}</h2>
-        <p className="mt-4 text-sm leading-7 text-muted-foreground">{children}</p>
+      <CardContent className="grid gap-3 p-6">
+        <h2 className="text-xl font-semibold">{title}</h2>
+        <p className="leading-7 text-muted-foreground">{children}</p>
       </CardContent>
     </Card>
   );

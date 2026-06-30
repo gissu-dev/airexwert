@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import type { Project, ProjectCategory } from "@/data/projects";
@@ -6,7 +6,7 @@ import { projects as seedProjects } from "@/data/projects";
 import {
   getPublicProjectCategories,
   getPublishedProjects,
-  readProjects
+  readPublicProjects,
 } from "@/lib/projects";
 import { Button } from "@/components/ui/button";
 import { ProjectCard } from "@/components/project-card";
@@ -17,14 +17,21 @@ type ProjectFilter = ProjectCategory | "All";
 export function ProjectShowcase() {
   const [category, setCategory] = useState<ProjectFilter>("All");
   const [projects, setProjects] = useState<Project[]>(seedProjects);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    setProjects(readProjects());
+    async function loadProjects() {
+      const nextProjects = await readPublicProjects();
+      setProjects(nextProjects.length ? nextProjects : seedProjects);
+      setLoaded(true);
+    }
+
+    loadProjects();
   }, []);
 
   const categories = useMemo(
     () => getPublicProjectCategories(projects) as ProjectFilter[],
-    [projects]
+    [projects],
   );
 
   const visibleProjects = useMemo(() => {
@@ -38,32 +45,36 @@ export function ProjectShowcase() {
   }, [category, projects]);
 
   return (
-    <div>
-      <div className="flex gap-2 overflow-x-auto pb-3">
+    <div className="grid gap-8">
+      <div className="flex flex-wrap gap-2">
         {categories.map((item) => (
           <Button
             key={item}
             type="button"
             variant={category === item ? "default" : "outline"}
             size="sm"
-            className={cn("shrink-0", category === item && "shadow-radar")}
+            className={cn(category === item && "shadow-radar")}
             onClick={() => setCategory(item)}
           >
             {item}
           </Button>
         ))}
       </div>
-      <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+
+      {!loaded ? (
+        <p className="text-sm text-muted-foreground">Loading projects...</p>
+      ) : null}
+
+      <div className="grid gap-6 lg:grid-cols-2">
         {visibleProjects.map((project) => (
-          <div id={project.slug} key={project.id} className="scroll-mt-24">
-            <ProjectCard project={project} />
-          </div>
+          <ProjectCard key={project.id} project={project} />
         ))}
       </div>
-      {!visibleProjects.length ? (
-        <div className="mt-8 rounded-lg border border-white/10 bg-white/[0.045] p-8 text-center">
-          <h3 className="text-lg font-semibold">No published projects in this filter.</h3>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+
+      {!visibleProjects.length && loaded ? (
+        <div className="rounded-lg border border-white/10 bg-white/[0.035] p-6">
+          <h3 className="text-xl font-semibold">No published projects in this filter.</h3>
+          <p className="mt-2 text-sm text-muted-foreground">
             Draft and archived projects are hidden from the public projects page.
           </p>
         </div>

@@ -1,5 +1,4 @@
-// Temporary Phase 1 project repository. Replace this file with Supabase calls later.
-import {
+﻿import {
   caseStudyStatuses,
   projectCategories,
   projectStages,
@@ -8,18 +7,8 @@ import {
   type ProjectCaseStudyStatus,
   type ProjectCategory,
   type ProjectStage,
-  type ProjectStatus
+  type ProjectStatus,
 } from "@/data/projects";
-
-const STORAGE_KEY = "wertworks.projects.v1";
-const PLACEHOLDER_TEXT = new Set([
-  "",
-  "Add description here.",
-  "Add problem here.",
-  "Add solution here.",
-  "Add feature here",
-  "Add tech here"
-]);
 
 type ProjectInput = Omit<Project, "id" | "createdAt" | "updatedAt"> & {
   id?: string;
@@ -27,95 +16,152 @@ type ProjectInput = Omit<Project, "id" | "createdAt" | "updatedAt"> & {
   updatedAt?: string;
 };
 
-export function readProjects(): Project[] {
+function getAdminKey() {
   if (typeof window === "undefined") {
-    return cloneProjects(seedProjects);
+    return "";
   }
 
-  const raw = window.localStorage.getItem(STORAGE_KEY);
+  window.localStorage.removeItem("wertworks.admin.key");
 
-  if (!raw) {
-    const seeds = cloneProjects(seedProjects);
-    writeProjects(seeds);
-    return seeds;
-  }
-
-  try {
-    const parsed = JSON.parse(raw);
-
-    if (!Array.isArray(parsed)) {
-      return cloneProjects(seedProjects);
-    }
-
-    const normalizedProjects = parsed.map(normalizeProject);
-    const migratedProjects = migratePlaceholderProjects(normalizedProjects);
-
-    if (migratedProjects.changed) {
-      writeProjects(migratedProjects.projects);
-    }
-
-    return migratedProjects.projects;
-  } catch {
-    return cloneProjects(seedProjects);
-  }
+  return window.sessionStorage.getItem("wertworks.admin.key") || "";
 }
 
-export function writeProjects(projects: Project[]) {
+function getAdminHeaders() {
+  return {
+    "Content-Type": "application/json",
+    "x-admin-key": getAdminKey(),
+  };
+}
+
+export function setAdminKey(value: string) {
   if (typeof window === "undefined") {
     return;
   }
 
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+  window.localStorage.removeItem("wertworks.admin.key");
+
+  if (!value.trim()) {
+    window.sessionStorage.removeItem("wertworks.admin.key");
+    return;
+  }
+
+  window.sessionStorage.setItem("wertworks.admin.key", value);
 }
 
-export function saveProject(input: ProjectInput): Project {
-  const projects = readProjects();
+export function clearAdminKey() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.removeItem("wertworks.admin.key");
+  window.sessionStorage.removeItem("wertworks.admin.key");
+}
+export async function readProjects(): Promise<Project[]> {
+  const response = await fetch("/api/projects?admin=true", {
+    headers: getAdminHeaders(),
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error("Could not load admin projects.");
+  }
+
+  const data = await response.json();
+  return data.projects ?? [];
+}
+
+export async function readPublicProjects(): Promise<Project[]> {
+  try {
+    const response = await fetch("/api/projects", {
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      return cloneProjects(seedProjects).filter(
+        (project) => project.status === "published",
+      );
+    }
+
+    const data = await response.json();
+    return data.projects ?? [];
+  } catch {
+    return cloneProjects(seedProjects).filter(
+      (project) => project.status === "published",
+    );
+  }
+}
+
+export async function saveProject(input: ProjectInput): Promise<Project> {
   const now = new Date().toISOString();
-  const existing = input.id
-    ? projects.find((project) => project.id === input.id)
-    : undefined;
 
   const project = normalizeProject({
     ...input,
-    id: existing?.id ?? input.id ?? createProjectId(),
+    id: input.id || createProjectId(),
     slug: input.slug || slugify(input.title),
-    createdAt: existing?.createdAt ?? input.createdAt ?? now,
-    updatedAt: now
+    createdAt: input.createdAt ?? now,
+    updatedAt: now,
   });
 
-  const nextProjects = existing
-    ? projects.map((current) => (current.id === project.id ? project : current))
-    : [project, ...projects];
+  const response = await fetch("/api/projects", {
+    method: "POST",
+    headers: getAdminHeaders(),
+    body: JSON.stringify(project),
+  });
 
-  writeProjects(nextProjects);
-  return project;
+  if (!response.ok) {
+    throw new Error("Could not save project.");
+  }
+
+  const data = await response.json();
+  return data.project;
 }
 
-export function archiveProject(id: string) {
-  updateProjectStatus(id, "archived");
+export async function archiveProject(id: string) {
+  await updateProjectStatus(id, "archived");
 }
 
-export function updateProjectStatus(id: string, status: ProjectStatus) {
-  const projects = readProjects();
-  const now = new Date().toISOString();
-  writeProjects(
-    projects.map((project) =>
-      project.id === id ? { ...project, status, updatedAt: now } : project
-    )
-  );
+export async function updateProjectStatus(id: string, status: ProjectStatus) {
+  const response = await fetch(`/api/projects/${id}`, {
+    method: "PATCH",
+    headers: getAdminHeaders(),
+    body: JSON.stringify({ status }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Could not update project status.");
+  }
 }
 
-export function deleteProject(id: string) {
-  writeProjects(readProjects().filter((project) => project.id !== id));
+export async function deleteProject(id: string) {
+  const response = await fetch(`/api/projects/${id}`, {
+    method: "DELETE",
+    headers: getAdminHeaders(),
+  });
+
+  if (!response.ok) {
+    throw new Error("Could not delete project.");
+  }
 }
 
-export function findProjectById(id: string) {
-  return readProjects().find((project) => project.id === id);
+export async function findProjectById(id: string) {
+  const response = await fetch(`/api/projects/${id}`, {
+    headers: getAdminHeaders(),
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    return undefined;
+  }
+
+  const data = await response.json();
+  return data.project as Project;
 }
 
-export function findPublishedProjectBySlug(slug: string) {
-  return readProjects().find(
-    (project) => project.slug === slug && project.status === "published"
+export async function findPublishedProjectBySlug(slug: string) {
+  const projects = await readPublicProjects();
+
+  return projects.find(
+    (project) => project.slug === slug && project.status === "published",
   );
 }
 
@@ -125,7 +171,7 @@ export function getPublishedProjects(projects: Project[]) {
 
 export function getPublicProjectCategories(projects: Project[]) {
   const categories = new Set(
-    getPublishedProjects(projects).map((project) => project.category)
+    getPublishedProjects(projects).map((project) => project.category),
   );
 
   return ["All", ...projectCategories.filter((category) => categories.has(category))];
@@ -163,7 +209,7 @@ export function createEmptyProject(): Project {
     caseStudyUrl: "",
     imageUrl: "",
     createdAt: now,
-    updatedAt: now
+    updatedAt: now,
   };
 }
 
@@ -197,17 +243,21 @@ function createProjectId() {
 function normalizeProject(project: Partial<Project>): Project {
   const now = new Date().toISOString();
   const title = String(project.title ?? "");
+
   const category = normalizeProjectCategory(project.category);
+
   const status = ["draft", "published", "archived"].includes(
-    project.status as ProjectStatus
+    project.status as ProjectStatus,
   )
     ? (project.status as ProjectStatus)
     : "draft";
+
   const stage = projectStages.includes(project.stage as ProjectStage)
     ? (project.stage as ProjectStage)
     : "In progress";
+
   const caseStudyStatus = caseStudyStatuses.includes(
-    project.caseStudyStatus as ProjectCaseStudyStatus
+    project.caseStudyStatus as ProjectCaseStudyStatus,
   )
     ? (project.caseStudyStatus as ProjectCaseStudyStatus)
     : "coming-soon";
@@ -233,90 +283,7 @@ function normalizeProject(project: Partial<Project>): Project {
     caseStudyUrl: String(project.caseStudyUrl ?? ""),
     imageUrl: String(project.imageUrl ?? ""),
     createdAt: String(project.createdAt ?? now),
-    updatedAt: String(project.updatedAt ?? now)
-  };
-}
-
-function migratePlaceholderProjects(projects: Project[]) {
-  let changed = false;
-
-  const migratedProjects = projects.map((project) => {
-    const seed = seedProjects.find(
-      (seedProject) => seedProject.id === project.id || seedProject.slug === project.slug
-    );
-
-    if (!seed) {
-      return project;
-    }
-
-    const shortDescription = replacePlaceholder(
-      project.shortDescription,
-      seed.shortDescription
-    );
-    const fullDescription = replacePlaceholder(
-      project.fullDescription,
-      seed.fullDescription
-    );
-    const problem = replacePlaceholder(project.problem, seed.problem);
-    const solution = replacePlaceholder(project.solution, seed.solution);
-    const features = replacePlaceholderList(project.features, seed.features);
-    const techUsed = replacePlaceholderList(project.techUsed, seed.techUsed);
-    const nextStep = replacePlaceholder(project.nextStep, seed.nextStep);
-    const contentChanged =
-      shortDescription !== project.shortDescription ||
-      fullDescription !== project.fullDescription ||
-      problem !== project.problem ||
-      solution !== project.solution ||
-      features !== project.features ||
-      techUsed !== project.techUsed ||
-      nextStep !== project.nextStep;
-
-    const nextProject: Project = {
-      ...project,
-      category: seed.category,
-      stage: seed.stage,
-      shortDescription,
-      fullDescription,
-      problem,
-      solution,
-      features,
-      techUsed,
-      nextStep,
-      caseStudyStatus: seed.caseStudyStatus,
-      featured: contentChanged ? project.featured || seed.featured : project.featured
-    };
-
-    if (
-      contentChanged ||
-      nextProject.category !== project.category ||
-      nextProject.stage !== project.stage ||
-      nextProject.caseStudyStatus !== project.caseStudyStatus ||
-      nextProject.featured !== project.featured
-    ) {
-      changed = true;
-      return {
-        ...nextProject,
-        updatedAt: seed.updatedAt
-      };
-    }
-
-    return project;
-  });
-
-  const projectIds = new Set(migratedProjects.map((project) => project.id));
-  const projectSlugs = new Set(migratedProjects.map((project) => project.slug));
-  const missingSeedProjects = seedProjects.filter(
-    (seedProject) =>
-      !projectIds.has(seedProject.id) && !projectSlugs.has(seedProject.slug)
-  );
-
-  if (missingSeedProjects.length) {
-    changed = true;
-  }
-
-  return {
-    changed,
-    projects: [...migratedProjects, ...cloneProjects(missingSeedProjects)]
+    updatedAt: String(project.updatedAt ?? now),
   };
 }
 
@@ -338,22 +305,10 @@ function normalizeProjectCategory(category: unknown): ProjectCategory {
   }
 }
 
-function replacePlaceholder(value: string, seedValue: string) {
-  return PLACEHOLDER_TEXT.has(value.trim()) ? seedValue : value;
-}
-
-function replacePlaceholderList(value: string[], seedValue: string[]) {
-  if (!value.length || value.every((item) => PLACEHOLDER_TEXT.has(item.trim()))) {
-    return [...seedValue];
-  }
-
-  return value;
-}
-
 function cloneProjects(projects: Project[]) {
   return projects.map((project) => ({
     ...project,
     features: [...project.features],
-    techUsed: [...project.techUsed]
+    techUsed: [...project.techUsed],
   }));
 }
