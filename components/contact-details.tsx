@@ -39,7 +39,7 @@ const rows = [
     icon: Phone
   },
   {
-    label: "Community / Project Contact",
+    label: "Discord",
     value:
       profile.discord === "Add Discord username or invite"
         ? `Add Discord in ${profileEditNotes.contactFile}`

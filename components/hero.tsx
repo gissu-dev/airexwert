@@ -7,6 +7,7 @@ import {
   Activity,
   ArrowRight,
   Bot,
+  ClipboardList,
   Download,
   FolderOpen,
   Mail,
@@ -81,6 +82,27 @@ const radarTargets: RadarTarget[] = [
     x: "45%",
     y: "41%",
     icon: Plane
+  }
+];
+
+const quickActions = [
+  {
+    label: "Job tracker",
+    description: "Open the local dashboard",
+    href: "/job-search",
+    icon: ClipboardList
+  },
+  {
+    label: "Resume PDF",
+    description: "Download the current resume",
+    href: profile.resumeDownloadPath,
+    icon: Download
+  },
+  {
+    label: "Contact",
+    description: "Send a project or career note",
+    href: "/contact",
+    icon: Mail
   }
 ];
 
@@ -246,43 +268,57 @@ function CommandVisual() {
         </div>
 
         <div className="rounded-md border border-white/10 bg-black/20 p-4">
-          <div className="mb-3 flex items-center justify-between text-xs uppercase text-muted-foreground">
-            <span>Route / workflow map</span>
-            <span>NEPA</span>
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <div>
+              <div className="text-xs font-semibold uppercase text-muted-foreground">
+                Useful actions
+              </div>
+              <div className="mt-1 text-sm text-foreground">
+                Shortcuts tied to real site features.
+              </div>
+            </div>
+            <Badge variant="secondary">Functional</Badge>
           </div>
-          <svg
-            viewBox="0 0 480 120"
-            className="h-28 w-full"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M26 88 C92 32 150 102 214 54 S334 28 454 80"
-              stroke="rgba(245,158,11,0.72)"
-              strokeWidth="3"
-              strokeLinecap="round"
-            />
-            <path
-              d="M26 88 C92 32 150 102 214 54 S334 28 454 80"
-              stroke="rgba(31,214,154,0.28)"
-              strokeWidth="10"
-              strokeLinecap="round"
-            />
-            {[26, 214, 454].map((x, index) => (
-              <circle
-                key={x}
-                cx={x}
-                cy={index === 0 ? 88 : index === 1 ? 54 : 80}
-                r="6"
-                fill={index === 1 ? "#1fd69a" : "#f59e0b"}
-              />
-            ))}
-            <g stroke="rgba(255,255,255,0.12)">
-              <path d="M0 30 H480" />
-              <path d="M0 60 H480" />
-              <path d="M0 90 H480" />
-            </g>
-          </svg>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {quickActions.map((action) => {
+              const Icon = action.icon;
+              return (
+                <Link
+                  key={action.label}
+                  href={action.href}
+                  className="group rounded-md border border-white/10 bg-white/[0.04] p-3 transition-colors hover:border-primary/30 hover:bg-primary/[0.08] focus-ring"
+                >
+                  <div className="flex items-start gap-3">
+                    <Icon className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                    <span>
+                      <span className="block text-sm font-semibold text-foreground">
+                        {action.label}
+                      </span>
+                      <span className="mt-1 block text-xs leading-5 text-muted-foreground">
+                        {action.description}
+                      </span>
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
+            <Link
+              href={activeTarget.href}
+              className="group rounded-md border border-accent/25 bg-accent/[0.08] p-3 transition-colors hover:border-accent/45 hover:bg-accent/[0.12] focus-ring"
+            >
+              <div className="flex items-start gap-3">
+                <ActiveIcon className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                <span>
+                  <span className="block text-sm font-semibold text-foreground">
+                    Open selected radar target
+                  </span>
+                  <span className="mt-1 block text-xs leading-5 text-muted-foreground">
+                    {activeTarget.label}
+                  </span>
+                </span>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
