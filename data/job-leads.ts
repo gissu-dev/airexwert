@@ -25,8 +25,8 @@ export type JobLead = {
 export const starterJobLeads: JobLead[] = [
   {
     id: "starter-1",
-    company: "Example Aviation Employer",
-    role: "Line Service / Aviation Support",
+    company: "Example Technology Employer",
+    role: "Junior Automation / Support Role",
     location: "Northeastern Pennsylvania",
     pay: "",
     link: "",

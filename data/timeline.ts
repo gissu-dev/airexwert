@@ -12,22 +12,22 @@ export const timeline = [
       "Built steady communication habits, reliability, and calm presence in people-focused environments."
   },
   {
-    title: "Tech automation / bots",
+    title: "Automation, bots, and job tools",
     timeframe: "Active build track",
     description:
-      "Building Discord bots, workflow tools, dashboards, and automation that solve concrete daily problems."
+      "Building Discord bots, workflow tools, job trackers, dashboards, and automation that solve concrete daily problems."
   },
   {
-    title: "Drone operations planning",
+    title: "Websites and practical tech",
     timeframe: "Developing direction",
     description:
-      "Planning a Keystone Aerial concept around responsible capability growth, local needs, launch requirements, and clear boundaries."
+      "Creating portfolio, intake, and project sites with direct messaging, clear structure, and deploy-ready foundations."
   },
   {
-    title: "Professional aviation goals",
-    timeframe: "Long-term",
+    title: "Future drone/aerial planning",
+    timeframe: "Future capability",
     description:
-      "Working toward flight training, professional aviation exposure, and eventual corporate/business aviation direction."
+      "Planning aerial work carefully around capability growth, local needs, launch requirements, and responsible boundaries."
   }
 ];
 

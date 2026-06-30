@@ -1,18 +1,18 @@
 # WertWorks Personal Website
 
-WertWorks is the personal website and project hub for Airex Wert. The site is built around automation, aviation, drone operations planning, bots, job tools, and practical applied technology.
+WertWorks is the personal website and project hub for Airex Wert. The site is built around automation, practical technology, websites, bots, job tools, and future drone/aerial planning.
 
 ## Project Overview
 
 - Dark, technical WertWorks brand system
-- Abstract aviation HUD / radar / command-interface hero
-- About page with professional story, values, and timeline
+- Technical radar / command-interface hero
+- About / Background page with professional story, values, and timeline
 - Filterable project showcase
 - Aerial services planning page with claim-safe wording
-- Aviation direction page
+- Retired standalone section redirects to About / Background
 - Automation and bots page
 - Employer-friendly resume page
-- Local-only job search dashboard with LocalStorage and CSV export
+- Private admin jobs tracker with LocalStorage-backed Phase 2 persistence
 - Contact page with mock form states and centralized profile data
 - SEO metadata, sitemap, robots route, and Vercel-ready config
 
@@ -24,7 +24,7 @@ WertWorks is the personal website and project hub for Airex Wert. The site is bu
 - shadcn/ui-style local components
 - Framer Motion
 - Lucide React
-- LocalStorage for the job dashboard MVP
+- LocalStorage for the admin projects and jobs MVPs
 
 ## Local Setup
 
@@ -78,21 +78,19 @@ This file controls:
 
 Do not put secrets, API keys, bot tokens, webhook URLs, or private credentials in this file.
 
-## Add Resume PDF
+## Resume Asset
 
 The resume download button points to:
 
 ```text
-/resume.pdf
+/resume.png
 ```
 
-Add the real PDF here:
+The current resume image is stored here:
 
 ```text
-public/resume.pdf
+public/resume.png
 ```
-
-Until that file exists, the resume page shows where to add it.
 
 ## Build
 
@@ -153,7 +151,7 @@ Vercel will detect the push, run the build, and publish the new version if the b
 
 - Add the final resume PDF
 - Connect the contact form to Resend, Formspree, or a Vercel server action
-- Add optional auth and database sync for the job dashboard
+- Add auth and Supabase sync for the private admin jobs tracker
 - Add detailed project case study pages
 - Add future aerial work intake and launch-planning workflow
 - Add calendar export or browser notifications for follow-ups

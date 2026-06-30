@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, FolderKanban } from "lucide-react";
 import { Hero } from "@/components/hero";
 import { SectionHeader } from "@/components/section-header";
 import { StatCard } from "@/components/stat-card";
@@ -11,16 +11,22 @@ import { profile } from "@/data/profile";
 
 export const metadata = {
   description:
-    "WertWorks is Airex Wert's personal site for automation, aviation goals, drone operations planning, bots, job tools, and practical applied technology projects.",
+    "WertWorks is Airex Wert's personal portfolio for automation, websites, bots, job tools, practical technology, and future drone/aerial planning.",
   openGraph: {
-    title: "WertWorks | Automation, Aviation & Applied Tech",
+    title: "WertWorks | Automation, Websites, Bots & Job Tools",
     description:
-      "A serious technical portfolio for aviation-minded automation, drones, and applied technology."
+      "A practical technical portfolio for automation, websites, bots, job tools, and future aerial planning."
   }
 };
 
 export default function HomePage() {
-  const featuredProjects = projects.slice(0, 3);
+  const publishedProjects = projects.filter((project) => project.status === "published");
+  const manuallyFeaturedProjects = publishedProjects.filter(
+    (project) => project.featured
+  );
+  const featuredProjects = (
+    manuallyFeaturedProjects.length ? manuallyFeaturedProjects : publishedProjects
+  ).slice(0, 3);
 
   return (
     <>
@@ -29,8 +35,8 @@ export default function HomePage() {
       <section className="section-shell">
         <SectionHeader
           eyebrow="Snapshot"
-          title={`${profile.brandName} is built around aviation discipline, service experience, and useful technology.`}
-          description="The site presents a real career direction: veteran background, aviation maintenance mindset, direct support work, drone operations planning, and automation projects."
+          title={`${profile.brandName} is built around practical tools, useful websites, and automation that solves real problems.`}
+          description="The site presents a focused portfolio direction: veteran background, checklist discipline, direct support work, automation projects, job tools, websites, bots, and future aerial planning."
         />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {quickStats.map((stat) => (
@@ -56,17 +62,16 @@ export default function HomePage() {
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
             {featuredProjects.map((project) => {
-              const Icon = project.icon;
               return (
                 <Card key={project.slug} className="bg-card/75">
                   <CardContent className="p-6">
-                    <Icon className="h-7 w-7 text-primary" aria-hidden="true" />
+                    <FolderKanban className="h-7 w-7 text-primary" aria-hidden="true" />
                     <h3 className="mt-5 text-lg font-semibold">{project.title}</h3>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                      {project.solution}
+                      {project.shortDescription || "Add description here."}
                     </p>
                     <Link
-                      href={`/projects#${project.slug}`}
+                      href={project.caseStudyUrl || `/projects/${project.slug}`}
                       className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary/80"
                     >
                       View case study

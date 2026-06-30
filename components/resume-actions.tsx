@@ -18,9 +18,9 @@ export function ResumeActions({ summary }: { summary: string }) {
   return (
     <div id="download" className="flex flex-col gap-3 sm:flex-row">
       <Button asChild variant="outline">
-        <Link href={profile.resumeDownloadPath}>
+        <Link href={profile.resumeDownloadPath} download>
           <FileDown className="h-4 w-4" aria-hidden="true" />
-          Download PDF
+          Download Resume
         </Link>
       </Button>
       <Button type="button" onClick={copySummary}>

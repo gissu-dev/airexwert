@@ -8,11 +8,11 @@ import { profile } from "@/data/profile";
 export const metadata = {
   title: "Contact WertWorks",
   description:
-    "Contact WertWorks and Airex Wert about job opportunities, aerial services planning, automation or bot projects, aviation networking, and applied technology work.",
+    "Contact WertWorks and Airex Wert about job opportunities, aerial services planning, automation, bot projects, websites, job tools, and applied technology work.",
   openGraph: {
     title: "Contact WertWorks",
     description:
-      "Start a professional conversation with Airex Wert about aviation, automation, drones, or applied technology."
+      "Start a professional conversation with Airex Wert about automation, websites, bots, job tools, aerial planning, or applied technology."
   }
 };
 
@@ -22,7 +22,7 @@ export default function ContactPage() {
       <PageIntro
         eyebrow="Contact"
         title={`Start a focused conversation with ${profile.name}.`}
-        description="Use this form for job opportunities, aerial services planning conversations, automation and bot projects, aviation networking, or general contact. The form is ready to connect to Resend, Formspree, or a Vercel server action later."
+        description="Use this form for job opportunities, aerial services planning conversations, automation and bot projects, websites, job tools, or general contact. The form is ready to connect to Resend, Formspree, or a Vercel server action later."
       />
 
       <section className="section-shell pt-4">
@@ -45,7 +45,7 @@ export default function ContactPage() {
             <Card className="bg-card/75">
               <CardContent className="flex items-start gap-3 p-5 text-sm text-muted-foreground">
                 <Send className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                Ready for job, aviation, aerial planning, and automation
+                Ready for job, website, bot, aerial planning, and automation
                 conversations.
               </CardContent>
             </Card>

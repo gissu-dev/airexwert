@@ -12,7 +12,7 @@ const reasons = [
   "Job opportunity",
   "Aerial services planning",
   "Automation/bot project",
-  "Aviation/networking",
+  "Website/job tool project",
   "General"
 ];
 

@@ -9,8 +9,8 @@ import {
   FolderOpen,
   MapPin,
   Mail,
-  Plane,
   Radar,
+  ShieldCheck,
   Workflow
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -28,7 +28,7 @@ type CommandTarget = {
   x: string;
   y: string;
   icon: LucideIcon;
-  tone: "ready" | "building" | "training" | "planning";
+  tone: "ready" | "building" | "background" | "planning";
   primaryCta: {
     label: string;
     href: string;
@@ -48,7 +48,7 @@ const commandTargets: CommandTarget[] = [
     title: "Hire Airex",
     status: "Ready",
     purpose:
-      "Resume, projects, job opportunities, aviation-adjacent roles, and applied tech roles.",
+      "Resume, project work, job opportunities, automation, websites, bots, and practical tech roles.",
     x: "50%",
     y: "30%",
     icon: Briefcase,
@@ -82,20 +82,20 @@ const commandTargets: CommandTarget[] = [
     }
   },
   {
-    id: "aviation",
-    label: "Aviation Path",
-    title: "Aviation Path",
-    status: "Training Direction",
+    id: "background",
+    label: "About / Background",
+    title: "Background & Systems Mindset",
+    status: "Background",
     purpose:
-      "Aviation maintenance background, sim practice, flight training roadmap, and corporate/business aviation goal.",
+      "Army aviation maintenance experience, direct support work, checklist discipline, and practical systems thinking.",
     x: "66%",
     y: "48%",
-    icon: Plane,
-    tone: "training",
+    icon: ShieldCheck,
+    tone: "background",
     primaryCta: {
-      label: "View Aviation",
-      href: "/aviation",
-      icon: Plane
+      label: "Read Background",
+      href: "/about",
+      icon: ShieldCheck
     }
   },
   {
@@ -147,8 +147,8 @@ export function Hero() {
           </p>
           <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
             A personal hub for who Airex is, what he is building, and where
-            employers, aviation contacts, automation projects, and future aerial
-            planning conversations should go next.
+            employers, automation projects, website and bot work, job tools, and
+            future aerial planning conversations should go next.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -175,7 +175,7 @@ export function Hero() {
           <div className="mt-8 flex items-start gap-3 rounded-lg border border-white/10 bg-white/[0.04] p-4 text-sm leading-6 text-muted-foreground">
             <Radar className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
             Use the command radar to route yourself to the right part of the
-            site: hiring, automation, aviation, or drone business planning.
+            site: hiring, automation, background, or drone business planning.
           </div>
         </motion.div>
 

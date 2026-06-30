@@ -47,8 +47,8 @@ export default function AutomationBotsPage() {
               description="These ideas are intentionally small enough to finish and useful enough to justify expanding."
             />
             <Button asChild variant="outline" className="w-fit">
-              <Link href="/job-search">
-                Open job tracker
+              <Link href="/projects">
+                View project pipeline
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </Button>

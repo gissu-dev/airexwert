@@ -1,133 +1,97 @@
-import {
-  Bot,
-  Briefcase,
-  ClipboardList,
-  FileText,
-  Globe2,
-  Plane,
-  Radar
-} from "lucide-react";
-
-export type ProjectCategory =
-  | "Automation"
-  | "Bots"
-  | "Drone Planning"
-  | "Aviation"
-  | "Websites"
-  | "Job Search Tools";
-
-export type Project = {
-  title: string;
-  slug: string;
-  category: ProjectCategory;
-  problem: string;
-  solution: string;
-  tech: string[];
-  status: "Planning" | "In Progress" | "MVP" | "Active Build" | "Launch Planning";
-  nextStep: string;
-  icon: typeof Radar;
-};
-
-export const projectCategories: Array<ProjectCategory | "All"> = [
-  "All",
+export const projectCategories = [
   "Automation",
   "Bots",
   "Drone Planning",
-  "Aviation",
   "Websites",
-  "Job Search Tools"
-];
+  "Job Search Tools",
+  "Practical Tech"
+] as const;
+
+export const projectStatuses = ["draft", "published", "archived"] as const;
+
+export type ProjectCategory = (typeof projectCategories)[number];
+export type ProjectStatus = (typeof projectStatuses)[number];
+
+export type Project = {
+  id: string;
+  title: string;
+  slug: string;
+  category: ProjectCategory;
+  status: ProjectStatus;
+  featured: boolean;
+  shortDescription: string;
+  fullDescription: string;
+  problem: string;
+  solution: string;
+  features: string[];
+  techUsed: string[];
+  githubUrl: string;
+  liveUrl: string;
+  caseStudyUrl: string;
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export const projects: Project[] = [
   {
-    title: "Keystone Aerial Services",
-    slug: "keystone-aerial-services",
-    category: "Drone Planning",
-    problem:
-      "A future NEPA-focused drone concept needs clear service boundaries before it can responsibly launch.",
-    solution:
-      "A business concept and roadmap for aerial documentation, inspection support, mapping, and emergency support use cases.",
-    tech: ["Launch planning", "Local research", "Operations design", "Web intake"],
-    status: "Launch Planning",
-    nextStep: "Define equipment, licensing, insurance, market fit, and responsible launch requirements.",
-    icon: Radar
-  },
-  {
-    title: "Discord Bot Development",
-    slug: "discord-bot-development",
+    id: "kith-wave-bot",
+    title: "Kith Wave Bot",
+    slug: "kith-wave-bot",
     category: "Bots",
-    problem:
-      "Communities need reliable moderation, reminders, role tools, and status utilities without bloated dashboards.",
-    solution:
-      "Small Discord bots focused on clear commands, predictable behavior, and maintainable configuration.",
-    tech: ["Python", "discord.py", "JSON", "Automation"],
-    status: "Active Build",
-    nextStep: "Improve command modules, logging, and deployment instructions.",
-    icon: Bot
+    status: "published",
+    featured: false,
+    shortDescription: "Add description here.",
+    fullDescription: "Add description here.",
+    problem: "Add problem here.",
+    solution: "Add solution here.",
+    features: ["Add feature here"],
+    techUsed: ["Add tech here"],
+    githubUrl: "",
+    liveUrl: "",
+    caseStudyUrl: "",
+    imageUrl: "",
+    createdAt: "2026-06-30T00:00:00.000Z",
+    updatedAt: "2026-06-30T00:00:00.000Z"
   },
   {
-    title: "Personal Job-Search Dashboard",
-    slug: "personal-job-search-dashboard",
-    category: "Job Search Tools",
-    problem:
-      "Applications, follow-ups, pay notes, and links become scattered across messages and browser tabs.",
-    solution:
-      "A private-feeling local tracker with kanban, table view, reminders, search, and CSV export.",
-    tech: ["React", "LocalStorage", "TypeScript", "CSV"],
-    status: "MVP",
-    nextStep: "Add optional authentication and cloud sync after the local version proves useful.",
-    icon: Briefcase
+    id: "kith-bot",
+    title: "Kith Bot",
+    slug: "kith-bot",
+    category: "Bots",
+    status: "published",
+    featured: false,
+    shortDescription: "Add description here.",
+    fullDescription: "Add description here.",
+    problem: "Add problem here.",
+    solution: "Add solution here.",
+    features: ["Add feature here"],
+    techUsed: ["Add tech here"],
+    githubUrl: "",
+    liveUrl: "",
+    caseStudyUrl: "",
+    imageUrl: "",
+    createdAt: "2026-06-30T00:00:00.000Z",
+    updatedAt: "2026-06-30T00:00:00.000Z"
   },
   {
-    title: "Aviation Checklist Automation",
-    slug: "aviation-checklist-automation",
-    category: "Aviation",
-    problem:
-      "Training and maintenance workflows depend on clear, repeatable checklist habits.",
-    solution:
-      "Prototype structured checklist flows for study, sim practice, and task readiness without claiming operational use.",
-    tech: ["TypeScript", "Structured Data", "UX", "Checklists"],
-    status: "Planning",
-    nextStep: "Build a non-operational study checklist MVP for flight training prep.",
-    icon: Plane
-  },
-  {
-    title: "Resume and Cover-Letter Toolkit",
-    slug: "resume-cover-letter-toolkit",
+    id: "clocktower",
+    title: "Clocktower",
+    slug: "clocktower",
     category: "Automation",
-    problem:
-      "Career documents need consistent summaries, targeted phrasing, and fast iteration without exaggeration.",
-    solution:
-      "A structured resume data model and repeatable tooling for employer-specific summaries and letters.",
-    tech: ["TypeScript", "Templates", "Markdown", "Forms"],
-    status: "In Progress",
-    nextStep: "Connect structured resume data to downloadable PDF generation.",
-    icon: FileText
-  },
-  {
-    title: "Website Builds",
-    slug: "website-builds",
-    category: "Websites",
-    problem:
-      "Small projects and local businesses need credible web presence without unnecessary platform weight.",
-    solution:
-      "Fast Next.js sites with clean messaging, contact flows, responsive design, and deploy-ready structure.",
-    tech: ["Next.js", "Tailwind CSS", "shadcn/ui", "Vercel"],
-    status: "In Progress",
-    nextStep: "Document reusable page sections and launch workflow.",
-    icon: Globe2
-  },
-  {
-    title: "Application Organizer",
-    slug: "application-organizer",
-    category: "Automation",
-    problem:
-      "Job applications require reminders, notes, contacts, and next steps across multiple opportunities.",
-    solution:
-      "A simple organizer that prioritizes follow-ups and keeps the current pipeline visible.",
-    tech: ["React", "Forms", "LocalStorage", "CSV Export"],
-    status: "MVP",
-    nextStep: "Add calendar export and reminder notifications.",
-    icon: ClipboardList
+    status: "published",
+    featured: false,
+    shortDescription: "Add description here.",
+    fullDescription: "Add description here.",
+    problem: "Add problem here.",
+    solution: "Add solution here.",
+    features: ["Add feature here"],
+    techUsed: ["Add tech here"],
+    githubUrl: "",
+    liveUrl: "",
+    caseStudyUrl: "",
+    imageUrl: "",
+    createdAt: "2026-06-30T00:00:00.000Z",
+    updatedAt: "2026-06-30T00:00:00.000Z"
   }
 ];

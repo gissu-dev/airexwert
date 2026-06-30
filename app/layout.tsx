@@ -7,28 +7,30 @@ import { profile } from "@/data/profile";
 export const metadata: Metadata = {
   metadataBase: new URL(profile.siteUrl),
   title: {
-    default: "WertWorks | Automation, Aviation & Applied Tech",
+    default: "WertWorks | Automation, Websites, Bots & Job Tools",
     template: "%s | WertWorks"
   },
   description:
-    "WertWorks is the personal site of Airex Wert, a NEPA-based Army veteran building toward professional aviation, drone operations planning, automation tools, bots, and applied technology projects.",
+    "WertWorks is the personal portfolio of Airex Wert, a NEPA-based Army veteran building automation tools, websites, bots, job-search systems, and future drone/aerial planning.",
   keywords: [
     "WertWorks",
     "Airex Wert",
     "Northeastern Pennsylvania",
     "Wilkes-Barre",
-    "aviation",
+    "practical technology",
     "drone operations planning",
     "automation",
     "Discord bots",
+    "websites",
+    "job search tools",
     "Army veteran"
   ],
   authors: [{ name: profile.name }],
   creator: profile.name,
   openGraph: {
-    title: "WertWorks | Automation, Aviation & Applied Tech",
+    title: "WertWorks | Automation, Websites, Bots & Job Tools",
     description:
-      "Automation, aviation, and applied tech from Airex Wert.",
+      "Automation, websites, bots, job tools, and future aerial planning from Airex Wert.",
     url: profile.siteUrl,
     siteName: profile.brandName,
     images: [
@@ -36,7 +38,7 @@ export const metadata: Metadata = {
         url: "/images/wertworks-og.svg",
         width: 1200,
         height: 630,
-        alt: "WertWorks aviation radar and automation interface"
+        alt: "WertWorks automation radar and practical tech interface"
       }
     ],
     locale: "en_US",
@@ -44,8 +46,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "WertWorks | Automation, Aviation & Applied Tech",
-    description: "Automation, aviation, and applied tech from Airex Wert.",
+    title: "WertWorks | Automation, Websites, Bots & Job Tools",
+    description: "Automation, websites, bots, job tools, and future aerial planning from Airex Wert.",
     images: ["/images/wertworks-og.svg"]
   },
   robots: {

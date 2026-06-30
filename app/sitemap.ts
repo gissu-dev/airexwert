@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { profile } from "@/data/profile";
+import { projects } from "@/data/projects";
 
 const baseUrl = profile.siteUrl;
 
@@ -8,15 +9,17 @@ const routes = [
   "/about",
   "/projects",
   "/drone-services",
-  "/aviation",
   "/automation-bots",
   "/resume",
-  "/job-search",
   "/contact"
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return routes.map((route) => ({
+  const projectRoutes = projects
+    .filter((project) => project.status === "published")
+    .map((project) => `/projects/${project.slug}`);
+
+  return [...routes, ...projectRoutes].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),
     changeFrequency: "monthly",
