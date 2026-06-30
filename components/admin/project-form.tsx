@@ -42,14 +42,16 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
   const [error, setError] = useState("");
   const mode = projectId ? "edit" : "new";
 
-  useEffect(() => {
-    if (!projectId) {
-      return;
-    }
+ useEffect(() => {
+  if (!projectId) {
+    return;
+  }
 
-    async function loadProject() {
-      try {
-        const existing = await findProjectById(projectId);
+  const currentProjectId = projectId;
+
+  async function loadProject() {
+    try {
+      const existing = await findProjectById(currentProjectId);
 
         if (!existing) {
           setNotFound(true);
