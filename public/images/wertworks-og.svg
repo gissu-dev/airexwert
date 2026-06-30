@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="WertWorks aviation radar and automation interface">
+  <rect width="1200" height="630" fill="#071018"/>
+  <defs>
+    <linearGradient id="panel" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#102033"/>
+      <stop offset="1" stop-color="#071018"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="72%" cy="43%" r="52%">
+      <stop offset="0" stop-color="#1fd69a" stop-opacity=".22"/>
+      <stop offset=".55" stop-color="#1fd69a" stop-opacity=".05"/>
+      <stop offset="1" stop-color="#1fd69a" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M 42 0 L 0 0 0 42" fill="none" stroke="#1fd69a" stroke-opacity=".10" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)" opacity=".75"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect x="680" y="92" width="330" height="330" rx="165" fill="none" stroke="#1fd69a" stroke-opacity=".42" stroke-width="2"/>
+  <rect x="735" y="147" width="220" height="220" rx="110" fill="none" stroke="#1fd69a" stroke-opacity=".24" stroke-width="1"/>
+  <rect x="790" y="202" width="110" height="110" rx="55" fill="none" stroke="#1fd69a" stroke-opacity=".24" stroke-width="1"/>
+  <path d="M845 257 L1000 167" stroke="#1fd69a" stroke-opacity=".68" stroke-width="8" stroke-linecap="round"/>
+  <path d="M186 438 C326 316 426 492 548 354 S763 225 895 284" fill="none" stroke="#f0a63a" stroke-opacity=".75" stroke-width="3"/>
+  <circle cx="186" cy="438" r="7" fill="#f0a63a"/>
+  <circle cx="548" cy="354" r="7" fill="#1fd69a"/>
+  <circle cx="895" cy="284" r="7" fill="#f0a63a"/>
+  <rect x="120" y="118" width="420" height="256" rx="16" fill="url(#panel)" stroke="#ffffff" stroke-opacity=".12"/>
+  <path d="M152 172 H506 M152 224 H452 M152 276 H488 M152 328 H360" stroke="#dce7ef" stroke-opacity=".34" stroke-width="8" stroke-linecap="round"/>
+  <path d="M152 150 H258" stroke="#1fd69a" stroke-opacity=".9" stroke-width="8" stroke-linecap="round"/>
+  <text x="120" y="498" fill="#f6faf8" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="72" font-weight="700">WertWorks</text>
+  <text x="124" y="552" fill="#9fb3c5" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="30">Automation, aviation, and applied tech.</text>
+</svg>

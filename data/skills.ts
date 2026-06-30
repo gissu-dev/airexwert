@@ -1,0 +1,82 @@
+import {
+  Bot,
+  ClipboardList,
+  FileText,
+  LayoutDashboard,
+  MessageSquare,
+  Radar,
+  Search,
+  Wrench
+} from "lucide-react";
+
+export const automationSkills = [
+  {
+    title: "Discord bots",
+    description:
+      "Command design, reminders, role utilities, moderation helpers, and community workflow tools.",
+    icon: Bot
+  },
+  {
+    title: "Workflow automation",
+    description:
+      "Small automations that reduce repeated steps and keep status, notes, and follow-ups visible.",
+    icon: Wrench
+  },
+  {
+    title: "Simple dashboards",
+    description:
+      "Focused dashboards for jobs, projects, contacts, drone leads, and personal operations.",
+    icon: LayoutDashboard
+  },
+  {
+    title: "Form automation",
+    description:
+      "Structured intake, quote routing, response capture, and ready-to-integrate contact forms.",
+    icon: FileText
+  },
+  {
+    title: "Resume and job tools",
+    description:
+      "Application tracking, targeted summaries, document organization, and follow-up systems.",
+    icon: Search
+  },
+  {
+    title: "Website automation",
+    description:
+      "Fast contact flows, repeatable content sections, and deployment-ready site foundations.",
+    icon: MessageSquare
+  }
+];
+
+export const automationIdeas = [
+  {
+    title: "Job tracker",
+    description:
+      "Kanban and table views for leads, applications, interviews, follow-ups, and offers.",
+    icon: ClipboardList
+  },
+  {
+    title: "Application organizer",
+    description:
+      "Central place for links, pay notes, role details, contacts, and document versions.",
+    icon: Search
+  },
+  {
+    title: "Reminder bot",
+    description:
+      "Lightweight Discord or chat reminders for follow-up dates and recurring routines.",
+    icon: Bot
+  },
+  {
+    title: "Quote/contact form automation",
+    description:
+      "Capture project details and route requests for drone, website, or bot work.",
+    icon: FileText
+  },
+  {
+    title: "Drone client intake form",
+    description:
+      "Collect location, property type, requested deliverables, timing, and licensing constraints.",
+    icon: Radar
+  }
+];
