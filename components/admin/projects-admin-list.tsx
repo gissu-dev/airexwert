@@ -29,9 +29,13 @@ export function ProjectsAdminList() {
       setLoading(true);
       const nextProjects = await readProjects();
       setProjects(nextProjects);
-    } catch {
+    } catch (projectError) {
       setProjects([]);
-      setError("Enter your admin key, then click Unlock admin.");
+      setError(
+        projectError instanceof Error
+          ? projectError.message
+          : "Enter your admin key, then click Unlock admin.",
+      );
     } finally {
       setLoading(false);
     }

@@ -23,7 +23,7 @@ function getAdminKey() {
 
   window.localStorage.removeItem("wertworks.admin.key");
 
-  return window.sessionStorage.getItem("wertworks.admin.key") || "";
+  return window.sessionStorage.getItem("wertworks.admin.key")?.trim() || "";
 }
 
 function getAdminHeaders() {
@@ -40,12 +40,14 @@ export function setAdminKey(value: string) {
 
   window.localStorage.removeItem("wertworks.admin.key");
 
-  if (!value.trim()) {
+  const adminKey = value.trim();
+
+  if (!adminKey) {
     window.sessionStorage.removeItem("wertworks.admin.key");
     return;
   }
 
-  window.sessionStorage.setItem("wertworks.admin.key", value);
+  window.sessionStorage.setItem("wertworks.admin.key", adminKey);
 }
 
 export function clearAdminKey() {
@@ -63,7 +65,10 @@ export async function readProjects(): Promise<Project[]> {
   });
 
   if (!response.ok) {
-    throw new Error("Could not load admin projects.");
+    throw await createProjectsError(
+      response,
+      "Could not load admin projects.",
+    );
   }
 
   const data = await response.json();
@@ -109,7 +114,7 @@ export async function saveProject(input: ProjectInput): Promise<Project> {
   });
 
   if (!response.ok) {
-    throw new Error("Could not save project.");
+    throw await createProjectsError(response, "Could not save project.");
   }
 
   const data = await response.json();
@@ -128,7 +133,10 @@ export async function updateProjectStatus(id: string, status: ProjectStatus) {
   });
 
   if (!response.ok) {
-    throw new Error("Could not update project status.");
+    throw await createProjectsError(
+      response,
+      "Could not update project status.",
+    );
   }
 }
 
@@ -139,7 +147,7 @@ export async function deleteProject(id: string) {
   });
 
   if (!response.ok) {
-    throw new Error("Could not delete project.");
+    throw await createProjectsError(response, "Could not delete project.");
   }
 }
 
@@ -303,6 +311,25 @@ function normalizeProjectCategory(category: unknown): ProjectCategory {
     default:
       return "Automation Tools";
   }
+}
+
+async function createProjectsError(response: Response, fallback: string) {
+  if (response.status === 401) {
+    return new Error("Admin key rejected. Check ADMIN_WRITE_KEY and unlock again.");
+  }
+
+  try {
+    const data = await response.json();
+    const detail = typeof data.error === "string" ? data.error : "";
+
+    if (detail) {
+      return new Error(`${fallback} ${detail}`);
+    }
+  } catch {
+    // Fall through to the generic message if the API returned non-JSON.
+  }
+
+  return new Error(fallback);
 }
 
 function cloneProjects(projects: Project[]) {

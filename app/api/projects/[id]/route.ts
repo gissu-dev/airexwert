@@ -6,7 +6,10 @@ import { projectPatchToRow, rowToProject, type ProjectRow } from "@/lib/project-
 export const dynamic = "force-dynamic";
 
 function isAdminRequest(request: NextRequest) {
-  return request.headers.get("x-admin-key") === process.env.ADMIN_WRITE_KEY;
+  const expectedKey = process.env.ADMIN_WRITE_KEY?.trim();
+  const providedKey = request.headers.get("x-admin-key")?.trim();
+
+  return Boolean(expectedKey && providedKey && providedKey === expectedKey);
 }
 
 export async function GET(
