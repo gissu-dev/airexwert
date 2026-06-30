@@ -76,7 +76,7 @@ export const projects: Project[] = [
     githubUrl: "",
     liveUrl: "",
     caseStudyUrl: "",
-    imageUrl: "https://imgur.com/Siwa1p6",
+    imageUrl: "",
     createdAt: "2026-06-30T00:00:00.000Z",
     updatedAt: "2026-06-30T00:00:00.000Z"
   },
