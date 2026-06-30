@@ -6,12 +6,12 @@ export const profile = {
     "Aviation-minded builder focused on drones, automation, and practical technology.",
   location: "Wilkes-Barre / Northeastern Pennsylvania",
   regionShort: "Wilkes-Barre / NEPA",
-  email: "your.email@example.com",
+  email: "airexwert@yahoo.com",
   phone: "(570) 392-9857",
   discord: "daehzushriexh",
   resumeDownloadPath: "/resume.pdf",
   githubUrl: "",
-  linkedinUrl: "",
+  linkedinUrl: "https://www.linkedin.com/in/airex-wert-4326a1155/",
   siteUrl: "https://airexwert.com"
 };
 
