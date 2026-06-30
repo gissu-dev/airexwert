@@ -18,15 +18,17 @@ export function JobCard({ job, onStatusChange, onDelete }: JobCardProps) {
     <article className="rounded-lg border border-white/10 bg-white/[0.045] p-4 shadow-lg shadow-black/10 transition-colors hover:border-white/[0.16] hover:bg-white/[0.06]">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <h3 className="font-semibold leading-tight">{job.role}</h3>
-          <p className="mt-1 text-sm text-muted-foreground">{job.company}</p>
+          <h3 className="break-words font-semibold leading-tight">{job.role}</h3>
+          <p className="mt-1 break-words text-sm text-muted-foreground">
+            {job.company}
+          </p>
         </div>
         <StatusBadge status={job.status} className="shrink-0" />
       </div>
 
       <div className="mt-4 grid gap-2 text-sm text-muted-foreground">
-        {job.location ? <p>{job.location}</p> : null}
-        {job.pay ? <p>{job.pay}</p> : null}
+        {job.location ? <p className="break-words">{job.location}</p> : null}
+        {job.pay ? <p className="break-words">{job.pay}</p> : null}
         {job.followUpDate ? (
           <p className="flex items-center gap-2 text-accent">
             <Calendar className="h-4 w-4" aria-hidden="true" />
@@ -36,7 +38,9 @@ export function JobCard({ job, onStatusChange, onDelete }: JobCardProps) {
       </div>
 
       {job.notes ? (
-        <p className="mt-4 text-sm leading-6 text-foreground/[0.82]">{job.notes}</p>
+        <p className="mt-4 break-words text-sm leading-6 text-foreground/[0.82]">
+          {job.notes}
+        </p>
       ) : null}
 
       <div className="mt-4 grid gap-3">

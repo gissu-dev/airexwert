@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Activity,
@@ -11,7 +12,8 @@ import {
   Mail,
   MapPin,
   Plane,
-  Radar
+  Radar,
+  Route
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,6 +24,64 @@ const telemetry = [
   { label: "Focus", value: "Automation" },
   { label: "Track", value: "Aviation" },
   { label: "Region", value: "NEPA" }
+];
+
+type RadarTarget = {
+  id: string;
+  label: string;
+  href: string;
+  signal: string;
+  description: string;
+  x: string;
+  y: string;
+  icon: LucideIcon;
+};
+
+const radarTargets: RadarTarget[] = [
+  {
+    id: "projects",
+    label: "Projects",
+    href: "/projects",
+    signal: "Build pipeline",
+    description:
+      "Automation, bots, drone planning, aviation tools, websites, and job systems.",
+    x: "58%",
+    y: "28%",
+    icon: FolderOpen
+  },
+  {
+    id: "automation",
+    label: "Automation",
+    href: "/automation-bots",
+    signal: "Workflow tools",
+    description:
+      "Discord bots, dashboards, form automation, and small tools that reduce friction.",
+    x: "33%",
+    y: "62%",
+    icon: Bot
+  },
+  {
+    id: "drone",
+    label: "Drone Services",
+    href: "/drone-services",
+    signal: "NEPA aerial planning",
+    description:
+      "Building toward professional aerial documentation and inspection support.",
+    x: "70%",
+    y: "68%",
+    icon: Radar
+  },
+  {
+    id: "aviation",
+    label: "Aviation",
+    href: "/aviation",
+    signal: "Training direction",
+    description:
+      "Flight training roadmap, systems mindset, and long-term business aviation goals.",
+    x: "45%",
+    y: "41%",
+    icon: Plane
+  }
 ];
 
 export function Hero() {
@@ -113,7 +173,6 @@ export function Hero() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.12, duration: 0.55, ease: "easeOut" }}
           className="relative mx-auto w-full max-w-[560px] lg:max-w-none"
-          aria-hidden="true"
         >
           <CommandVisual />
         </motion.div>
@@ -123,9 +182,15 @@ export function Hero() {
 }
 
 function CommandVisual() {
+  const [activeTarget, setActiveTarget] = useState<RadarTarget>(radarTargets[0]);
+  const ActiveIcon = activeTarget.icon;
+
   return (
-    <div className="relative overflow-hidden rounded-lg border border-white/10 bg-[#0a1420]/90 p-4 shadow-2xl shadow-black/35 backdrop-blur-xl sm:p-5">
-      <div className="absolute inset-0 radar-grid opacity-25" />
+    <div
+      className="relative overflow-hidden rounded-lg border border-white/10 bg-[#0a1420]/90 p-4 shadow-2xl shadow-black/35 backdrop-blur-xl sm:p-5"
+      aria-label="Interactive WertWorks operations radar"
+    >
+      <div className="absolute inset-0 radar-grid opacity-25" aria-hidden="true" />
       <div className="relative grid gap-4">
         <div className="flex items-center justify-between rounded-md border border-white/10 bg-white/[0.045] px-4 py-3">
           <div className="flex items-center gap-3">
@@ -143,23 +208,39 @@ function CommandVisual() {
           </div>
           <div className="hidden items-center gap-2 text-xs text-primary sm:flex">
             <span className="h-2 w-2 rounded-full bg-primary" />
-            LIVE MOCK
+            INTERACTIVE
           </div>
         </div>
 
         <div className="grid gap-4 md:grid-cols-[1fr_0.72fr]">
-          <RadarPanel />
+          <RadarPanel
+            activeTarget={activeTarget}
+            onTargetChange={setActiveTarget}
+          />
           <div className="grid gap-4">
-            <SystemCard
-              icon={Plane}
-              label="Aviation systems"
-              value="Checklist mindset"
-            />
-            <SystemCard icon={Bot} label="Automation" value="Bots / dashboards" />
+            <div className="rounded-md border border-primary/25 bg-primary/[0.08] p-4 shadow-radar">
+              <ActiveIcon className="h-5 w-5 text-primary" aria-hidden="true" />
+              <div className="mt-4 text-xs font-semibold uppercase text-primary/90">
+                Selected target
+              </div>
+              <h3 className="mt-1 text-base font-semibold text-foreground">
+                {activeTarget.label}
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                {activeTarget.description}
+              </p>
+              <Button asChild size="sm" variant="outline" className="mt-4 w-full">
+                <Link href={activeTarget.href}>
+                  Open {activeTarget.label}
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+            </div>
+            <SystemCard icon={Route} label="Signal" value={activeTarget.signal} />
             <SystemCard
               icon={Activity}
-              label="Applied tech"
-              value="Local, useful builds"
+              label="Mode"
+              value="Clickable radar contacts"
             />
           </div>
         </div>
@@ -208,20 +289,48 @@ function CommandVisual() {
   );
 }
 
-function RadarPanel() {
+function RadarPanel({
+  activeTarget,
+  onTargetChange
+}: {
+  activeTarget: RadarTarget;
+  onTargetChange: (target: RadarTarget) => void;
+}) {
   return (
     <div className="flex min-h-[280px] items-center justify-center rounded-md border border-white/10 bg-black/25 p-4 sm:min-h-[330px]">
       <div className="relative aspect-square w-full max-w-[330px] overflow-hidden rounded-full border border-primary/35 bg-[radial-gradient(circle,rgba(31,214,154,0.14)_0%,rgba(31,214,154,0.045)_42%,rgba(2,6,12,0.6)_72%)]">
-        <div className="absolute inset-6 rounded-full border border-primary/20" />
-        <div className="absolute inset-14 rounded-full border border-primary/[0.16]" />
-        <div className="absolute inset-[38%] rounded-full border border-primary/[0.22]" />
-        <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-primary/[0.18]" />
-        <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-primary/[0.18]" />
-        <div className="absolute inset-0 animate-radar-spin bg-[conic-gradient(from_0deg,transparent_0deg,rgba(31,214,154,0)_292deg,rgba(31,214,154,0.44)_346deg,transparent_360deg)]" />
-        <div className="absolute left-[58%] top-[28%] h-2.5 w-2.5 rounded-full bg-accent shadow-[0_0_16px_rgba(245,158,11,0.55)]" />
-        <div className="absolute left-[33%] top-[62%] h-2 w-2 rounded-full bg-primary shadow-[0_0_16px_rgba(31,214,154,0.55)]" />
-        <div className="absolute left-[70%] top-[68%] h-1.5 w-1.5 rounded-full bg-primary/90" />
-        <div className="absolute inset-0 rounded-full border border-primary/20" />
+        <div className="absolute inset-6 rounded-full border border-primary/20" aria-hidden="true" />
+        <div className="absolute inset-14 rounded-full border border-primary/[0.16]" aria-hidden="true" />
+        <div className="absolute inset-[38%] rounded-full border border-primary/[0.22]" aria-hidden="true" />
+        <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-primary/[0.18]" aria-hidden="true" />
+        <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-primary/[0.18]" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-0 animate-radar-spin bg-[conic-gradient(from_0deg,transparent_0deg,rgba(31,214,154,0)_292deg,rgba(31,214,154,0.44)_346deg,transparent_360deg)]" aria-hidden="true" />
+        {radarTargets.map((target) => {
+          const active = target.id === activeTarget.id;
+          const Icon = target.icon;
+          return (
+            <button
+              key={target.id}
+              type="button"
+              className="focus-ring absolute z-10 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-primary/35 bg-background/80 text-primary shadow-[0_0_18px_rgba(31,214,154,0.22)] transition-all hover:scale-110 hover:border-primary hover:bg-primary/[0.15]"
+              style={{ left: target.x, top: target.y }}
+              aria-label={`Select radar target: ${target.label}`}
+              aria-pressed={active}
+              onClick={() => onTargetChange(target)}
+            >
+              <span
+                className={
+                  active
+                    ? "absolute inset-[-7px] rounded-full border border-accent/[0.55]"
+                    : "absolute inset-[-5px] rounded-full border border-primary/[0.15]"
+                }
+                aria-hidden="true"
+              />
+              <Icon className="h-4 w-4" aria-hidden="true" />
+            </button>
+          );
+        })}
+        <div className="pointer-events-none absolute inset-0 rounded-full border border-primary/20" aria-hidden="true" />
       </div>
     </div>
   );

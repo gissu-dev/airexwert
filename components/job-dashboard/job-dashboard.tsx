@@ -467,38 +467,40 @@ function Kanban({
   onDelete: (id: string) => void;
 }) {
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
-      {jobStatuses.map((status) => {
-        const columnJobs = jobs.filter((job) => job.status === status);
-        return (
-          <section
-            key={status}
-            className="min-h-40 rounded-lg border border-white/10 bg-white/[0.035] p-3"
-          >
-            <div className="mb-3 flex items-center justify-between gap-2">
-              <StatusBadge status={status} />
-              <span className="text-xs text-muted-foreground">
-                {columnJobs.length}
-              </span>
-            </div>
-            <div className="grid gap-3">
-              {columnJobs.map((job) => (
-                <JobCard
-                  key={job.id}
-                  job={job}
-                  onStatusChange={onStatusChange}
-                  onDelete={onDelete}
-                />
-              ))}
-              {!columnJobs.length ? (
-                <p className="rounded-md border border-white/10 bg-black/[0.15] p-3 text-sm text-muted-foreground">
-                  No leads in this status.
-                </p>
-              ) : null}
-            </div>
-          </section>
-        );
-      })}
+    <div className="-mx-4 overflow-x-auto px-4 pb-3">
+      <div className="grid w-max grid-cols-[repeat(6,280px)] gap-4 lg:grid-cols-[repeat(6,300px)]">
+        {jobStatuses.map((status) => {
+          const columnJobs = jobs.filter((job) => job.status === status);
+          return (
+            <section
+              key={status}
+              className="min-h-44 rounded-lg border border-white/10 bg-white/[0.035] p-3"
+            >
+              <div className="mb-3 flex items-center justify-between gap-2">
+                <StatusBadge status={status} />
+                <span className="text-xs text-muted-foreground">
+                  {columnJobs.length}
+                </span>
+              </div>
+              <div className="grid gap-3">
+                {columnJobs.map((job) => (
+                  <JobCard
+                    key={job.id}
+                    job={job}
+                    onStatusChange={onStatusChange}
+                    onDelete={onDelete}
+                  />
+                ))}
+                {!columnJobs.length ? (
+                  <p className="rounded-md border border-white/10 bg-black/[0.15] p-3 text-sm leading-6 text-muted-foreground">
+                    No leads in this status.
+                  </p>
+                ) : null}
+              </div>
+            </section>
+          );
+        })}
+      </div>
     </div>
   );
 }
