@@ -7,18 +7,18 @@ import { profile } from "@/data/profile";
 export const metadata: Metadata = {
   metadataBase: new URL(profile.siteUrl),
   title: {
-    default: "WertWorks | Automation, Websites, Bots & Job Tools",
+    default: "WertWorks | Practical Systems, Bots, Websites & Automation",
     template: "%s | WertWorks"
   },
   description:
-    "WertWorks is the personal portfolio of Airex Wert, a NEPA-based Army veteran building automation tools, websites, bots, job-search systems, and future drone/aerial planning.",
+    "WertWorks is the personal project hub of Airex Wert, a NEPA-based Army veteran building automation tools, Discord bots, websites, job-search systems, aviation-inspired workflows, and future aerial planning.",
   keywords: [
     "WertWorks",
     "Airex Wert",
     "Northeastern Pennsylvania",
     "Wilkes-Barre",
     "practical technology",
-    "drone operations planning",
+    "aerial planning",
     "automation",
     "Discord bots",
     "websites",
@@ -28,9 +28,9 @@ export const metadata: Metadata = {
   authors: [{ name: profile.name }],
   creator: profile.name,
   openGraph: {
-    title: "WertWorks | Automation, Websites, Bots & Job Tools",
+    title: "WertWorks | Practical Systems, Bots, Websites & Automation",
     description:
-      "Automation, websites, bots, job tools, and future aerial planning from Airex Wert.",
+      "Automation tools, Discord bots, websites, job tools, aviation-inspired workflows, and future aerial planning from Airex Wert.",
     url: profile.siteUrl,
     siteName: profile.brandName,
     images: [
@@ -46,8 +46,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "WertWorks | Automation, Websites, Bots & Job Tools",
-    description: "Automation, websites, bots, job tools, and future aerial planning from Airex Wert.",
+    title: "WertWorks | Practical Systems, Bots, Websites & Automation",
+    description:
+      "Automation tools, Discord bots, websites, job tools, aviation-inspired workflows, and future aerial planning from Airex Wert.",
     images: ["/images/wertworks-og.svg"]
   },
   robots: {

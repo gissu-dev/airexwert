@@ -8,8 +8,9 @@ const routes = [
   "",
   "/about",
   "/projects",
-  "/drone-services",
   "/automation-bots",
+  "/job-tools",
+  "/aerial-planning",
   "/resume",
   "/contact"
 ];

@@ -1,13 +1,25 @@
 // Temporary Phase 1 project repository. Replace this file with Supabase calls later.
 import {
+  caseStudyStatuses,
   projectCategories,
+  projectStages,
   projects as seedProjects,
   type Project,
+  type ProjectCaseStudyStatus,
   type ProjectCategory,
+  type ProjectStage,
   type ProjectStatus
 } from "@/data/projects";
 
 const STORAGE_KEY = "wertworks.projects.v1";
+const PLACEHOLDER_TEXT = new Set([
+  "",
+  "Add description here.",
+  "Add problem here.",
+  "Add solution here.",
+  "Add feature here",
+  "Add tech here"
+]);
 
 type ProjectInput = Omit<Project, "id" | "createdAt" | "updatedAt"> & {
   id?: string;
@@ -35,7 +47,14 @@ export function readProjects(): Project[] {
       return cloneProjects(seedProjects);
     }
 
-    return parsed.map(normalizeProject);
+    const normalizedProjects = parsed.map(normalizeProject);
+    const migratedProjects = migratePlaceholderProjects(normalizedProjects);
+
+    if (migratedProjects.changed) {
+      writeProjects(migratedProjects.projects);
+    }
+
+    return migratedProjects.projects;
   } catch {
     return cloneProjects(seedProjects);
   }
@@ -112,6 +131,14 @@ export function getPublicProjectCategories(projects: Project[]) {
   return ["All", ...projectCategories.filter((category) => categories.has(category))];
 }
 
+export function getProjectCaseStudyHref(project: Project) {
+  if (project.caseStudyStatus !== "ready") {
+    return "";
+  }
+
+  return project.caseStudyUrl || `/projects/${project.slug}`;
+}
+
 export function createEmptyProject(): Project {
   const now = new Date().toISOString();
 
@@ -119,8 +146,9 @@ export function createEmptyProject(): Project {
     id: "",
     title: "",
     slug: "",
-    category: "Automation",
+    category: "Automation Tools",
     status: "draft",
+    stage: "In progress",
     featured: false,
     shortDescription: "",
     fullDescription: "",
@@ -128,6 +156,8 @@ export function createEmptyProject(): Project {
     solution: "",
     features: [],
     techUsed: [],
+    nextStep: "",
+    caseStudyStatus: "coming-soon",
     githubUrl: "",
     liveUrl: "",
     caseStudyUrl: "",
@@ -167,14 +197,20 @@ function createProjectId() {
 function normalizeProject(project: Partial<Project>): Project {
   const now = new Date().toISOString();
   const title = String(project.title ?? "");
-  const category = projectCategories.includes(project.category as ProjectCategory)
-    ? (project.category as ProjectCategory)
-    : "Automation";
+  const category = normalizeProjectCategory(project.category);
   const status = ["draft", "published", "archived"].includes(
     project.status as ProjectStatus
   )
     ? (project.status as ProjectStatus)
     : "draft";
+  const stage = projectStages.includes(project.stage as ProjectStage)
+    ? (project.stage as ProjectStage)
+    : "In progress";
+  const caseStudyStatus = caseStudyStatuses.includes(
+    project.caseStudyStatus as ProjectCaseStudyStatus
+  )
+    ? (project.caseStudyStatus as ProjectCaseStudyStatus)
+    : "coming-soon";
 
   return {
     id: String(project.id || createProjectId()),
@@ -182,6 +218,7 @@ function normalizeProject(project: Partial<Project>): Project {
     slug: String(project.slug || slugify(title) || project.id || createProjectId()),
     category,
     status,
+    stage,
     featured: Boolean(project.featured),
     shortDescription: String(project.shortDescription ?? ""),
     fullDescription: String(project.fullDescription ?? ""),
@@ -189,6 +226,8 @@ function normalizeProject(project: Partial<Project>): Project {
     solution: String(project.solution ?? ""),
     features: Array.isArray(project.features) ? project.features.map(String) : [],
     techUsed: Array.isArray(project.techUsed) ? project.techUsed.map(String) : [],
+    nextStep: String(project.nextStep ?? ""),
+    caseStudyStatus,
     githubUrl: String(project.githubUrl ?? ""),
     liveUrl: String(project.liveUrl ?? ""),
     caseStudyUrl: String(project.caseStudyUrl ?? ""),
@@ -196,6 +235,119 @@ function normalizeProject(project: Partial<Project>): Project {
     createdAt: String(project.createdAt ?? now),
     updatedAt: String(project.updatedAt ?? now)
   };
+}
+
+function migratePlaceholderProjects(projects: Project[]) {
+  let changed = false;
+
+  const migratedProjects = projects.map((project) => {
+    const seed = seedProjects.find(
+      (seedProject) => seedProject.id === project.id || seedProject.slug === project.slug
+    );
+
+    if (!seed) {
+      return project;
+    }
+
+    const shortDescription = replacePlaceholder(
+      project.shortDescription,
+      seed.shortDescription
+    );
+    const fullDescription = replacePlaceholder(
+      project.fullDescription,
+      seed.fullDescription
+    );
+    const problem = replacePlaceholder(project.problem, seed.problem);
+    const solution = replacePlaceholder(project.solution, seed.solution);
+    const features = replacePlaceholderList(project.features, seed.features);
+    const techUsed = replacePlaceholderList(project.techUsed, seed.techUsed);
+    const nextStep = replacePlaceholder(project.nextStep, seed.nextStep);
+    const contentChanged =
+      shortDescription !== project.shortDescription ||
+      fullDescription !== project.fullDescription ||
+      problem !== project.problem ||
+      solution !== project.solution ||
+      features !== project.features ||
+      techUsed !== project.techUsed ||
+      nextStep !== project.nextStep;
+
+    const nextProject: Project = {
+      ...project,
+      category: seed.category,
+      stage: seed.stage,
+      shortDescription,
+      fullDescription,
+      problem,
+      solution,
+      features,
+      techUsed,
+      nextStep,
+      caseStudyStatus: seed.caseStudyStatus,
+      featured: contentChanged ? project.featured || seed.featured : project.featured
+    };
+
+    if (
+      contentChanged ||
+      nextProject.category !== project.category ||
+      nextProject.stage !== project.stage ||
+      nextProject.caseStudyStatus !== project.caseStudyStatus ||
+      nextProject.featured !== project.featured
+    ) {
+      changed = true;
+      return {
+        ...nextProject,
+        updatedAt: seed.updatedAt
+      };
+    }
+
+    return project;
+  });
+
+  const projectIds = new Set(migratedProjects.map((project) => project.id));
+  const projectSlugs = new Set(migratedProjects.map((project) => project.slug));
+  const missingSeedProjects = seedProjects.filter(
+    (seedProject) =>
+      !projectIds.has(seedProject.id) && !projectSlugs.has(seedProject.slug)
+  );
+
+  if (missingSeedProjects.length) {
+    changed = true;
+  }
+
+  return {
+    changed,
+    projects: [...migratedProjects, ...cloneProjects(missingSeedProjects)]
+  };
+}
+
+function normalizeProjectCategory(category: unknown): ProjectCategory {
+  if (projectCategories.includes(category as ProjectCategory)) {
+    return category as ProjectCategory;
+  }
+
+  switch (category) {
+    case "Bots":
+      return "Discord Bots";
+    case "Automation":
+    case "Practical Tech":
+      return "Automation Tools";
+    case "Drone Planning":
+      return "Aerial Planning";
+    default:
+      return "Automation Tools";
+  }
+}
+
+function replacePlaceholder(value: string, seedValue: string) {
+  return PLACEHOLDER_TEXT.has(value.trim()) ? seedValue : value;
+}
+
+function replacePlaceholderList(value: string[], seedValue: string[]) {
+  if (!value.length || value.every((item) => PLACEHOLDER_TEXT.has(item.trim()))) {
+    return [...seedValue];
+  }
+
+  return value;
 }
 
 function cloneProjects(projects: Project[]) {

@@ -1,27 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
+import { AlertCircle, Mail, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { profile } from "@/data/profile";
 
 const reasons = [
   "Job opportunity",
-  "Aerial services planning",
-  "Automation/bot project",
-  "Website/job tool project",
-  "General"
+  "Automation / bot project",
+  "Website project",
+  "Job tool idea",
+  "Aerial planning conversation",
+  "General contact"
 ];
 
 export function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
-    "idle"
-  );
+  const [status, setStatus] = useState<"idle" | "ready" | "error">("idle");
   const [reason, setReason] = useState(reasons[0]);
   const [message, setMessage] = useState("");
+  const [mailtoHref, setMailtoHref] = useState("");
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -44,18 +45,32 @@ export function ContactForm() {
         event.preventDefault();
         const form = event.currentTarget;
         const data = new FormData(form);
+        const name = String(data.get("name") ?? "").trim();
+        const email = String(data.get("email") ?? "").trim();
+        const reason = String(data.get("reason") ?? "").trim();
         const message = String(data.get("message") ?? "").trim();
-        setStatus("loading");
-        window.setTimeout(() => {
-          if (message.length < 10) {
-            setStatus("error");
-            return;
-          }
-          setStatus("success");
-          setReason(reasons[0]);
-          setMessage("");
-          form.reset();
-        }, 450);
+
+        if (message.length < 10) {
+          setStatus("error");
+          setMailtoHref("");
+          return;
+        }
+
+        const subject = `WertWorks contact: ${reason}`;
+        const body = [
+          `Name: ${name}`,
+          `Email: ${email}`,
+          `Reason: ${reason}`,
+          "",
+          message
+        ].join("\n");
+
+        setMailtoHref(
+          `mailto:${profile.email}?subject=${encodeURIComponent(
+            subject
+          )}&body=${encodeURIComponent(body)}`
+        );
+        setStatus("ready");
       }}
     >
       <div className="grid gap-2">
@@ -92,37 +107,52 @@ export function ContactForm() {
         <Textarea
           id="message"
           name="message"
-          placeholder="Share the opportunity, project, or context."
+          placeholder="Share the opportunity, project, planning question, or context."
           value={message}
-          onChange={(event) => setMessage(event.target.value)}
+          onChange={(event) => {
+            setMessage(event.target.value);
+            if (status !== "idle") {
+              setStatus("idle");
+              setMailtoHref("");
+            }
+          }}
           required
         />
       </div>
-      <Button type="submit" className="w-full sm:w-fit" disabled={status === "loading"}>
-        {status === "loading" ? (
-          <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-        ) : (
+
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <Button type="submit" className="w-full sm:w-fit">
           <Send className="h-4 w-4" aria-hidden="true" />
-        )}
-        {status === "loading" ? "Preparing" : "Send Message"}
-      </Button>
-      {status === "success" ? (
+          Prepare email
+        </Button>
+        <p className="text-xs leading-5 text-muted-foreground">
+          Form backend is pending. This prepares an email draft to{" "}
+          {profile.email}.
+        </p>
+      </div>
+
+      {status === "ready" && mailtoHref ? (
         <p
-          className="flex items-start gap-2 rounded-md border border-primary/20 bg-primary/10 px-3 py-2 text-sm leading-6 text-primary"
+          className="flex flex-col gap-3 rounded-md border border-primary/20 bg-primary/10 px-3 py-3 text-sm leading-6 text-primary sm:flex-row sm:items-center sm:justify-between"
           role="status"
         >
-          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-          Message captured locally for this MVP. Connect this form to Resend,
-          Formspree, or a Vercel server action when ready.
+          <span>Email draft is ready. Review it in your mail app before sending.</span>
+          <Button asChild variant="outline" size="sm">
+            <a href={mailtoHref}>
+              <Mail className="h-4 w-4" aria-hidden="true" />
+              Open email draft
+            </a>
+          </Button>
         </p>
       ) : null}
+
       {status === "error" ? (
         <p
           className="flex items-start gap-2 rounded-md border border-red-400/25 bg-red-400/10 px-3 py-2 text-sm leading-6 text-red-100"
           role="alert"
         >
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-          Add a little more context before sending.
+          Add a little more context before preparing the email.
         </p>
       ) : null}
     </form>

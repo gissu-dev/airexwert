@@ -25,7 +25,7 @@ export default function ResumePage() {
       <PageIntro
         eyebrow="Resume"
         title={`${profile.name} - mental health support, operations, veteran background, and FAA private pilot.`}
-        description="Employer-facing resume content covering direct care, retail operations, aviation ground support, military service, selected technical work, and reliable follow-through."
+        description="Employer-facing resume content covering direct care, retail operations, aviation ground support, military service, selected technical work, projects, and reliable follow-through."
       />
 
       <section className="section-shell pt-4">
@@ -133,8 +133,12 @@ export default function ResumePage() {
           <CardContent className="p-4 sm:p-6">
             <div className="mb-5 flex items-center gap-3">
               <FileImage className="h-5 w-5 text-primary" aria-hidden="true" />
-              <h2 className="text-lg font-semibold">Current resume preview</h2>
+              <h2 className="text-lg font-semibold">Resume download and preview</h2>
             </div>
+            <p className="mb-5 text-sm leading-6 text-muted-foreground">
+              The primary download uses the PDF resume. The image below is a
+              quick preview for the website.
+            </p>
             <div className="overflow-hidden rounded-md border border-white/10 bg-white">
               <img
                 src={profile.resumeDownloadPath}
@@ -146,6 +150,10 @@ export default function ResumePage() {
               Resume asset:{" "}
               <span className="font-semibold text-foreground">
                 {profileEditNotes.resumeFile}
+              </span>
+              {" "}and{" "}
+              <span className="font-semibold text-foreground">
+                {profileEditNotes.resumePdfFile}
               </span>
             </p>
           </CardContent>

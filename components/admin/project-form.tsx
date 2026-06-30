@@ -4,7 +4,13 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Save } from "lucide-react";
-import { projectCategories, projectStatuses, type Project } from "@/data/projects";
+import {
+  caseStudyStatuses,
+  projectCategories,
+  projectStages,
+  projectStatuses,
+  type Project
+} from "@/data/projects";
 import {
   createEmptyProject,
   findProjectById,
@@ -193,6 +199,42 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
                 ))}
               </Select>
             </Field>
+            <Field label="Public stage" htmlFor="stage">
+              <Select
+                id="stage"
+                value={project.stage}
+                onChange={(event) =>
+                  setProject((current) => ({
+                    ...current,
+                    stage: event.target.value as Project["stage"]
+                  }))
+                }
+              >
+                {projectStages.map((stage) => (
+                  <option key={stage} value={stage}>
+                    {stage}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+            <Field label="Case study status" htmlFor="caseStudyStatus">
+              <Select
+                id="caseStudyStatus"
+                value={project.caseStudyStatus}
+                onChange={(event) =>
+                  setProject((current) => ({
+                    ...current,
+                    caseStudyStatus: event.target.value as Project["caseStudyStatus"]
+                  }))
+                }
+              >
+                {caseStudyStatuses.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </Select>
+            </Field>
           </div>
 
           <label className="flex items-center gap-3 rounded-md border border-white/10 bg-white/[0.035] px-3 py-3 text-sm">
@@ -286,6 +328,19 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
               <p className="text-xs text-muted-foreground">One technology per line.</p>
             </Field>
           </div>
+          <Field label="Next step" htmlFor="nextStep">
+            <Textarea
+              id="nextStep"
+              value={project.nextStep}
+              placeholder="Document the next realistic improvement."
+              onChange={(event) =>
+                setProject((current) => ({
+                  ...current,
+                  nextStep: event.target.value
+                }))
+              }
+            />
+          </Field>
         </CardContent>
       </Card>
 

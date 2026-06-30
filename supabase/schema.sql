@@ -6,6 +6,9 @@ create table if not exists public.projects (
   slug text not null unique,
   category text not null,
   status text not null default 'draft' check (status in ('draft', 'published', 'archived')),
+  stage text not null default 'In progress' check (
+    stage in ('Active', 'In progress', 'Future planning', 'Documenting')
+  ),
   featured boolean not null default false,
   short_description text not null default '',
   full_description text not null default '',
@@ -13,6 +16,10 @@ create table if not exists public.projects (
   solution text not null default '',
   features text[] not null default '{}',
   tech_used text[] not null default '{}',
+  next_step text not null default '',
+  case_study_status text not null default 'coming-soon' check (
+    case_study_status in ('ready', 'coming-soon')
+  ),
   github_url text not null default '',
   live_url text not null default '',
   case_study_url text not null default '',

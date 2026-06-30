@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Jobs Admin Redirect | WertWorks",
+  title: "Job Tools Redirect | WertWorks",
   robots: {
     index: false,
     follow: false
@@ -9,5 +9,5 @@ export const metadata = {
 };
 
 export default function JobSearchPage() {
-  redirect("/admin/jobs");
+  redirect("/job-tools");
 }

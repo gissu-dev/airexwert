@@ -1,4 +1,4 @@
-import { Mail, Send } from "lucide-react";
+import { Bot, Briefcase, Globe2, Mail, Radar, Send, Wrench } from "lucide-react";
 import { ContactDetails } from "@/components/contact-details";
 import { ContactForm } from "@/components/contact-form";
 import { PageIntro } from "@/components/page-intro";
@@ -17,12 +17,40 @@ export const metadata = {
 };
 
 export default function ContactPage() {
+  const contactReasons = [
+    {
+      title: "Job opportunity",
+      description: "Roles, interviews, employer questions, and resume follow-up.",
+      icon: Briefcase
+    },
+    {
+      title: "Automation / bot project",
+      description: "Discord bots, reminders, workflow tools, and small automations.",
+      icon: Bot
+    },
+    {
+      title: "Website project",
+      description: "Portfolio pages, site structure, forms, and practical web builds.",
+      icon: Globe2
+    },
+    {
+      title: "Job tool idea",
+      description: "Application tracking, resume workflow, interview notes, or follow-up systems.",
+      icon: Wrench
+    },
+    {
+      title: "Aerial planning conversation",
+      description: "Future aerial-services planning, launch roadmap, and responsible boundaries.",
+      icon: Radar
+    }
+  ];
+
   return (
     <>
       <PageIntro
         eyebrow="Contact"
         title={`Start a focused conversation with ${profile.name}.`}
-        description="Use this form for job opportunities, aerial services planning conversations, automation and bot projects, websites, job tools, or general contact. The form is ready to connect to Resend, Formspree, or a Vercel server action later."
+        description="Use this page for job opportunities, automation and bot projects, website work, job tool ideas, aerial planning conversations, or general contact. The form prepares an email draft while the backend connection is pending."
       />
 
       <section className="section-shell pt-4">
@@ -45,10 +73,27 @@ export default function ContactPage() {
             <Card className="bg-card/75">
               <CardContent className="flex items-start gap-3 p-5 text-sm text-muted-foreground">
                 <Send className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                Ready for job, website, bot, aerial planning, and automation
-                conversations.
+                Best fit: job opportunities, websites, bots, job tools,
+                automation, and aerial planning conversations.
               </CardContent>
             </Card>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              {contactReasons.map((reason) => {
+                const Icon = reason.icon;
+
+                return (
+                  <Card key={reason.title} className="bg-card/75">
+                    <CardContent className="p-4">
+                      <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
+                      <h2 className="mt-3 text-sm font-semibold">{reason.title}</h2>
+                      <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                        {reason.description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
           </div>
 
           <ContactForm />

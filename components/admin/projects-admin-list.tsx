@@ -68,10 +68,20 @@ export function ProjectsAdminList() {
                   <Badge variant={project.status === "published" ? "default" : "secondary"}>
                     {project.status}
                   </Badge>
+                  <Badge variant={project.stage === "Future planning" ? "amber" : "outline"}>
+                    {project.stage}
+                  </Badge>
+                  <Badge
+                    variant={
+                      project.caseStudyStatus === "ready" ? "default" : "secondary"
+                    }
+                  >
+                    {project.caseStudyStatus}
+                  </Badge>
                   {project.featured ? <Badge variant="amber">Featured</Badge> : null}
                 </div>
                 <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                  {project.shortDescription || "Add description here."}
+                  {project.shortDescription || "Description pending."}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted-foreground">
                   <span>{project.category}</span>
