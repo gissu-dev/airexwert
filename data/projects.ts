@@ -50,30 +50,30 @@ export type Project = {
 export const projects: Project[] = [
   {
     id: "kith-wave-bot",
-    title: "Kith Wave Bot",
+    title: "KithWave Discord Music Bot",
     slug: "kith-wave-bot",
     category: "Discord Bots",
     status: "published",
-    stage: "Documenting",
+    stage: "Active",
     featured: true,
     shortDescription:
-      "A Discord bot track for time-sensitive Kith community updates, wave reminders, and cleaner server coordination.",
+      "A Discord music bot for YouTube playback, live radio presets, Spotify link imports, queue controls, and lyrics lookup.",
     fullDescription:
-      "Kith Wave Bot is the portfolio case study for a focused Discord automation idea: keep fast-moving community updates visible without forcing moderators to manually repeat the same messages. The project is framed around scheduled posts, command-based checks, and clear setup boundaries so it can grow without becoming hard to operate.",
+      "KithWave is a Discord music bot built for a real server. It supports prefix commands, YouTube search and URLs, live radio presets, Spotify metadata imports, YouTube playlist imports, shuffle controls, per-server queue state, and a now-playing panel with playback buttons.",
     problem:
-      "Community servers can lose important drop, reminder, and status updates inside normal chat traffic. Manual reposting works for a while, but it becomes inconsistent as timing, roles, and channels change.",
+      "Music bots can get messy when queue controls, radio stations, playlist imports, and playback state all live in separate commands with unclear feedback.",
     solution:
-      "Build a small bot around structured commands, scheduled reminders, role-aware messaging, and simple configuration so the next update is easy to send, audit, and adjust.",
+      "Build a focused Discord music bot with reliable queue state, button-based playback controls, radio preset configuration, and optional Spotify metadata support that resolves tracks into playable sources.",
     features: [
-      "Scheduled reminder flow for launch windows, restocks, and follow-up prompts.",
-      "Moderator-friendly command structure for posting updates without editing code.",
-      "Config-first setup for channels, timing, and message templates.",
-      "Clear status feedback so operators know whether a message was queued or sent."
+      "Plays music from YouTube search, direct URLs, and YouTube playlists.",
+      "Live radio mode with preset dropdowns, station lookup, and direct stream URLs.",
+      "Spotify track, album, and playlist link imports using metadata lookup.",
+      "Now-playing panel with pause, skip, stop, queue, volume, shuffle, and lyrics controls."
     ],
-    techUsed: ["Python", "discord.py", "Task scheduling", "JSON config"],
-    nextStep: "Add command documentation, setup notes, and example operating flows.",
+    techUsed: ["Python", "discord.py", "yt-dlp", "ffmpeg", "Spotipy"],
+    nextStep: "Add slash-command versions of core controls and small tests around query parsing and URL handling.",
     caseStudyStatus: "ready",
-    githubUrl: "",
+    githubUrl: "https://github.com/gissu-dev/KithWave",
     liveUrl: "",
     caseStudyUrl: "",
     imageUrl: "",
@@ -82,30 +82,30 @@ export const projects: Project[] = [
   },
   {
     id: "kith-bot",
-    title: "Kith Bot",
+    title: "House of Kith Bot",
     slug: "kith-bot",
     category: "Discord Bots",
     status: "published",
-    stage: "Documenting",
+    stage: "Active",
     featured: true,
     shortDescription:
-      "A general-purpose Discord utility bot for keeping server actions, lightweight moderation, and member support organized.",
+      "A custom Discord server bot with utility commands, role setup helpers, archive reactions, tarot reads, and AI voice messages.",
     fullDescription:
-      "Kith Bot represents the broader server-operations side of the bot portfolio. The focus is practical utility: commands that reduce repeated moderator work, clearer responses for members, and a code structure that can be extended as server needs become more specific.",
+      "House of Kith Bot is a custom Discord bot built for the House of Kith server. The core features are stable and running, with prefix commands for status, bot info, owner restart, AI voice omens, and role setup, plus slash-command tarot tools and optional Valorant account commands.",
     problem:
-      "Small communities often run on ad hoc moderator habits. Useful actions get handled manually, new helpers need context, and repetitive questions or server tasks interrupt normal conversation.",
+      "A community server needs small utilities that fit its culture: self-role setup, archive saves, status checks, voice moments, and game-related helpers without forcing moderators to run everything manually.",
     solution:
-      "Create a modular Discord bot foundation with focused commands, reusable response patterns, and room for server-specific utilities without turning every change into a rewrite.",
+      "Use a modular Python Discord bot with command cogs, environment-based setup, OpenAI text and TTS support, reaction-based archiving, tarot slash commands, and optional Valorant API integration.",
     features: [
-      "Reusable command handlers for common server support tasks.",
-      "Role and channel-aware responses for safer moderation workflows.",
-      "Consistent message formatting for announcements and quick replies.",
-      "Expandable structure for future reminders, logs, and admin utilities."
+      "Prefix commands for diagnostics, bot info, owner restart, AI voice omens, and role setup.",
+      "Reaction-based archive flow for saving messages into an archive channel.",
+      "Slash-command tarot reads with single-card and spread options.",
+      "Optional Valorant account linking, MMR, and last-match commands when the API key is configured."
     ],
-    techUsed: ["Python", "Discord API", "Command handlers", "Server utilities"],
-    nextStep: "Document command examples and identify the next server utility module.",
+    techUsed: ["Python", "discord.py", "OpenAI API", "TTS", "HenrikDev Valorant API"],
+    nextStep: "Keep polishing the active modules and document which parked cogs are intentionally inactive.",
     caseStudyStatus: "ready",
-    githubUrl: "",
+    githubUrl: "https://github.com/gissu-dev/House-of-Kith-Bot",
     liveUrl: "",
     caseStudyUrl: "",
     imageUrl: "",
@@ -114,30 +114,30 @@ export const projects: Project[] = [
   },
   {
     id: "clocktower",
-    title: "Clocktower",
+    title: "Clocktower Bot",
     slug: "clocktower",
-    category: "Automation Tools",
+    category: "Discord Bots",
     status: "published",
     stage: "Active",
     featured: true,
     shortDescription:
-      "A reminder and scheduling utility concept for recurring routines, follow-ups, and time-based bot actions.",
+      "A small Discord voice bot that rings a clocktower bell hourly and includes manual bell, timestamp, and countdown timer commands.",
     fullDescription:
-      "Clocktower is the automation case study for keeping time-based work visible. It is positioned as a practical reminder layer for Discord or local workflows: define the event, keep the schedule readable, and make the next action hard to miss.",
+      "Clocktower Bot is a focused Discord bot built for one server. It rings a bell in a configured voice channel at the top of each hour when non-bot members are present, supports manual bell triggers, includes admin controls for the hourly loop, and adds utility commands for timestamps and live countdown timers.",
     problem:
-      "Recurring tasks are easy to miss when they live in memory, scattered notes, or one-off chat messages. The more routines stack up, the harder it is to know what needs attention next.",
+      "Server rituals and timed reminders are easy to forget when they depend on someone manually joining voice, posting timestamps, or tracking a countdown in chat.",
     solution:
-      "Use a small scheduled automation layer that stores repeatable reminders, runs predictable checks, and posts clear prompts when attention is needed.",
+      "Keep the bot intentionally small: configure one voice channel, run a predictable hourly bell loop, expose simple admin commands, and provide timestamp and timer utilities for members.",
     features: [
-      "Recurring reminder concepts for follow-ups, routines, and scheduled prompts.",
-      "Readable schedule configuration that can be reviewed without digging through logic.",
-      "Bot-ready notification flow for Discord channels or operators.",
-      "Simple startup scripts for repeatable local operation during development."
+      "Rings a bell at the top of each hour when users are in the configured voice channel.",
+      "Manual `!bell` command with public or restricted access modes.",
+      "Admin `!clock on|off|status` controls for hourly ringing.",
+      "Timestamp helpers and channel countdown timers with basic restart recovery."
     ],
-    techUsed: ["Python", "Scheduling", "Discord automation", "Windows scripts"],
-    nextStep: "Add reminder examples and a clearer operator setup checklist.",
+    techUsed: ["Python", "discord.py", "ffmpeg", "Discord voice", "Windows launcher"],
+    nextStep: "Keep the setup checklist tight and improve restart behavior around active timers.",
     caseStudyStatus: "ready",
-    githubUrl: "",
+    githubUrl: "https://github.com/gissu-dev/clocktower-bot",
     liveUrl: "",
     caseStudyUrl: "",
     imageUrl: "",
