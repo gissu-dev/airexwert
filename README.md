@@ -11,7 +11,7 @@ WertWorks is the personal website and project hub for Airex Wert. The site is bu
 - Aerial services planning page with claim-safe wording
 - Retired standalone section redirects to About / Background
 - Automation and bots page
-- Employer-friendly resume page
+- Employer-friendly resume download and contact page
 - Private admin jobs tracker with LocalStorage-backed Phase 2 persistence
 - Contact page with mock form states and centralized profile data
 - SEO metadata, sitemap, robots route, and Vercel-ready config
@@ -80,17 +80,19 @@ Do not put secrets, API keys, bot tokens, webhook URLs, or private credentials i
 
 ## Resume Asset
 
-The resume download button points to:
+The active downloadable resume is the PNG file. Resume buttons and contact links point to:
 
 ```text
 /resume.png
 ```
 
-The current resume image is stored here:
+The source asset is stored here:
 
 ```text
 public/resume.png
 ```
+
+Keep `profile.resumeDownloadPath` in `data/profile.ts` pointed at `/resume.png` unless the active resume file changes.
 
 ## Build
 
@@ -149,7 +151,7 @@ Vercel will detect the push, run the build, and publish the new version if the b
 
 ## Phase 2 Ideas
 
-- Add the final resume PDF
+- Refresh `public/resume.png` whenever the downloadable resume changes
 - Connect the contact form to Resend, Formspree, or a Vercel server action
 - Add auth and Supabase sync for the private admin jobs tracker
 - Add detailed project case study pages
