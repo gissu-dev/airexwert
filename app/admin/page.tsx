@@ -1,8 +1,10 @@
 import Link from "next/link";
-import { requireAdmin } from "@/lib/admin-auth";
 import { Briefcase, FileText, FolderKanban } from "lucide-react";
+
+import { LogoutButton } from "@/components/admin/logout-button";
 import { PageIntro } from "@/components/page-intro";
 import { Card, CardContent } from "@/components/ui/card";
+import { requireAdmin } from "@/lib/admin-auth";
 
 const adminCards = [
   {
@@ -10,47 +12,54 @@ const adminCards = [
     description: "Add, edit, publish, feature, archive, and delete project records.",
     href: "/admin/projects",
     icon: FolderKanban,
-    active: true
+    active: true,
   },
   {
     title: "Jobs",
     description: "Private tracker for saved roles, applications, interviews, and follow-ups.",
     href: "/admin/jobs",
     icon: Briefcase,
-    active: true
+    active: true,
   },
   {
     title: "Site content coming soon",
     description: "Future controls for homepage and page copy.",
     href: "#",
     icon: FileText,
-    active: false
-  }
+    active: false,
+  },
 ];
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Admin | WertWorks",
   robots: {
     index: false,
-    follow: false
-  }
+    follow: false,
+  },
 };
 
 export default async function AdminPage() {
-  await requireAdmin();  
+  await requireAdmin();
 
-return (
+  return (
     <>
       <PageIntro
         eyebrow="Admin"
-        title="Private local dashboard."
-        description="Phase 1 uses browser-local project storage so the admin can be functional without Supabase environment variables."
+        title="Private WertWorks dashboard."
+        description="Manage private site tools, project records, job tracking, and future admin-only content."
       />
+
+      <section className="section-shell pt-0">
+        <LogoutButton />
+      </section>
 
       <section className="section-shell pt-4">
         <div className="grid gap-5 md:grid-cols-3">
           {adminCards.map((card) => {
             const Icon = card.icon;
+
             const content = (
               <Card className="h-full bg-card/75 hover:border-primary/25">
                 <CardContent className="p-6">
@@ -64,7 +73,11 @@ return (
             );
 
             return card.active ? (
-              <Link key={card.title} href={card.href} className="focus-ring rounded-lg">
+              <Link
+                key={card.title}
+                href={card.href}
+                className="focus-ring rounded-lg"
+              >
                 {content}
               </Link>
             ) : (
