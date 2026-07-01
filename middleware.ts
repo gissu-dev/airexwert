@@ -9,9 +9,15 @@ export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (!supabaseUrl || !supabaseAnonKey) {
+if (!supabaseUrl || !supabaseAnonKey) {
+  if (request.nextUrl.pathname.startsWith("/admin/login")) {
     return response;
   }
+
+  return NextResponse.redirect(
+    new URL("/admin/login?setup=missing", request.url),
+  );
+}
 
   const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {

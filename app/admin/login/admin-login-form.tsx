@@ -56,8 +56,7 @@ export function AdminLoginForm() {
       return;
     }
 
-    // Important: full page redirect so middleware/server routes see the auth cookie.
-    window.location.assign(next);
+    window.location.href = next;
   }
 
   return (
