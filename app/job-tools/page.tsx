@@ -1,138 +1,130 @@
 import Link from "next/link";
-import {
-  Briefcase,
-  ClipboardList,
-  FileText,
-  LayoutDashboard,
-  MessageSquare,
-  Search
-} from "lucide-react";
-import { ProjectCard } from "@/components/project-card";
+import { FolderOpen, Lock, Mail, NotebookText, Wrench } from "lucide-react";
 import { PageIntro } from "@/components/page-intro";
 import { SectionHeader } from "@/components/section-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { projects } from "@/data/projects";
 
 export const metadata = {
-  title: "Job Tools | WertWorks",
+  title: "Internal Experiments | WertWorks",
   description:
-    "Personal and in-development WertWorks job-search tools: job dashboard, application tracker, resume toolkit, cover letter workflow, interview notes, and status tracking.",
+    "A hidden WertWorks page for private internal tools and experiments in development.",
+  robots: {
+    index: false,
+    follow: false
+  },
   openGraph: {
-    title: "Job Tools | WertWorks",
+    title: "Internal Experiments | WertWorks",
     description:
-      "A personal job-search operating system for tracking applications, documents, interviews, and follow-ups."
+      "Private internal tools and experiments are being developed behind the public WertWorks site."
   }
 };
 
-const jobToolTracks = [
+const publicRoutes = [
   {
-    title: "Job Search Dashboard",
+    title: "Projects",
     description:
-      "A central view for leads, applications, interviews, follow-ups, offers, and rejections.",
-    status: "Active personal tool",
-    href: "/admin/jobs",
-    icon: LayoutDashboard
+      "Review the public project hub for bots, websites, automation, career systems, aviation ideas, and future aerial planning.",
+    href: "/projects",
+    cta: "View Projects",
+    icon: FolderOpen
   },
   {
-    title: "Application Tracker",
+    title: "Field Notes",
     description:
-      "Structured application records for role details, pay notes, contacts, dates, and next actions.",
-    status: "In development",
-    href: "/projects#application-organizer",
-    icon: ClipboardList
+      "Read the working archive for build logs, website notes, bot lessons, ideas, and project updates.",
+    href: "/field-notes",
+    cta: "Read Field Notes",
+    icon: NotebookText
   },
   {
-    title: "Resume Toolkit",
+    title: "Contact",
     description:
-      "Reusable summaries, skills, projects, and employer-facing material tied back to the resume page.",
-    status: "In development",
-    href: "/resume",
-    icon: FileText
-  },
-  {
-    title: "Cover Letter Toolkit",
-    description:
-      "Role-specific notes and draft structure for targeted cover letter work.",
-    status: "Planned",
-    href: "/projects#resume-cover-letter-toolkit",
-    icon: MessageSquare
-  },
-  {
-    title: "Interview Prep / Notes",
-    description:
-      "Interview details, prep notes, questions, follow-up reminders, and post-interview records.",
-    status: "Planned",
-    href: "/projects#personal-job-search-dashboard",
-    icon: Search
-  },
-  {
-    title: "Application Status Tracking",
-    description:
-      "Simple status tracking for leads, applications, interviews, follow-ups, and offers.",
-    status: "Active personal tool",
-    href: "/admin/jobs",
-    icon: Briefcase
+      "Start a focused conversation about a role, project, website, bot, automation idea, or planning question.",
+    href: "/contact",
+    cta: "Contact Me",
+    icon: Mail
   }
 ];
 
 export default function JobToolsPage() {
-  const jobProjects = projects.filter(
-    (project) =>
-      project.status === "published" && project.category === "Job Search Tools"
-  );
-
   return (
     <>
       <PageIntro
-        eyebrow="Job Tools"
-        title="A personal job-search operating system in development."
-        description="These tools organize applications, document versions, follow-ups, interview notes, and resume work. They are personal tools and in-development systems unless a page says otherwise."
+        eyebrow="Internal experiments"
+        title="This page is no longer part of the public navigation."
+        description="Some internal dashboard and career-system experiments are still being developed privately. The public WertWorks site now routes visitors toward projects, field notes, resume, and contact."
       />
 
       <section className="section-shell pt-4">
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {jobToolTracks.map((track) => {
-            const Icon = track.icon;
+        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <Card className="bg-card/75">
+            <CardContent className="p-6">
+              <Lock className="h-8 w-8 text-primary" aria-hidden="true" />
+              <h2 className="mt-5 text-2xl font-semibold">Internal status</h2>
+              <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                The private dashboard and related admin work still exist, but
+                they are not being presented as a public product. This route is
+                kept as a quiet placeholder while those experiments continue
+                behind the scenes.
+              </p>
+              <Badge variant="secondary" className="mt-6">
+                Hidden from main navigation
+              </Badge>
+            </CardContent>
+          </Card>
 
-            return (
-              <Card key={track.title} className="group bg-card/75">
-                <CardContent className="flex h-full flex-col p-6">
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-md border border-primary/25 bg-primary/10 text-primary transition-colors group-hover:border-primary/45 group-hover:bg-primary/[0.14]">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <Badge variant={track.status.includes("Active") ? "default" : "secondary"}>
-                      {track.status}
-                    </Badge>
-                  </div>
-                  <h2 className="mt-5 text-lg font-semibold">{track.title}</h2>
-                  <p className="mt-3 flex-1 text-sm leading-6 text-muted-foreground">
-                    {track.description}
-                  </p>
-                  <Button asChild variant="outline" className="mt-6 w-fit">
-                    <Link href={track.href}>Open route</Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            );
-          })}
+          <div>
+            <SectionHeader
+              eyebrow="Public routes"
+              title="Use the public WertWorks structure instead."
+              description="If you landed here from an old link, these routes are the better way to understand the work and start a conversation."
+            />
+            <div className="mt-8 grid gap-5 sm:grid-cols-3">
+              {publicRoutes.map((route) => {
+                const Icon = route.icon;
+
+                return (
+                  <Card key={route.title} className="flex h-full flex-col bg-card/75">
+                    <CardContent className="flex h-full flex-col p-5">
+                      <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+                      <h2 className="mt-4 text-base font-semibold">{route.title}</h2>
+                      <p className="mt-3 flex-1 text-sm leading-6 text-muted-foreground">
+                        {route.description}
+                      </p>
+                      <Button asChild variant="outline" className="mt-6 w-fit">
+                        <Link href={route.href}>{route.cta}</Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="border-y border-white/10 bg-white/[0.03]">
+      <section className="border-t border-white/10 bg-white/[0.03]">
         <div className="section-shell">
-          <SectionHeader
-            eyebrow="Job tool projects"
-            title="Project records connected to the job-search workflow."
-            description="These cards use the central project data and keep case-study links disabled until the writeups are ready."
-          />
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {jobProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
+          <Card className="bg-card/75">
+            <CardContent className="grid gap-6 p-6 lg:grid-cols-[1fr_auto] lg:items-center">
+              <div>
+                <Wrench className="h-7 w-7 text-primary" aria-hidden="true" />
+                <h2 className="mt-4 text-2xl font-semibold">
+                  Internal tools are still being developed privately.
+                </h2>
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">
+                  Public visitors do not need the dashboard to understand
+                  WertWorks. The better story is in the projects, field notes,
+                  resume, and contact flow.
+                </p>
+              </div>
+              <Button asChild>
+                <Link href="/projects">Back to Projects</Link>
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </section>
     </>

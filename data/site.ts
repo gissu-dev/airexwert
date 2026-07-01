@@ -4,9 +4,12 @@ import {
   ClipboardCheck,
   Crosshair,
   FileText,
+  FolderOpen,
   Globe2,
-  LayoutDashboard,
+  Mail,
+  NotebookText,
   ShieldCheck,
+  UserRound,
   Wrench
 } from "lucide-react";
 import { profile } from "@/data/profile";
@@ -20,68 +23,67 @@ export const siteConfig = {
   email: profile.email,
   nav: [
     { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
     { href: "/projects", label: "Projects" },
-    { href: "/automation-bots", label: "Automation & Bots" },
-    { href: "/job-tools", label: "Job Tools" },
-    { href: "/aerial-planning", label: "Aerial Planning" },
+    { href: "/field-notes", label: "Field Notes" },
     { href: "/resume", label: "Resume" },
     { href: "/contact", label: "Contact" }
   ]
 };
 
 export const coreMessage =
-  "Airex Wert builds practical systems: automation tools, Discord bots, websites, job-search tools, and aviation-inspired workflows - with future aerial planning in development.";
+  "WertWorks is Airex Wert's working archive for useful digital projects: websites, Discord bots, automation tools, aviation experiments, field notes, and future aerial planning.";
 
 export const featureRoutes = [
   {
-    title: "Employers / Hiring",
+    title: "About",
+    audience: "People getting to know the builder behind the work",
+    description:
+      "Background, operating style, NEPA roots, Army aviation maintenance, and current focus.",
+    primaryHref: "/about",
+    secondaryHref: "/resume",
+    cta: "Read the about page",
+    icon: UserRound
+  },
+  {
+    title: "Projects",
+    audience: "People reviewing practical work and case studies",
+    description:
+      "Websites, Discord bots, automation tools, aviation systems, and service ideas.",
+    primaryHref: "/projects",
+    secondaryHref: "/field-notes",
+    cta: "View projects",
+    icon: FolderOpen
+  },
+  {
+    title: "Field Notes",
+    audience: "People reading build logs and working notes",
+    description:
+      "Build logs, website notes, bot lessons, aviation thoughts, career notes, and ideas.",
+    primaryHref: "/field-notes",
+    secondaryHref: "/projects",
+    cta: "Read field notes",
+    icon: NotebookText
+  },
+  {
+    title: "Resume",
     audience: "Employers, recruiters, and hiring managers",
     description:
-      "Resume, work background, operating style, and selected technical projects.",
+      "Work background, skills, operating style, and selected technical projects.",
     primaryHref: "/resume",
-    secondaryHref: "/projects",
+    secondaryHref: "/contact",
     cta: "View resume",
     icon: Briefcase
   },
   {
-    title: "Automation & Bots",
-    audience: "People reviewing bot and workflow automation work",
+    title: "Contact",
+    audience: "Project, role, and collaboration conversations",
     description:
-      "Discord bot projects, reminder utilities, workflow helpers, and practical automation systems.",
-    primaryHref: "/automation-bots",
-    secondaryHref: "/projects",
-    cta: "Review bot work",
-    icon: Bot
-  },
-  {
-    title: "Job Tools",
-    audience: "Anyone interested in the job-search operating system",
-    description:
-      "Job dashboard, application tracker, resume toolkit, cover letter workflow, and interview notes.",
-    primaryHref: "/job-tools",
-    secondaryHref: "/projects#personal-job-search-dashboard",
-    cta: "Open job tools",
-    icon: LayoutDashboard
-  },
-  {
-    title: "Websites",
-    audience: "People reviewing site builds and practical web systems",
-    description:
-      "Portfolio structure, project hubs, contact flows, reusable sections, and website foundations.",
-    primaryHref: "/projects#website-builds",
-    secondaryHref: "/contact?reason=Website%20project",
-    cta: "View website work",
-    icon: Globe2
-  },
-  {
-    title: "Aerial Planning",
-    audience: "Planning conversations only",
-    description:
-      "Launch roadmap, future service ideas, equipment planning, licensing boundaries, and safety process.",
-    primaryHref: "/aerial-planning",
-    secondaryHref: "/contact?reason=Aerial%20planning%20conversation",
-    cta: "View launch roadmap",
-    icon: Crosshair
+      "A direct route for roles, practical websites, bots, automation ideas, and planning questions.",
+    primaryHref: "/contact",
+    secondaryHref: "/about",
+    cta: "Contact Airex",
+    icon: Mail
   }
 ];
 
@@ -101,11 +103,11 @@ export const buildAreas = [
     icon: Globe2
   },
   {
-    title: "Job Search Systems",
+    title: "Career Systems",
     description:
       "Application tracking, resume organization, follow-up notes, and interview prep workflows.",
-    href: "/job-tools",
-    icon: LayoutDashboard
+    href: "/projects#personal-job-search-dashboard",
+    icon: Briefcase
   },
   {
     title: "Aviation-Inspired Workflows",
@@ -129,7 +131,7 @@ export const currentStatusGroups = [
     items: [
       "Personal website",
       "Discord bot documentation",
-      "Job tools",
+      "Private career dashboard",
       "Automation systems"
     ]
   },
@@ -137,6 +139,7 @@ export const currentStatusGroups = [
     label: "In progress",
     items: [
       "Project case studies",
+      "Field notes",
       "Resume page",
       "Contact system",
       "Website build documentation"

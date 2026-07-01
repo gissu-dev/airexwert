@@ -13,7 +13,7 @@ import { projects } from "@/data/projects";
 export const metadata = {
   title: "Automation & Bots | WertWorks",
   description:
-    "WertWorks automation and bot projects covering Discord bots, reminders, dashboards, job-search workflows, form organization, tracking, and website tools.",
+    "WertWorks automation and bot projects covering Discord bots, reminders, dashboards, career workflows, form organization, tracking, and website tools.",
   openGraph: {
     title: "Automation & Bots | WertWorks",
     description:
@@ -25,10 +25,10 @@ const botProjectSlugs = ["kith-wave-bot", "kith-bot", "clocktower"];
 
 const automationSystemTracks = [
   {
-    title: "Job search workflows",
+    title: "Career workflows",
     description:
       "Application tracking, follow-up reminders, resume notes, and status visibility.",
-    href: "/job-tools",
+    href: "/projects#personal-job-search-dashboard",
     icon: LayoutDashboard
   },
   {
@@ -68,7 +68,7 @@ export default function AutomationBotsPage() {
       <PageIntro
         eyebrow="Automation & Bots"
         title="Small useful tools, Discord bots, and workflow automation."
-        description="This page focuses on practical bots and automation systems: Discord utilities, reminders, job-search workflows, form organization, tracking, and website tools."
+        description="This page focuses on practical bots and automation systems: Discord utilities, reminders, career workflows, form organization, tracking, and website tools."
       />
 
       <section className="section-shell pt-4">
@@ -122,11 +122,11 @@ export default function AutomationBotsPage() {
       </section>
 
       <section className="section-shell">
-        <SectionHeader
-          eyebrow="Capabilities"
-          title="Reusable automation capabilities."
-          description="These are the skill areas that connect the bot projects, job tools, and website work."
-        />
+          <SectionHeader
+            eyebrow="Capabilities"
+            title="Reusable automation capabilities."
+            description="These are the skill areas that connect the bot projects, career systems, and website work."
+          />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {automationSkills.map((skill) => {
             const Icon = skill.icon;

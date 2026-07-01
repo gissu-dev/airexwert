@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Job Tools Redirect | WertWorks",
+  title: "Internal Tools Redirect | WertWorks",
   robots: {
     index: false,
     follow: false

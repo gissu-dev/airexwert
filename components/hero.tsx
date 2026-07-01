@@ -35,8 +35,8 @@ export function Hero() {
           </h1>
           <p className="mt-5 max-w-2xl text-balance text-lg leading-8 text-slate-200 sm:text-xl">
             WertWorks is my personal hub for automation projects, Discord bots,
-            job-search tools, website builds, aviation-inspired workflows, and
-            future aerial planning.
+            website builds, field notes, aviation-inspired workflows, career
+            systems, and future aerial planning.
           </p>
           <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground">
             {coreMessage}

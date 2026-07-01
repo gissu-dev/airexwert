@@ -5,7 +5,8 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      allow: "/"
+      allow: "/",
+      disallow: ["/job-tools"]
     },
     sitemap: `${profile.siteUrl}/sitemap.xml`
   };

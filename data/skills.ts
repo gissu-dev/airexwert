@@ -35,7 +35,7 @@ export const automationSkills = [
     icon: FileText
   },
   {
-    title: "Resume and job tools",
+    title: "Resume and career systems",
     description:
       "Application tracking, targeted summaries, document organization, and follow-up systems.",
     icon: Search

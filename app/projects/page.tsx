@@ -7,7 +7,7 @@ import { projectCategories, projects } from "@/data/projects";
 export const metadata = {
   title: "Projects | WertWorks",
   description:
-    "WertWorks project showcase across automation, bots, drone/aerial planning, websites, checklist systems, and job search tools.",
+    "WertWorks project showcase across automation, bots, drone/aerial planning, websites, checklist systems, field notes, and career systems.",
   openGraph: {
     title: "WertWorks Projects",
     description:
@@ -23,7 +23,7 @@ export default function ProjectsPage() {
       <PageIntro
         eyebrow="Projects"
         title="The organized hub for everything WertWorks is building."
-        description="Projects are grouped by practical use: Discord bots, automation tools, job-search systems, websites, aviation-inspired systems, and future aerial planning. Case studies only link when they are actually ready."
+        description="Projects are grouped by practical use: Discord bots, automation tools, career systems, websites, aviation-inspired systems, and future aerial planning. Case studies only link when they are actually ready."
       />
 
       <section className="section-shell pt-4">

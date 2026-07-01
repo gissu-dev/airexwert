@@ -170,7 +170,7 @@ export const projects: Project[] = [
     nextStep: "Connect persistence to a real backend and add reminder exports.",
     caseStudyStatus: "coming-soon",
     githubUrl: "",
-    liveUrl: "/admin/jobs",
+    liveUrl: "",
     caseStudyUrl: "",
     imageUrl: "",
     createdAt: "2026-06-30T00:00:00.000Z",
@@ -291,7 +291,7 @@ export const projects: Project[] = [
     features: [
       "Checklist-first workflow planning.",
       "Status and handoff concepts inspired by aviation maintenance habits.",
-      "Use-case notes for job tools, bots, aerial planning, and site operations.",
+      "Use-case notes for career tools, bots, aerial planning, and site operations.",
       "Details to be added as concrete prototypes are built."
     ],
     techUsed: ["Workflow design", "Checklist systems", "Automation planning"],

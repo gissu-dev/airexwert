@@ -1,111 +1,198 @@
-import { Bot, Briefcase, Globe2, Radar, ShieldCheck } from "lucide-react";
-import { PageIntro } from "@/components/page-intro";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Bot,
+  Briefcase,
+  ClipboardCheck,
+  Gamepad2,
+  Globe2,
+  Lightbulb,
+  MapPin,
+  Music,
+  NotebookText,
+  Plane,
+  Radar,
+  Wrench
+} from "lucide-react";
 import { SectionHeader } from "@/components/section-header";
-import { Timeline } from "@/components/timeline";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { profile } from "@/data/profile";
-import { timeline, values } from "@/data/timeline";
+import { projects, type Project } from "@/data/projects";
 
 export const metadata = {
-  title: "About / Background",
+  title: "About Airex Wert",
   description:
-    "About WertWorks and Airex Wert: Army aviation maintenance background, direct support experience, automation projects, websites, bots, job tools, and future aerial planning.",
+    "About Airex Wert and WertWorks: a practical builder from Northeastern Pennsylvania documenting websites, Discord bots, automation tools, aviation experiments, field notes, and future service ideas.",
   openGraph: {
-    title: "About / Background | WertWorks",
+    title: "About Airex Wert | WertWorks",
     description:
-      "The background behind WertWorks: checklist discipline, service experience, practical technology, and useful project work."
+      "The background behind WertWorks: Army aviation maintenance, practical technology, useful projects, field notes, and career growth."
   }
 };
 
-const backgroundHighlights = [
+const buildTracks = [
   {
-    title: "Automation and bots",
+    title: "Websites",
     description:
-      "Small tools, Discord bots, workflow helpers, and dashboards that reduce repeated manual work.",
-    icon: Bot
-  },
-  {
-    title: "Websites and forms",
-    description:
-      "Clean portfolio, local business, intake, and project pages with direct messaging and deploy-ready structure.",
+      "Personal, project, service, and small-business pages with clear structure and useful contact paths.",
     icon: Globe2
   },
   {
-    title: "Job tools",
+    title: "Discord bots",
     description:
-      "Trackers, resume tooling, application organizers, and career systems built around real search friction.",
-    icon: Briefcase
+      "Server utilities, music controls, rituals, reminders, and practical command flows.",
+    icon: Bot
   },
   {
-    title: "Future aerial planning",
+    title: "Automation tools",
     description:
-      "Drone/aerial planning is treated as a future capability with responsible launch requirements and clear boundaries.",
-    icon: Radar
+      "Small helpers for repeated work, tracking, reminders, forms, and private dashboards.",
+    icon: Wrench
+  },
+  {
+    title: "Dashboards and internal tools",
+    description:
+      "Private systems for career tracking, project organization, and messy information that needs a home.",
+    icon: ClipboardCheck
+  },
+  {
+    title: "Aviation experiments",
+    description:
+      "Checklist-inspired workflows, maintenance thinking, flight ideas, and aviation-adjacent notes.",
+    icon: Plane
+  },
+  {
+    title: "Service ideas",
+    description:
+      "Future-facing plans like Keystone Aerial Services, treated as roadmaps until they are ready.",
+    icon: Lightbulb
   }
 ];
 
+const thinkingNotes = [
+  {
+    title: "Start with the messy version",
+    description:
+      "Most good ideas start scattered. I like finding the useful parts, naming the problem, and turning the rough version into something workable."
+  },
+  {
+    title: "Make it usable",
+    description:
+      "A project should become something people can click, use, understand, or improve. Polish matters, but the thing still has to solve a real problem."
+  },
+  {
+    title: "Keep improving the system",
+    description:
+      "I care about the second and third pass: better copy, clearer flows, fewer loose ends, and a site or tool that feels more honest over time."
+  }
+];
+
+const currentFocus = [
+  "Career rebuild and finding better work",
+  "Discord bots and server tools",
+  "Personal automation and private dashboards",
+  "Improving WertWorks as a personal brand and project archive"
+];
+
+const proudProjectHighlights = [
+  {
+    slug: "kith-bot",
+    note: "A custom Discord server bot with utility commands, archive reactions, tarot tools, and personality."
+  },
+  {
+    slug: "clocktower",
+    note: "A small Discord voice bot that rings a clocktower bell hourly and keeps timers simple."
+  },
+  {
+    slug: "kith-wave-bot",
+    note: "A Discord music bot with queues, radio presets, Spotify imports, and playback controls."
+  },
+  {
+    slug: "keystone-aerial-services-aerial-planning",
+    note: "A responsible roadmap for a future aerial services idea before presenting it as fully launched."
+  }
+];
+
+const interests = [
+  { label: "Aviation", icon: Plane },
+  { label: "Drones", icon: Radar },
+  { label: "Automation", icon: Wrench },
+  { label: "Music", icon: Music },
+  { label: "Gaming", icon: Gamepad2 },
+  { label: "Storytelling", icon: NotebookText },
+  { label: "Places and atmosphere", icon: MapPin }
+];
+
+type ProudProject = (typeof proudProjectHighlights)[number] & { project: Project };
+
+const spotifyPlaylistInput =
+  process.env.NEXT_PUBLIC_SPOTIFY_PLAYLIST_EMBED_URL ??
+  process.env.NEXT_PUBLIC_SPOTIFY_PLAYLIST_ID ??
+  "";
+
+const spotifyEmbedUrl = getSpotifyEmbedUrl(spotifyPlaylistInput);
+
 export default function AboutPage() {
+  const proudProjects = proudProjectHighlights
+    .map((highlight) => {
+      const project = projects.find((project) => project.slug === highlight.slug);
+
+      return project ? { ...highlight, project } : null;
+    })
+    .filter((item): item is ProudProject => Boolean(item));
+
   return (
     <>
-      <PageIntro
-        eyebrow="About / Background"
-        title={`${profile.brandName} is a practical portfolio for automation, useful tech, websites, bots, job tools, and future aerial planning.`}
-        description={`${profile.name} is based in Northeastern Pennsylvania near the Wilkes-Barre area. His Army aviation maintenance background supports the story through checklist discipline, systems thinking, and accountability, while the site itself focuses on practical technology work.`}
-      />
-
-      <section className="section-shell pt-6">
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <Card className="bg-card/75">
-            <CardContent className="p-6">
-              <ShieldCheck className="h-8 w-8 text-primary" aria-hidden="true" />
-              <h2 className="mt-5 text-2xl font-semibold">Background and operating style</h2>
-              <div className="mt-4 space-y-4 text-sm leading-7 text-muted-foreground">
-                <p>
-                  WertWorks is centered on building practical things: automation
-                  tools, bots, websites, job-search systems, and future aerial
-                  planning workflows. Airex&apos;s Army aviation maintenance
-                  background sits underneath that work as a mindset, not a
-                  separate headline: procedures matter, accountability matters,
-                  and small misses can become larger problems if ignored.
-                </p>
-                <p>
-                  His current mental health and direct support experience adds a
-                  human layer to that technical mindset. It requires patience,
-                  steady communication, and reliability in environments where
-                  people need consistency more than flash.
-                </p>
-                <p>
-                  The direction is clear: keep building useful software,
-                  websites, automation, bots, and career tools while planning
-                  future drone/aerial work carefully enough that the boundaries,
-                  requirements, and responsibilities are visible.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div>
-            <SectionHeader
-              eyebrow="Timeline"
-              title="How the background turns into the current build direction."
-            />
-            <div className="mt-8">
-              <Timeline items={timeline} />
-            </div>
-          </div>
+      <section className="container pb-10 pt-14 sm:pb-12 sm:pt-20">
+        <Badge variant="secondary">About WertWorks</Badge>
+        <h1 className="mt-5 max-w-5xl text-balance text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl">
+          I&apos;m Airex Wert, a practical builder based in Northeastern
+          Pennsylvania.
+        </h1>
+        <div className="mt-6 grid max-w-3xl gap-4 text-lg leading-8 text-muted-foreground">
+          <p>
+            Through WertWorks, I build and document useful digital projects -
+            websites, Discord bots, automation tools, aviation experiments, and
+            field notes from whatever I&apos;m learning next.
+          </p>
+          <p>
+            My background is a mix of military aviation, operations,
+            customer-facing work, and self-taught tech. I like turning messy
+            ideas into something people can actually click, use, or understand.
+          </p>
         </div>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <Button asChild size="lg">
+            <Link href="/projects">
+              View Projects
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link href="/contact">Contact Me</Link>
+          </Button>
+        </div>
+      </section>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {backgroundHighlights.map((item) => {
-            const Icon = item.icon;
+      <section className="section-shell pt-4">
+        <SectionHeader
+          eyebrow="What I build"
+          title="Useful digital projects with enough room to experiment."
+          description="WertWorks is the place where websites, bots, automation ideas, aviation experiments, service roadmaps, and notes can live together without pretending every idea is already a finished company."
+        />
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {buildTracks.map((track) => {
+            const Icon = track.icon;
 
             return (
-              <Card key={item.title} className="bg-card/75">
+              <Card key={track.title} className="bg-card/75">
                 <CardContent className="p-5">
                   <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
-                  <h3 className="mt-4 text-base font-semibold">{item.title}</h3>
+                  <h2 className="mt-4 text-base font-semibold">{track.title}</h2>
                   <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    {item.description}
+                    {track.description}
                   </p>
                 </CardContent>
               </Card>
@@ -114,27 +201,227 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-t border-white/10 bg-white/[0.035]">
+      <section className="border-y border-white/10 bg-white/[0.03]">
+        <div className="section-shell">
+          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+            <SectionHeader
+              eyebrow="How I think"
+              title="Practical first, personal enough to feel real."
+              description="I like projects where there is room to experiment, improve the rough idea, and make the final version feel like it belongs to the person or problem behind it."
+            />
+            <div className="grid gap-5">
+              {thinkingNotes.map((note) => (
+                <Card key={note.title} className="bg-card/75">
+                  <CardContent className="p-5">
+                    <h2 className="text-lg font-semibold">{note.title}</h2>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                      {note.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell">
+        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+          <Card className="bg-card/75">
+            <CardContent className="p-6">
+              <Briefcase className="h-8 w-8 text-primary" aria-hidden="true" />
+              <h2 className="mt-5 text-2xl font-semibold">Background</h2>
+              <div className="mt-4 grid gap-4 text-sm leading-7 text-muted-foreground">
+                <p>
+                  I have an Army helicopter mechanic and military aviation
+                  background, plus experience in operations and customer-facing
+                  work. That background shows up in how I approach projects:
+                  checklists, accountability, clear handoffs, and respect for
+                  small details.
+                </p>
+                <p>
+                  The tech side is self-taught and practical. I build websites,
+                  Discord bots, automation ideas, project records, and planning
+                  pages because they help turn scattered thoughts into something
+                  visible and useful.
+                </p>
+                <p>
+                  Drone and aerial services are part of the future-facing plan,
+                  especially through Keystone Aerial Services planning, but I
+                  treat that as a roadmap until equipment, licensing, insurance,
+                  safety, and scope are ready.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div>
+            <SectionHeader
+              eyebrow="Current focus"
+              title="Rebuilding, documenting, and making the work easier to understand."
+              description="This site is part portfolio, part working archive, and part effort to present real skills more clearly."
+            />
+            <div className="mt-8 grid gap-3">
+              {currentFocus.map((item) => (
+                <div
+                  key={item}
+                  className="flex gap-3 rounded-md border border-white/10 bg-white/[0.035] p-4 text-sm leading-6 text-muted-foreground"
+                >
+                  <ClipboardCheck
+                    className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+                    aria-hidden="true"
+                  />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-white/[0.025]">
         <div className="section-shell">
           <SectionHeader
-            eyebrow="Values"
-            title="The operating habits behind the work."
-            description="These values are intentionally plain. They are the difference between a nice-looking portfolio and a person you can trust with a real task."
+            eyebrow="Projects I am proud of"
+            title="A few project tracks that show the current WertWorks direction."
+            description="These are not fake client trophies. They are useful projects, experiments, and roadmaps that show how I think and what I keep improving."
           />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-            {values.map((value) => (
-              <Card key={value.title} className="bg-card/75">
-                <CardContent className="p-5">
-                  <h3 className="text-base font-semibold">{value.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    {value.description}
+          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {proudProjects.map(({ project, note }) => (
+              <Card key={project.id} className="flex h-full flex-col bg-card/75">
+                <CardContent className="flex h-full flex-col p-5">
+                  <Badge variant={project.stage === "Future planning" ? "amber" : "default"}>
+                    {project.stage}
+                  </Badge>
+                  <h2 className="mt-4 text-lg font-semibold">{project.title}</h2>
+                  <p className="mt-3 flex-1 text-sm leading-6 text-muted-foreground">
+                    {note}
                   </p>
+                  <Button asChild variant="outline" className="mt-6 w-fit">
+                    <Link href={`/projects/${project.slug}`}>
+                      Open project
+                      <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    </Link>
+                  </Button>
                 </CardContent>
               </Card>
             ))}
           </div>
         </div>
       </section>
+
+      <section className="section-shell">
+        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+          <SectionHeader
+            eyebrow="Beyond the work"
+            title="The interests around the projects matter too."
+            description="Aviation, drones, automation, music, gaming, storytelling, and the atmosphere of overlooked places all feed the way I notice details. They are interests, not a costume for the whole site."
+          />
+          <div className="grid gap-3 sm:grid-cols-2">
+            {interests.map((interest) => {
+              const Icon = interest.icon;
+
+              return (
+                <div
+                  key={interest.label}
+                  className="flex items-center gap-3 rounded-md border border-white/10 bg-white/[0.035] p-4"
+                >
+                  <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
+                  <span className="text-sm font-semibold">{interest.label}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-white/10 bg-white/[0.03]">
+        <div className="section-shell">
+          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+            <SectionHeader
+              eyebrow="Current rotation"
+              title="A place for the soundtrack behind the work."
+              description="This section is ready for a public Spotify playlist later. It will stay empty until there is a playlist meant to be shared publicly."
+            />
+            <Card className="bg-card/75">
+              <CardContent className="p-4 sm:p-5">
+                {spotifyEmbedUrl ? (
+                  <iframe
+                    title="Current rotation Spotify playlist"
+                    src={spotifyEmbedUrl}
+                    width="100%"
+                    height="352"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    className="rounded-md border-0"
+                  />
+                ) : (
+                  <div className="grid min-h-56 place-items-center rounded-md border border-dashed border-white/15 bg-black/[0.16] p-6 text-center">
+                    <div>
+                      <Music className="mx-auto h-8 w-8 text-primary" aria-hidden="true" />
+                      <h2 className="mt-4 text-xl font-semibold">Soundtrack placeholder</h2>
+                      <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted-foreground">
+                        A public playlist can live here when it is ready. Private
+                        liked songs stay private.
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell">
+        <Card className="bg-card/75">
+          <CardContent className="grid gap-6 p-6 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <Badge variant="secondary">Next step</Badge>
+              <h2 className="mt-4 text-3xl font-semibold">
+                Have a role, project, or practical idea worth talking through?
+              </h2>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">
+                Send clear context and the best next step. I am open to better
+                work, useful website projects, bot ideas, automation problems,
+                and focused planning conversations.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+              <Button asChild>
+                <Link href="/contact">Contact Me</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/projects">View Projects</Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
     </>
   );
+}
+
+function getSpotifyEmbedUrl(value: string) {
+  const trimmed = value.trim();
+
+  if (!trimmed) {
+    return "";
+  }
+
+  if (trimmed.includes("/embed/playlist/")) {
+    return trimmed;
+  }
+
+  const playlistMatch = trimmed.match(/playlist\/([a-zA-Z0-9]+)/);
+
+  if (playlistMatch?.[1]) {
+    return `https://open.spotify.com/embed/playlist/${playlistMatch[1]}`;
+  }
+
+  if (/^[a-zA-Z0-9]+$/.test(trimmed)) {
+    return `https://open.spotify.com/embed/playlist/${trimmed}`;
+  }
+
+  return "";
 }
