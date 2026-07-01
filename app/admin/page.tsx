@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Briefcase, FileText, FolderKanban } from "lucide-react";
+import { Briefcase, FileText, FolderKanban, NotebookText } from "lucide-react";
 
 import { LogoutButton } from "@/components/admin/logout-button";
 import { PageIntro } from "@/components/page-intro";
@@ -19,6 +19,13 @@ const adminCards = [
     description: "Private tracker for saved roles, applications, interviews, and follow-ups.",
     href: "/admin/jobs",
     icon: Briefcase,
+    active: true,
+  },
+  {
+    title: "Field Notes",
+    description: "Write, draft, publish, archive, and delete Field Notes entries.",
+    href: "/admin/field-notes",
+    icon: NotebookText,
     active: true,
   },
   {
@@ -56,7 +63,7 @@ export default async function AdminPage() {
       </section>
 
       <section className="section-shell pt-4">
-        <div className="grid gap-5 md:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {adminCards.map((card) => {
             const Icon = card.icon;
 

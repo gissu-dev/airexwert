@@ -90,3 +90,48 @@ create trigger set_jobs_updated_at
 before update on public.jobs
 for each row
 execute function public.set_updated_at();
+
+create table if not exists public.field_notes (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  slug text not null unique,
+  category text not null check (
+    category in (
+      'Build Logs',
+      'Website Notes',
+      'Bot Notes',
+      'Aviation',
+      'AI Experiments',
+      'Systems',
+      'Personal Notes',
+      'Learning Notes',
+      'Project Updates',
+      'Ideas',
+      'Places',
+      'Urbex',
+      'Career Notes',
+      'Gear / Tools'
+    )
+  ),
+  status text not null default 'draft' check (status in ('draft', 'published', 'archived')),
+  featured boolean not null default false,
+  excerpt text not null default '',
+  content text not null default '',
+  tags text[] not null default '{}',
+  read_time text not null default '4 min',
+  published_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists field_notes_status_idx on public.field_notes (status);
+create index if not exists field_notes_featured_idx on public.field_notes (featured);
+create index if not exists field_notes_slug_idx on public.field_notes (slug);
+create index if not exists field_notes_published_at_idx on public.field_notes (published_at);
+
+drop trigger if exists set_field_notes_updated_at on public.field_notes;
+
+create trigger set_field_notes_updated_at
+before update on public.field_notes
+for each row
+execute function public.set_updated_at();
