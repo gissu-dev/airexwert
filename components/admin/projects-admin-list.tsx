@@ -9,16 +9,13 @@ import {
   deleteProject,
   getPublishedProjects,
   readProjects,
-  setAdminKey,
 } from "@/lib/projects";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 
 export function ProjectsAdminList() {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [adminKeyInput, setAdminKeyInput] = useState("");
   const [loading, setLoading] = useState(true);
   const [workingId, setWorkingId] = useState("");
   const [error, setError] = useState("");
@@ -34,7 +31,7 @@ export function ProjectsAdminList() {
       setError(
         projectError instanceof Error
           ? projectError.message
-          : "Enter your admin key, then click Unlock admin.",
+          : "Could not load admin projects.",
       );
     } finally {
       setLoading(false);
@@ -56,33 +53,6 @@ export function ProjectsAdminList() {
 
   return (
     <div className="grid gap-6">
-      <div className="grid gap-3 rounded-lg border border-white/10 bg-white/[0.035] p-4">
-        <p className="text-sm text-muted-foreground">
-          Enter the ADMIN_WRITE_KEY from your .env.local file to load and save real Supabase records.
-        </p>
-
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <Input
-            type="password"
-            value={adminKeyInput}
-            placeholder="Admin key"
-            onChange={(event) => setAdminKeyInput(event.target.value)}
-          />
-
-          <Button
-            type="button"
-            onClick={() => {
-              setAdminKey(adminKeyInput);
-              refreshProjects();
-            }}
-          >
-            Unlock admin
-          </Button>
-        </div>
-
-        {error ? <p className="text-sm text-amber-300">{error}</p> : null}
-      </div>
-
       <div className="flex items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-semibold">Projects</h2>
@@ -109,6 +79,8 @@ export function ProjectsAdminList() {
       {loading ? (
         <p className="text-sm text-muted-foreground">Loading projects...</p>
       ) : null}
+
+      {error ? <p className="text-sm text-amber-300">{error}</p> : null}
 
       <div className="grid gap-4">
         {projects.map((project) => (
@@ -192,7 +164,7 @@ export function ProjectsAdminList() {
 
         {!projects.length && !loading ? (
           <p className="text-sm text-muted-foreground">
-            No projects loaded yet. Unlock admin or add your first Supabase project record.
+            No projects loaded yet. Add your first Supabase project record.
           </p>
         ) : null}
       </div>

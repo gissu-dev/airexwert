@@ -1,5 +1,6 @@
 import { PageIntro } from "@/components/page-intro";
 import { JobForm } from "@/components/admin/job-form";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export const metadata = {
   title: "New Job | WertWorks Admin",
@@ -9,7 +10,9 @@ export const metadata = {
   }
 };
 
-export default function NewJobPage() {
+export default async function NewJobPage() {
+  await requireAdmin();
+
   return (
     <>
       <PageIntro

@@ -1,26 +1,28 @@
 ﻿import { NextRequest, NextResponse } from "next/server";
 import type { Project } from "@/data/projects";
+import { getCurrentAdmin } from "@/lib/admin-auth";
 import { createSupabaseAdminClient } from "@/lib/supabase-admin";
 import { projectPatchToRow, rowToProject, type ProjectRow } from "@/lib/project-row";
 
 export const dynamic = "force-dynamic";
 
-function getAdminError(request: NextRequest) {
-  const expectedKey = process.env.ADMIN_WRITE_KEY?.trim();
-  const providedKey = request.headers.get("x-admin-key")?.trim();
+type ProjectRouteContext = {
+  params: Promise<{ id: string }>;
+};
 
-  if (!expectedKey) {
-    return NextResponse.json(
-      { error: "Missing ADMIN_WRITE_KEY environment variable." },
-      { status: 500 },
-    );
+async function getAdminError() {
+  try {
+    const admin = await getCurrentAdmin();
+
+    return admin
+      ? null
+      : NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Could not verify admin session.";
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  if (!providedKey || providedKey !== expectedKey) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  return null;
 }
 
 function serverErrorResponse(error: unknown) {
@@ -31,22 +33,23 @@ function serverErrorResponse(error: unknown) {
 }
 
 export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } },
+  _request: NextRequest,
+  { params }: ProjectRouteContext,
 ) {
-  const adminError = getAdminError(request);
+  const adminError = await getAdminError();
 
   if (adminError) {
     return adminError;
   }
 
   try {
+    const { id } = await params;
     const supabase = createSupabaseAdminClient();
 
     const { data, error } = await supabase
       .from("projects")
       .select("*")
-      .eq("id", params.id)
+      .eq("id", id)
       .single();
 
     if (error) {
@@ -61,15 +64,16 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: ProjectRouteContext,
 ) {
-  const adminError = getAdminError(request);
+  const adminError = await getAdminError();
 
   if (adminError) {
     return adminError;
   }
 
   try {
+    const { id } = await params;
     const body = (await request.json()) as Partial<Project>;
     const row = projectPatchToRow(body);
     const supabase = createSupabaseAdminClient();
@@ -77,7 +81,7 @@ export async function PATCH(
     const { data, error } = await supabase
       .from("projects")
       .update(row)
-      .eq("id", params.id)
+      .eq("id", id)
       .select("*")
       .single();
 
@@ -92,22 +96,23 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } },
+  _request: NextRequest,
+  { params }: ProjectRouteContext,
 ) {
-  const adminError = getAdminError(request);
+  const adminError = await getAdminError();
 
   if (adminError) {
     return adminError;
   }
 
   try {
+    const { id } = await params;
     const supabase = createSupabaseAdminClient();
 
     const { error } = await supabase
       .from("projects")
       .delete()
-      .eq("id", params.id);
+      .eq("id", id);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });

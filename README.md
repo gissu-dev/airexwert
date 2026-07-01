@@ -71,17 +71,19 @@ On my Windows setup, this script is also available:
 
 ## Environment Variables
 
-The public pages can mostly run from the local seed data, but the project admin tools need Supabase.
+The public pages can mostly run from the local seed data, but the admin tools need Supabase Auth plus the database tables in `supabase/schema.sql`.
 
 For the full setup, use:
 
 ```text
-ADMIN_WRITE_KEY
 NEXT_PUBLIC_SUPABASE_URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY
 ```
 
 These go in `.env.local` for local development and in Vercel project settings for deployment.
+
+Admin access is controlled by Supabase email/password login. Add the allowed user's `auth.users.id` to `public.admin_users.user_id`; the admin pages and admin API routes check that table before allowing private reads or writes.
 
 Do not commit real keys, tokens, webhooks, bot secrets, or private credentials.
 

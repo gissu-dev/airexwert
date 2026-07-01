@@ -1,5 +1,6 @@
 import { PageIntro } from "@/components/page-intro";
 import { ProjectForm } from "@/components/admin/project-form";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export const metadata = {
   title: "New Project | WertWorks Admin",
@@ -9,7 +10,9 @@ export const metadata = {
   }
 };
 
-export default function NewProjectPage() {
+export default async function NewProjectPage() {
+  await requireAdmin();
+
   return (
     <>
       <PageIntro

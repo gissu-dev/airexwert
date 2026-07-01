@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { getProjectCaseStudyHref } from "@/lib/projects";
+import { isInternalHref, sanitizeHref } from "@/lib/url-safety";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,16 +21,19 @@ import {
 
 export function ProjectCard({ project }: { project: Project }) {
   const caseStudyHref = getProjectCaseStudyHref(project);
-  const hasExternalCaseStudy = Boolean(project.caseStudyUrl);
+  const hasExternalCaseStudy = Boolean(caseStudyHref && !isInternalHref(caseStudyHref));
   const hasCaseStudy = Boolean(caseStudyHref);
   const featurePreview = project.features.slice(0, 3);
+  const imageUrl = sanitizeHref(project.imageUrl);
+  const githubUrl = sanitizeHref(project.githubUrl);
+  const liveUrl = sanitizeHref(project.liveUrl);
 
   return (
     <Card className="group flex h-full flex-col overflow-hidden bg-card/75 shadow-black/25 hover:border-primary/25">
       <div className="border-b border-white/10 bg-black/[0.16]">
-        {project.imageUrl ? (
+        {imageUrl ? (
           <img
-            src={project.imageUrl}
+            src={imageUrl}
             alt={`${project.title} preview`}
             className="aspect-video w-full object-cover"
           />
@@ -146,21 +150,21 @@ export function ProjectCard({ project }: { project: Project }) {
             Case study coming soon.
           </Button>
         )}
-        {project.githubUrl ? (
+        {githubUrl ? (
           <Button asChild variant="outline" className="w-full sm:w-fit">
-            <a href={project.githubUrl} target="_blank" rel="noreferrer" aria-label="Open GitHub">
+            <a href={githubUrl} target="_blank" rel="noreferrer" aria-label="Open GitHub">
               <Github className="h-4 w-4" aria-hidden="true" />
             </a>
           </Button>
         ) : null}
-        {project.liveUrl ? (
+        {liveUrl ? (
           <Button asChild variant="outline" className="w-full sm:w-fit">
-            {isInternalHref(project.liveUrl) ? (
-              <Link href={project.liveUrl} aria-label="Open live demo">
+            {isInternalHref(liveUrl) ? (
+              <Link href={liveUrl} aria-label="Open live demo">
                 <ExternalLink className="h-4 w-4" aria-hidden="true" />
               </Link>
             ) : (
-              <a href={project.liveUrl} target="_blank" rel="noreferrer" aria-label="Open live demo">
+              <a href={liveUrl} target="_blank" rel="noreferrer" aria-label="Open live demo">
                 <ExternalLink className="h-4 w-4" aria-hidden="true" />
               </a>
             )}
@@ -169,10 +173,6 @@ export function ProjectCard({ project }: { project: Project }) {
       </CardFooter>
     </Card>
   );
-}
-
-function isInternalHref(href: string) {
-  return href.startsWith("/");
 }
 
 function ProjectDetail({ label, value }: { label: string; value: string }) {

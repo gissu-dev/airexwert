@@ -62,7 +62,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
         setFeaturesText(formatListInput(existing.features));
         setTechText(formatListInput(existing.techUsed));
       } catch {
-        setError("Could not load this project. Make sure admin is unlocked.");
+        setError("Could not load this project. Make sure your admin session is active.");
       } finally {
         setLoaded(true);
       }
@@ -91,7 +91,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
         <CardContent className="grid gap-4 p-6">
           <h2 className="text-2xl font-semibold">Project not found</h2>
           <p className="text-sm text-muted-foreground">
-            This project does not exist in Supabase, or admin is not unlocked.
+            This project does not exist in Supabase, or your admin session expired.
           </p>
           <Button asChild variant="outline">
             <Link href="/admin/projects">Back to projects</Link>
@@ -123,7 +123,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
           router.push(`/admin/projects/${saved.id}/edit`);
           router.refresh();
         } catch {
-          setError("Could not save project. Go back to /admin/projects and unlock admin first.");
+          setError("Could not save project. Make sure your admin session is active.");
         } finally {
           setSaving(false);
         }

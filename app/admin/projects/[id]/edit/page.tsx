@@ -1,5 +1,6 @@
 import { PageIntro } from "@/components/page-intro";
 import { ProjectForm } from "@/components/admin/project-form";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export const metadata = {
   title: "Edit Project | WertWorks Admin",
@@ -9,7 +10,14 @@ export const metadata = {
   }
 };
 
-export default function EditProjectPage({ params }: { params: { id: string } }) {
+type EditProjectPageProps = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function EditProjectPage({ params }: EditProjectPageProps) {
+  await requireAdmin();
+  const { id } = await params;
+
   return (
     <>
       <PageIntro
@@ -18,7 +26,7 @@ export default function EditProjectPage({ params }: { params: { id: string } }) 
         description="Update project details, case study content, links, status, and featured placement."
       />
       <section className="section-shell pt-4">
-        <ProjectForm projectId={params.id} />
+        <ProjectForm projectId={id} />
       </section>
     </>
   );

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { findPublishedProjectBySlug } from "@/lib/projects";
+import { isInternalHref, sanitizeHref } from "@/lib/url-safety";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -53,6 +54,11 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
     );
   }
 
+  const imageUrl = sanitizeHref(project.imageUrl);
+  const githubUrl = sanitizeHref(project.githubUrl);
+  const liveUrl = sanitizeHref(project.liveUrl);
+  const caseStudyUrl = sanitizeHref(project.caseStudyUrl);
+
   return (
     <article className="grid gap-8">
       <Button asChild variant="ghost" className="w-fit">
@@ -81,10 +87,10 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
         </p>
       </div>
 
-      {project.imageUrl ? (
+      {imageUrl ? (
         <div className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.035]">
           <img
-            src={project.imageUrl}
+            src={imageUrl}
             alt=""
             className="h-72 w-full object-cover"
           />
@@ -161,24 +167,24 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
               <h2 className="text-xl font-semibold">Links</h2>
 
               <div className="flex flex-col gap-2">
-                {project.githubUrl ? (
+                {githubUrl ? (
                   <Button asChild variant="outline">
-                    <a href={project.githubUrl} target="_blank" rel="noreferrer">
+                    <a href={githubUrl} target="_blank" rel="noreferrer">
                       <Github className="h-4 w-4" aria-hidden="true" />
                       GitHub
                     </a>
                   </Button>
                 ) : null}
 
-                {project.liveUrl ? (
+                {liveUrl ? (
                   <Button asChild variant="outline">
-                    {isInternalHref(project.liveUrl) ? (
-                      <Link href={project.liveUrl}>
+                    {isInternalHref(liveUrl) ? (
+                      <Link href={liveUrl}>
                         <ExternalLink className="h-4 w-4" aria-hidden="true" />
                         Live demo
                       </Link>
                     ) : (
-                      <a href={project.liveUrl} target="_blank" rel="noreferrer">
+                      <a href={liveUrl} target="_blank" rel="noreferrer">
                         <ExternalLink className="h-4 w-4" aria-hidden="true" />
                         Live demo
                       </a>
@@ -186,16 +192,16 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
                   </Button>
                 ) : null}
 
-                {project.caseStudyUrl ? (
+                {caseStudyUrl ? (
                   <Button asChild variant="outline">
-                    <a href={project.caseStudyUrl} target="_blank" rel="noreferrer">
+                    <a href={caseStudyUrl} target="_blank" rel="noreferrer">
                       <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                       External case study
                     </a>
                   </Button>
                 ) : null}
 
-                {!project.githubUrl && !project.liveUrl && !project.caseStudyUrl ? (
+                {!githubUrl && !liveUrl && !caseStudyUrl ? (
                   <p className="text-sm text-muted-foreground">
                     External links have not been added yet.
                   </p>
@@ -207,10 +213,6 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
       </div>
     </article>
   );
-}
-
-function isInternalHref(href: string) {
-  return href.startsWith("/");
 }
 
 function CaseSection({

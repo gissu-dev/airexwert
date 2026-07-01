@@ -12,12 +12,15 @@ export const metadata = {
   }
 };
 
+type EditFieldNotePageProps = {
+  params: Promise<{ id: string }>;
+};
+
 export default async function EditFieldNotePage({
   params
-}: {
-  params: { id: string };
-}) {
+}: EditFieldNotePageProps) {
   await requireAdmin();
+  const { id } = await params;
 
   return (
     <>
@@ -27,7 +30,7 @@ export default async function EditFieldNotePage({
         description="Update the category, status, excerpt, content, tags, and publish details for this field note."
       />
       <section className="section-shell pt-4">
-        <FieldNoteForm fieldNoteId={params.id} />
+        <FieldNoteForm fieldNoteId={id} />
       </section>
     </>
   );

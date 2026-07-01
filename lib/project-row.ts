@@ -1,5 +1,7 @@
 ﻿import type { Project } from "@/data/projects";
 
+import { sanitizeHref } from "@/lib/url-safety";
+
 export type ProjectRow = {
   id: string;
   title: string;
@@ -67,10 +69,10 @@ export function projectToRow(project: Project) {
     tech_used: project.techUsed,
     next_step: project.nextStep,
     case_study_status: project.caseStudyStatus,
-    github_url: project.githubUrl,
-    live_url: project.liveUrl,
-    case_study_url: project.caseStudyUrl,
-    image_url: project.imageUrl,
+    github_url: sanitizeHref(project.githubUrl),
+    live_url: sanitizeHref(project.liveUrl),
+    case_study_url: sanitizeHref(project.caseStudyUrl),
+    image_url: sanitizeHref(project.imageUrl),
   };
 }
 
@@ -91,10 +93,10 @@ export function projectPatchToRow(project: Partial<Project>) {
   if (project.techUsed !== undefined) row.tech_used = project.techUsed;
   if (project.nextStep !== undefined) row.next_step = project.nextStep;
   if (project.caseStudyStatus !== undefined) row.case_study_status = project.caseStudyStatus;
-  if (project.githubUrl !== undefined) row.github_url = project.githubUrl;
-  if (project.liveUrl !== undefined) row.live_url = project.liveUrl;
-  if (project.caseStudyUrl !== undefined) row.case_study_url = project.caseStudyUrl;
-  if (project.imageUrl !== undefined) row.image_url = project.imageUrl;
+  if (project.githubUrl !== undefined) row.github_url = sanitizeHref(project.githubUrl);
+  if (project.liveUrl !== undefined) row.live_url = sanitizeHref(project.liveUrl);
+  if (project.caseStudyUrl !== undefined) row.case_study_url = sanitizeHref(project.caseStudyUrl);
+  if (project.imageUrl !== undefined) row.image_url = sanitizeHref(project.imageUrl);
 
   return row;
 }

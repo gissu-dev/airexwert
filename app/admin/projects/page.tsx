@@ -1,5 +1,6 @@
 import { PageIntro } from "@/components/page-intro";
 import { ProjectsAdminList } from "@/components/admin/projects-admin-list";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export const metadata = {
   title: "Admin Projects | WertWorks",
@@ -9,7 +10,9 @@ export const metadata = {
   }
 };
 
-export default function AdminProjectsPage() {
+export default async function AdminProjectsPage() {
+  await requireAdmin();
+
   return (
     <>
       <PageIntro

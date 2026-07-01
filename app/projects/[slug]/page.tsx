@@ -5,10 +5,14 @@ export const metadata = {
   description: "WertWorks project case study."
 };
 
-export default function ProjectCaseStudyPage({
+type ProjectCaseStudyPageProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export default async function ProjectCaseStudyPage({
   params
-}: {
-  params: { slug: string };
-}) {
-  return <ProjectCaseStudy slug={params.slug} />;
+}: ProjectCaseStudyPageProps) {
+  const { slug } = await params;
+
+  return <ProjectCaseStudy slug={slug} />;
 }

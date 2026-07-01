@@ -1,33 +1,25 @@
 ﻿import { NextRequest, NextResponse } from "next/server";
 import type { Project } from "@/data/projects";
+import { getCurrentAdmin } from "@/lib/admin-auth";
+import { normalizeProject } from "@/lib/projects";
 import { createSupabaseAdminClient } from "@/lib/supabase-admin";
 import { projectToRow, rowToProject, type ProjectRow } from "@/lib/project-row";
 
 export const dynamic = "force-dynamic";
 
-function isAdminRequest(request: NextRequest) {
-  const expectedKey = process.env.ADMIN_WRITE_KEY?.trim();
-  const providedKey = request.headers.get("x-admin-key")?.trim();
+async function getAdminError() {
+  try {
+    const admin = await getCurrentAdmin();
 
-  return Boolean(expectedKey && providedKey && providedKey === expectedKey);
-}
+    return admin
+      ? null
+      : NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Could not verify admin session.";
 
-function getAdminError(request: NextRequest) {
-  const expectedKey = process.env.ADMIN_WRITE_KEY?.trim();
-  const providedKey = request.headers.get("x-admin-key")?.trim();
-
-  if (!expectedKey) {
-    return NextResponse.json(
-      { error: "Missing ADMIN_WRITE_KEY environment variable." },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  if (!providedKey || providedKey !== expectedKey) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  return null;
 }
 
 function serverErrorResponse(error: unknown) {
@@ -39,11 +31,13 @@ function serverErrorResponse(error: unknown) {
 
 export async function GET(request: NextRequest) {
   const wantsAdmin = request.nextUrl.searchParams.get("admin") === "true";
-  const adminError = getAdminError(request);
-  const admin = isAdminRequest(request);
 
-  if (wantsAdmin && adminError) {
-    return adminError;
+  if (wantsAdmin) {
+    const adminError = await getAdminError();
+
+    if (adminError) {
+      return adminError;
+    }
   }
 
   try {
@@ -54,7 +48,7 @@ export async function GET(request: NextRequest) {
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (!admin) {
+    if (!wantsAdmin) {
       query = query.eq("status", "published");
     }
 
@@ -73,14 +67,14 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const adminError = getAdminError(request);
+  const adminError = await getAdminError();
 
   if (adminError) {
     return adminError;
   }
 
   try {
-    const project = (await request.json()) as Project;
+    const project = normalizeProject((await request.json()) as Partial<Project>);
     const supabase = createSupabaseAdminClient();
 
     const { data, error } = await supabase

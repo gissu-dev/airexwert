@@ -9,6 +9,7 @@
   type ProjectStage,
   type ProjectStatus,
 } from "@/data/projects";
+import { sanitizeHref } from "@/lib/url-safety";
 
 type ProjectInput = Omit<Project, "id" | "createdAt" | "updatedAt"> & {
   id?: string;
@@ -16,51 +17,8 @@ type ProjectInput = Omit<Project, "id" | "createdAt" | "updatedAt"> & {
   updatedAt?: string;
 };
 
-function getAdminKey() {
-  if (typeof window === "undefined") {
-    return "";
-  }
-
-  window.localStorage.removeItem("wertworks.admin.key");
-
-  return window.sessionStorage.getItem("wertworks.admin.key")?.trim() || "";
-}
-
-function getAdminHeaders() {
-  return {
-    "Content-Type": "application/json",
-    "x-admin-key": getAdminKey(),
-  };
-}
-
-export function setAdminKey(value: string) {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  window.localStorage.removeItem("wertworks.admin.key");
-
-  const adminKey = value.trim();
-
-  if (!adminKey) {
-    window.sessionStorage.removeItem("wertworks.admin.key");
-    return;
-  }
-
-  window.sessionStorage.setItem("wertworks.admin.key", adminKey);
-}
-
-export function clearAdminKey() {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  window.localStorage.removeItem("wertworks.admin.key");
-  window.sessionStorage.removeItem("wertworks.admin.key");
-}
 export async function readProjects(): Promise<Project[]> {
   const response = await fetch("/api/projects?admin=true", {
-    headers: getAdminHeaders(),
     cache: "no-store",
   });
 
@@ -109,7 +67,9 @@ export async function saveProject(input: ProjectInput): Promise<Project> {
 
   const response = await fetch("/api/projects", {
     method: "POST",
-    headers: getAdminHeaders(),
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(project),
   });
 
@@ -128,7 +88,9 @@ export async function archiveProject(id: string) {
 export async function updateProjectStatus(id: string, status: ProjectStatus) {
   const response = await fetch(`/api/projects/${id}`, {
     method: "PATCH",
-    headers: getAdminHeaders(),
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({ status }),
   });
 
@@ -143,7 +105,6 @@ export async function updateProjectStatus(id: string, status: ProjectStatus) {
 export async function deleteProject(id: string) {
   const response = await fetch(`/api/projects/${id}`, {
     method: "DELETE",
-    headers: getAdminHeaders(),
   });
 
   if (!response.ok) {
@@ -153,7 +114,6 @@ export async function deleteProject(id: string) {
 
 export async function findProjectById(id: string) {
   const response = await fetch(`/api/projects/${id}`, {
-    headers: getAdminHeaders(),
     cache: "no-store",
   });
 
@@ -190,7 +150,7 @@ export function getProjectCaseStudyHref(project: Project) {
     return "";
   }
 
-  return project.caseStudyUrl || `/projects/${project.slug}`;
+  return sanitizeHref(project.caseStudyUrl) || `/projects/${project.slug}`;
 }
 
 export function createEmptyProject(): Project {
@@ -248,7 +208,7 @@ function createProjectId() {
   return `project-${Date.now()}`;
 }
 
-function normalizeProject(project: Partial<Project>): Project {
+export function normalizeProject(project: Partial<Project>): Project {
   const now = new Date().toISOString();
   const title = String(project.title ?? "");
 
@@ -286,10 +246,10 @@ function normalizeProject(project: Partial<Project>): Project {
     techUsed: Array.isArray(project.techUsed) ? project.techUsed.map(String) : [],
     nextStep: String(project.nextStep ?? ""),
     caseStudyStatus,
-    githubUrl: String(project.githubUrl ?? ""),
-    liveUrl: String(project.liveUrl ?? ""),
-    caseStudyUrl: String(project.caseStudyUrl ?? ""),
-    imageUrl: String(project.imageUrl ?? ""),
+    githubUrl: sanitizeHref(project.githubUrl),
+    liveUrl: sanitizeHref(project.liveUrl),
+    caseStudyUrl: sanitizeHref(project.caseStudyUrl),
+    imageUrl: sanitizeHref(project.imageUrl),
     createdAt: String(project.createdAt ?? now),
     updatedAt: String(project.updatedAt ?? now),
   };
@@ -315,7 +275,7 @@ function normalizeProjectCategory(category: unknown): ProjectCategory {
 
 async function createProjectsError(response: Response, fallback: string) {
   if (response.status === 401) {
-    return new Error("Admin key rejected. Check ADMIN_WRITE_KEY and unlock again.");
+    return new Error("Admin session expired. Log in again.");
   }
 
   try {

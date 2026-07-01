@@ -1,7 +1,7 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request,
   });
@@ -9,15 +9,15 @@ export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  if (request.nextUrl.pathname.startsWith("/admin/login")) {
-    return response;
-  }
+  if (!supabaseUrl || !supabaseAnonKey) {
+    if (request.nextUrl.pathname.startsWith("/admin/login")) {
+      return response;
+    }
 
-  return NextResponse.redirect(
-    new URL("/admin/login?setup=missing", request.url),
-  );
-}
+    return NextResponse.redirect(
+      new URL("/admin/login?setup=missing", request.url),
+    );
+  }
 
   const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {

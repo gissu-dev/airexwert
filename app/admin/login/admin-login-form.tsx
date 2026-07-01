@@ -14,7 +14,7 @@ function getSafeNext(value: string | null) {
     return "/admin";
   }
 
-  if (!value.startsWith("/admin")) {
+  if (value !== "/admin" && !value.startsWith("/admin/")) {
     return "/admin";
   }
 

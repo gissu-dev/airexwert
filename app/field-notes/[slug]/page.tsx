@@ -10,12 +10,15 @@ import { createSupabaseAdminClient } from "@/lib/supabase-admin";
 
 export const dynamic = "force-dynamic";
 
+type FieldNotePageProps = {
+  params: Promise<{ slug: string }>;
+};
+
 export async function generateMetadata({
   params
-}: {
-  params: { slug: string };
-}) {
-  const note = await findPublicFieldNoteBySlug(params.slug);
+}: FieldNotePageProps) {
+  const { slug } = await params;
+  const note = await findPublicFieldNoteBySlug(slug);
 
   if (!note) {
     return {
@@ -31,10 +34,9 @@ export async function generateMetadata({
 
 export default async function FieldNotePage({
   params
-}: {
-  params: { slug: string };
-}) {
-  const note = await findPublicFieldNoteBySlug(params.slug);
+}: FieldNotePageProps) {
+  const { slug } = await params;
+  const note = await findPublicFieldNoteBySlug(slug);
 
   if (!note) {
     notFound();

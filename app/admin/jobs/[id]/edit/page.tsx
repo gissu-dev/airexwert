@@ -1,5 +1,6 @@
 import { PageIntro } from "@/components/page-intro";
 import { JobForm } from "@/components/admin/job-form";
+import { requireAdmin } from "@/lib/admin-auth";
 
 export const metadata = {
   title: "Edit Job | WertWorks Admin",
@@ -9,7 +10,14 @@ export const metadata = {
   }
 };
 
-export default function EditJobPage({ params }: { params: { id: string } }) {
+type EditJobPageProps = {
+  params: Promise<{ id: string }>;
+};
+
+export default async function EditJobPage({ params }: EditJobPageProps) {
+  await requireAdmin();
+  const { id } = await params;
+
   return (
     <>
       <PageIntro
@@ -18,7 +26,7 @@ export default function EditJobPage({ params }: { params: { id: string } }) {
         description="Update status, priority, dates, next action, contacts, resume used, notes, and job link."
       />
       <section className="section-shell pt-4">
-        <JobForm jobId={params.id} />
+        <JobForm jobId={id} />
       </section>
     </>
   );

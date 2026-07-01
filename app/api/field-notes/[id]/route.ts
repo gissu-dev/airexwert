@@ -10,6 +10,10 @@ import { createSupabaseAdminClient } from "@/lib/supabase-admin";
 
 export const dynamic = "force-dynamic";
 
+type FieldNoteRouteContext = {
+  params: Promise<{ id: string }>;
+};
+
 async function getAdminError() {
   try {
     const admin = await getCurrentAdmin();
@@ -36,7 +40,7 @@ function serverErrorResponse(error: unknown) {
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: FieldNoteRouteContext
 ) {
   const adminError = await getAdminError();
 
@@ -45,12 +49,13 @@ export async function GET(
   }
 
   try {
+    const { id } = await params;
     const supabase = createSupabaseAdminClient();
 
     const { data, error } = await supabase
       .from("field_notes")
       .select("*")
-      .eq("id", params.id)
+      .eq("id", id)
       .single();
 
     if (error) {
@@ -67,7 +72,7 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: FieldNoteRouteContext
 ) {
   const adminError = await getAdminError();
 
@@ -76,6 +81,7 @@ export async function PATCH(
   }
 
   try {
+    const { id } = await params;
     const body = (await request.json()) as Partial<FieldNote>;
     const row = fieldNotePatchToRow(body);
     const supabase = createSupabaseAdminClient();
@@ -83,7 +89,7 @@ export async function PATCH(
     const { data, error } = await supabase
       .from("field_notes")
       .update(row)
-      .eq("id", params.id)
+      .eq("id", id)
       .select("*")
       .single();
 
@@ -101,7 +107,7 @@ export async function PATCH(
 
 export async function DELETE(
   _request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: FieldNoteRouteContext
 ) {
   const adminError = await getAdminError();
 
@@ -110,12 +116,13 @@ export async function DELETE(
   }
 
   try {
+    const { id } = await params;
     const supabase = createSupabaseAdminClient();
 
     const { error } = await supabase
       .from("field_notes")
       .delete()
-      .eq("id", params.id);
+      .eq("id", id);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 500 });

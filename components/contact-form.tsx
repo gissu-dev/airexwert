@@ -52,6 +52,7 @@ export function ContactForm() {
       email: String(data.get("email") ?? "").trim(),
       reason: String(data.get("reason") ?? "").trim(),
       message: String(data.get("message") ?? "").trim(),
+      website: String(data.get("website") ?? "").trim(),
     };
 
     setStatus("loading");
@@ -144,6 +145,15 @@ export function ContactForm() {
           required
         />
       </div>
+
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        className="hidden"
+        aria-hidden="true"
+      />
 
       <Button
         type="submit"
