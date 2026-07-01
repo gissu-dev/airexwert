@@ -46,8 +46,8 @@ const rows = [
   },
   {
     label: "Resume",
-    value: profile.resumePdfPath,
-    href: profile.resumePdfPath,
+    value: profile.resumeDownloadPath,
+    href: profile.resumeDownloadPath,
     icon: FileText
   }
 ];

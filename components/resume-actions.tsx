@@ -16,14 +16,22 @@ export function ResumeActions({ summary }: { summary: string }) {
   }
 
   return (
-    <div id="download" className="flex flex-col gap-3 sm:flex-row">
-      <Button asChild variant="outline">
-        <Link href={profile.resumePdfPath} download>
+    <div id="download" className="grid gap-3 sm:grid-cols-3">
+      <Button
+        asChild
+        variant="outline"
+        className="h-auto min-h-12 px-4 py-3 text-center text-base leading-5"
+      >
+        <Link href={profile.resumeDownloadPath} download>
           <FileDown className="h-4 w-4" aria-hidden="true" />
-          Download resume PDF
+          Download resume
         </Link>
       </Button>
-      <Button type="button" onClick={copySummary}>
+      <Button
+        type="button"
+        onClick={copySummary}
+        className="h-auto min-h-12 px-4 py-3 text-center text-base leading-5"
+      >
         {copied ? (
           <Check className="h-4 w-4" aria-hidden="true" />
         ) : (
@@ -31,7 +39,11 @@ export function ResumeActions({ summary }: { summary: string }) {
         )}
         {copied ? "Copied" : "Copy resume summary"}
       </Button>
-      <Button asChild variant="amber">
+      <Button
+        asChild
+        variant="amber"
+        className="h-auto min-h-12 px-4 py-3 text-center text-base leading-5"
+      >
         <Link href="/contact">
           <Mail className="h-4 w-4" aria-hidden="true" />
           Contact me
