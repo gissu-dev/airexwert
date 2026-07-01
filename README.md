@@ -1,32 +1,47 @@
-# WertWorks Personal Website
+# WertWorks
 
-WertWorks is the personal website and project hub for Airex Wert. The site is built around automation, practical technology, websites, bots, job tools, and future drone/aerial planning.
+This is my personal website and project hub.
 
-## Project Overview
+I built it to have one place for my resume, contact info, bot projects, automation ideas, job-search tools, and future aerial planning work. It is not meant to look like a big agency site. It is more like a polished workshop for the things I am learning, building, and organizing.
 
-- Dark, technical WertWorks brand system
-- Technical radar / command-interface hero
-- About / Background page with professional story, values, and timeline
-- Filterable project showcase
-- Aerial services planning page with claim-safe wording
-- Retired standalone section redirects to About / Background
-- Automation and bots page
-- Employer-friendly resume download and contact page
-- Private admin jobs tracker with LocalStorage-backed Phase 2 persistence
-- Contact page with mock form states and centralized profile data
-- SEO metadata, sitemap, robots route, and Vercel-ready config
+The main idea behind WertWorks is simple: practical tools, clear information, and projects that solve real problems I have actually run into.
 
-## Tech Stack
+## What Is On The Site
+
+- Home page with the WertWorks intro
+- About page with my background and direction
+- Projects page with filters and case-study links
+- Automation and Discord bot project page
+- Resume download and contact page
+- Contact page with profile details and a draft-email form
+- Job tools and admin pages for tracking applications
+- Aerial planning page for future drone-service ideas
+- Supabase-backed project admin area
+
+## Projects I Care About Here
+
+The bot projects are a big part of why I wanted the site to exist:
+
+- House of Kith Bot
+- Clocktower Bot
+- KithWave Discord Music Bot
+
+They are not perfect, but they are real projects built for real use. That matters more to me than pretending everything started out polished.
+
+## Built With
 
 - Next.js App Router
 - TypeScript
 - Tailwind CSS
-- shadcn/ui-style local components
+- Local shadcn/ui-style components
 - Framer Motion
-- Lucide React
-- LocalStorage for the admin projects and jobs MVPs
+- Lucide React icons
+- Supabase for project records
+- Vercel for deployment
 
-## Local Setup
+I am still learning and improving the structure as I go. Some parts are cleaner than others, but the goal is to keep making it easier to update and more honest about what is finished.
+
+## Running It Locally
 
 Install dependencies:
 
@@ -34,7 +49,7 @@ Install dependencies:
 npm install
 ```
 
-Run the dev server:
+Start the dev server:
 
 ```bash
 npm run dev
@@ -46,100 +61,83 @@ Open:
 http://localhost:3000
 ```
 
-If port `3000` is already in use, Next.js will automatically choose another port such as `3001`.
+If port `3000` is already taken, Next.js will usually move to another port like `3001`.
 
-On this Windows machine, if a terminal cannot find `npm`, close PowerShell and open a new one. You can also run:
+On my Windows setup, this script is also available:
 
 ```powershell
 .\start-dev.ps1
 ```
 
-## Update Profile and Contact Data
+## Environment Variables
 
-Edit:
+The public pages can mostly run from the local seed data, but the project admin tools need Supabase.
+
+For the full setup, use:
+
+```text
+ADMIN_WRITE_KEY
+NEXT_PUBLIC_SUPABASE_URL
+SUPABASE_SERVICE_ROLE_KEY
+```
+
+These go in `.env.local` for local development and in Vercel project settings for deployment.
+
+Do not commit real keys, tokens, webhooks, bot secrets, or private credentials.
+
+## Profile And Contact Data
+
+Most of my public contact/profile information lives here:
 
 ```text
 data/profile.ts
 ```
 
-This file controls:
+That file controls:
 
 - Brand name
-- Personal name
+- Name
 - Tagline
 - Location
 - Email
 - Phone number
-- Discord / community contact
+- Discord contact
 - Resume download path
 - GitHub link
 - LinkedIn link
 - Site URL
 
-Do not put secrets, API keys, bot tokens, webhook URLs, or private credentials in this file.
-
 ## Resume Asset
 
-The active downloadable resume is the PNG file. Resume buttons and contact links point to:
+The active downloadable resume is a PNG:
 
 ```text
 /resume.png
 ```
 
-The source asset is stored here:
+The source file is:
 
 ```text
 public/resume.png
 ```
 
-Keep `profile.resumeDownloadPath` in `data/profile.ts` pointed at `/resume.png` unless the active resume file changes.
+The site uses `profile.resumeDownloadPath` from `data/profile.ts`, and that should stay pointed at `/resume.png` unless I intentionally change the active resume file.
 
-## Build
+## Build Check
 
-```bash
-npm run build
-```
-
-The build should complete before deploying.
-
-## Push to GitHub
-
-```bash
-git init
-git add .
-git commit -m "Build WertWorks personal site"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-git push -u origin main
-```
-
-If this repo already has a remote:
-
-```bash
-git remote -v
-```
-
-## Deploy on Vercel
-
-1. Push the project to GitHub.
-2. Open Vercel and choose **Add New Project**.
-3. Import the GitHub repo.
-4. Keep the framework preset as **Next.js**.
-5. Use the default build command:
+Before deploying, run:
 
 ```bash
 npm run build
 ```
 
-6. Deploy.
+If that passes, the site should be in decent shape for Vercel.
 
-No required environment variables are needed for the current MVP.
+## Deploying
 
-## Future Updates and Redeploys
+This site is meant to deploy on Vercel.
 
-After the site is connected to Vercel, future updates redeploy automatically when you push to the production branch, usually `main`.
-
-Standard update flow:
+Basic flow:
 
 ```bash
 git add .
@@ -147,14 +145,23 @@ git commit -m "Update site"
 git push
 ```
 
-Vercel will detect the push, run the build, and publish the new version if the build passes.
+Vercel watches the GitHub repo and redeploys from `main`.
 
-## Phase 2 Ideas
+## Notes For Future Me
 
-- Refresh `public/resume.png` whenever the downloadable resume changes
-- Connect the contact form to Resend, Formspree, or a Vercel server action
-- Add auth and Supabase sync for the private admin jobs tracker
-- Add detailed project case study pages
-- Add future aerial work intake and launch-planning workflow
-- Add calendar export or browser notifications for follow-ups
-- Add privacy-conscious analytics after tracking preferences are decided
+Things I still want to improve:
+
+- Keep refreshing the resume image when the resume changes
+- Finish connecting the contact form to a real backend
+- Keep improving the project admin workflow
+- Add better screenshots for projects
+- Add deeper case studies for the bots
+- Keep the aerial planning page careful and claim-safe
+- Add reminders or calendar export for the job tools
+- Keep cleaning up anything that feels overbuilt or too fake
+
+## Why This Exists
+
+I wanted a site that feels like me: technical, a little experimental, practical, and honest about the process.
+
+This is not a perfect portfolio frozen in time. It is a living project that I can keep updating as I build more things.

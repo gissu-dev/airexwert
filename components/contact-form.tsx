@@ -73,6 +73,17 @@ export function ContactForm() {
         setStatus("ready");
       }}
     >
+      <div>
+        <div className="flex items-center gap-3">
+          <Mail className="h-5 w-5 text-primary" aria-hidden="true" />
+          <h2 className="text-xl font-semibold">Send a message</h2>
+        </div>
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">
+          This prepares an email draft so you can review everything before it
+          sends.
+        </p>
+      </div>
+
       <div className="grid gap-2">
         <Label htmlFor="name">Name</Label>
         <Input id="name" name="name" placeholder="Your name" required />
@@ -126,8 +137,7 @@ export function ContactForm() {
           Prepare email
         </Button>
         <p className="text-xs leading-5 text-muted-foreground">
-          Form backend is pending. This prepares an email draft to{" "}
-          {profile.email}.
+          Opens a draft addressed to {profile.email}.
         </p>
       </div>
 

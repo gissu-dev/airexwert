@@ -1,7 +1,8 @@
-import { Bot, Briefcase, Globe2, Mail, Radar, Send, Wrench } from "lucide-react";
+import { CheckCircle2, Mail, Send } from "lucide-react";
 import { ContactDetails } from "@/components/contact-details";
 import { ContactForm } from "@/components/contact-form";
 import { PageIntro } from "@/components/page-intro";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { profile } from "@/data/profile";
 
@@ -17,44 +18,30 @@ export const metadata = {
 };
 
 export default function ContactPage() {
-  const contactReasons = [
-    {
-      title: "Job opportunity",
-      description: "Roles, interviews, employer questions, and resume follow-up.",
-      icon: Briefcase
-    },
-    {
-      title: "Automation / bot project",
-      description: "Discord bots, reminders, workflow tools, and small automations.",
-      icon: Bot
-    },
-    {
-      title: "Website project",
-      description: "Portfolio pages, site structure, forms, and practical web builds.",
-      icon: Globe2
-    },
-    {
-      title: "Job tool idea",
-      description: "Application tracking, resume workflow, interview notes, or follow-up systems.",
-      icon: Wrench
-    },
-    {
-      title: "Aerial planning conversation",
-      description: "Future aerial-services planning, launch roadmap, and responsible boundaries.",
-      icon: Radar
-    }
+  const contactTopics = [
+    "Job opportunities",
+    "Bot projects",
+    "Website work",
+    "Job tools",
+    "Aerial planning"
+  ];
+
+  const contextTips = [
+    "What you are reaching out about.",
+    "Any role, project, timeline, or location details.",
+    "The best next step after the message."
   ];
 
   return (
     <>
       <PageIntro
         eyebrow="Contact"
-        title={`Start a focused conversation with ${profile.name}.`}
-        description="Use this page for job opportunities, automation and bot projects, website work, job tool ideas, aerial planning conversations, or general contact. The form prepares an email draft while the backend connection is pending."
+        title={`Contact ${profile.name}.`}
+        description="Use this page for job opportunities, bot and automation projects, website work, job tools, aerial planning, or general follow-up."
       />
 
       <section className="section-shell pt-4">
-        <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <div className="grid gap-5">
             <Card className="bg-card/75">
               <CardContent className="p-6">
@@ -63,37 +50,43 @@ export default function ContactPage() {
                   Professional contact
                 </h2>
                 <p className="mt-4 text-sm leading-7 text-muted-foreground">
-                  Clear context helps move faster. Include the role, project,
-                  location, timing, budget range if relevant, and the best next
-                  action.
+                  Clear context helps move faster. A short message with the
+                  reason, timing, and best next step is enough to start.
                 </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {contactTopics.map((topic) => (
+                    <Badge key={topic} variant="outline">
+                      {topic}
+                    </Badge>
+                  ))}
+                </div>
               </CardContent>
             </Card>
-            <ContactDetails compact />
-            <Card className="bg-card/75">
-              <CardContent className="flex items-start gap-3 p-5 text-sm text-muted-foreground">
-                <Send className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                Best fit: job opportunities, websites, bots, job tools,
-                automation, and aerial planning conversations.
-              </CardContent>
-            </Card>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-              {contactReasons.map((reason) => {
-                const Icon = reason.icon;
 
-                return (
-                  <Card key={reason.title} className="bg-card/75">
-                    <CardContent className="p-4">
-                      <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
-                      <h2 className="mt-3 text-sm font-semibold">{reason.title}</h2>
-                      <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                        {reason.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
+            <ContactDetails compact />
+
+            <Card className="bg-card/75">
+              <CardContent className="p-5">
+                <div className="flex items-center gap-3">
+                  <Send className="h-5 w-5 text-primary" aria-hidden="true" />
+                  <h2 className="text-lg font-semibold">Helpful context</h2>
+                </div>
+                <ul className="mt-4 grid gap-3">
+                  {contextTips.map((tip) => (
+                    <li
+                      key={tip}
+                      className="flex items-start gap-3 text-sm leading-6 text-muted-foreground"
+                    >
+                      <CheckCircle2
+                        className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+                        aria-hidden="true"
+                      />
+                      {tip}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
           </div>
 
           <ContactForm />
