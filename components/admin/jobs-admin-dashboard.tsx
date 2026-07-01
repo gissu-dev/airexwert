@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Archive, ArrowUpRight, Edit, Plus } from "lucide-react";
-import {
+import { Archive, ArrowUpRight, Edit, Plus, Trash2 } from "lucide-react";import {
   jobStatusLabels,
   jobStatuses,
   type Job,
@@ -12,6 +11,7 @@ import {
 import {
   archiveJob,
   createEmptyJob,
+deleteJob,
   filterAndSortJobs,
   getJobCounts,
   getNextActionJobs,
@@ -252,17 +252,29 @@ export function JobsAdminDashboard() {
       <div className="grid gap-4">
         {visibleJobs.map((job) => (
           <JobAdminCard
-            key={job.id}
-            job={job}
-            onArchive={() => {
-              archiveJob(job.id);
-              refreshJobs();
-            }}
-            onStatusChange={(status) => {
-              updateJobStatus(job.id, status);
-              refreshJobs();
-            }}
-          />
+  key={job.id}
+  job={job}
+  onArchive={() => {
+    archiveJob(job.id);
+    refreshJobs();
+  }}
+  onDelete={() => {
+    const confirmed = window.confirm(
+      `Delete "${job.title || "Untitled role"}"? This cannot be undone.`,
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    deleteJob(job.id);
+    refreshJobs();
+  }}
+  onStatusChange={(status) => {
+    updateJobStatus(job.id, status);
+    refreshJobs();
+  }}
+/>
         ))}
       </div>
 
@@ -280,10 +292,12 @@ export function JobsAdminDashboard() {
 function JobAdminCard({
   job,
   onArchive,
-  onStatusChange
+  onDelete,
+  onStatusChange,
 }: {
   job: Job;
   onArchive: () => void;
+  onDelete: () => void;
   onStatusChange: (status: JobStatus) => void;
 }) {
   return (
@@ -353,6 +367,16 @@ function JobAdminCard({
             <Archive className="h-4 w-4" aria-hidden="true" />
             Archive
           </Button>
+<Button
+  type="button"
+  variant="outline"
+  size="sm"
+  className="border-red-400/30 text-red-100 hover:border-red-400/60 hover:bg-red-400/10"
+  onClick={onDelete}
+>
+  <Trash2 className="h-4 w-4" aria-hidden="true" />
+  Delete
+</Button>
         </div>
       </CardContent>
     </Card>

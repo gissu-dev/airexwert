@@ -75,6 +75,11 @@ export function archiveJob(id: string) {
   updateJobStatus(id, "archived");
 }
 
+export function deleteJob(id: string) {
+  const jobs = readJobs();
+  writeJobs(jobs.filter((job) => job.id !== id));
+}
+
 export function updateJobStatus(id: string, status: JobStatus) {
   const jobs = readJobs();
   const now = new Date().toISOString();
