@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { requireAdmin } from "@/lib/admin-auth";
 import { Briefcase, FileText, FolderKanban } from "lucide-react";
 import { PageIntro } from "@/components/page-intro";
 import { Card, CardContent } from "@/components/ui/card";
@@ -35,8 +36,10 @@ export const metadata = {
   }
 };
 
-export default function AdminPage() {
-  return (
+export default async function AdminPage() {
+  await requireAdmin();  
+
+return (
     <>
       <PageIntro
         eyebrow="Admin"
