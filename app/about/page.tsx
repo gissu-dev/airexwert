@@ -140,33 +140,39 @@ export default function AboutPage() {
   return (
     <>
       <section className="container pb-10 pt-14 sm:pb-12 sm:pt-20">
-        <Badge variant="secondary">About WertWorks</Badge>
-        <h1 className="mt-5 max-w-5xl text-balance text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl">
-          I&apos;m Airex Wert, a practical builder based in Northeastern
-          Pennsylvania.
-        </h1>
-        <div className="mt-6 grid max-w-3xl gap-4 text-lg leading-8 text-muted-foreground">
-          <p>
-            Through WertWorks, I build and document useful digital projects -
-            websites, Discord bots, automation tools, aviation experiments, and
-            field notes from whatever I&apos;m learning next.
-          </p>
-          <p>
-            My background is a mix of military aviation, operations,
-            customer-facing work, and self-taught tech. I like turning messy
-            ideas into something people can actually click, use, or understand.
-          </p>
-        </div>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <Button asChild size="lg">
-            <Link href="/projects">
-              View Projects
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-          </Button>
-          <Button asChild size="lg" variant="outline">
-            <Link href="/contact">Contact Me</Link>
-          </Button>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(340px,460px)] lg:items-start">
+          <div>
+            <Badge variant="secondary">About WertWorks</Badge>
+            <h1 className="mt-5 max-w-5xl text-balance text-4xl font-semibold tracking-normal sm:text-5xl lg:text-6xl">
+              I&apos;m Airex Wert, a practical builder based in Northeastern
+              Pennsylvania.
+            </h1>
+            <div className="mt-6 grid max-w-3xl gap-4 text-lg leading-8 text-muted-foreground">
+              <p>
+                Through WertWorks, I build and document useful digital projects -
+                websites, Discord bots, automation tools, aviation experiments, and
+                field notes from whatever I&apos;m learning next.
+              </p>
+              <p>
+                My background is a mix of military aviation, operations,
+                customer-facing work, and self-taught tech. I like turning messy
+                ideas into something people can actually click, use, or understand.
+              </p>
+            </div>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button asChild size="lg">
+                <Link href="/projects">
+                  View Projects
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline">
+                <Link href="/contact">Contact Me</Link>
+              </Button>
+            </div>
+          </div>
+
+          <RecentSpotifyLikes compact />
         </div>
       </section>
 
@@ -325,19 +331,6 @@ export default function AboutPage() {
                 </div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-white/10 bg-white/[0.03]">
-        <div className="section-shell">
-          <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-            <SectionHeader
-              eyebrow="Current rotation"
-              title="Recently liked songs from Spotify."
-              description="A small test feed for the latest 20 songs saved to my Spotify library. This is local preview work for now, so it can be removed before shipping."
-            />
-            <RecentSpotifyLikes />
           </div>
         </div>
       </section>

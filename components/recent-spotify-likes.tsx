@@ -25,7 +25,7 @@ type SpotifyResponse = {
   error?: string;
 };
 
-export function RecentSpotifyLikes() {
+export function RecentSpotifyLikes({ compact = false }: { compact?: boolean }) {
   const [data, setData] = useState<SpotifyResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -69,7 +69,7 @@ export function RecentSpotifyLikes() {
 
   return (
     <Card className="bg-card/75">
-      <CardContent className="p-5 sm:p-6">
+      <CardContent className={cn("p-5 sm:p-6", compact && "p-4 sm:p-5")}>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <div className="flex flex-wrap items-center gap-2">
@@ -78,10 +78,13 @@ export function RecentSpotifyLikes() {
                 {statusLabel}
               </Badge>
             </div>
-            <h2 className="mt-4 text-2xl font-semibold">Recently liked songs</h2>
+            <h2 className={cn("mt-4 font-semibold", compact ? "text-xl" : "text-2xl")}>
+              Recently liked songs
+            </h2>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">
-              The latest 20 tracks saved to my Spotify library, shown as a small
-              public music feed.
+              {compact
+                ? "Latest 20 saved tracks from Spotify."
+                : "The latest 20 tracks saved to my Spotify library, shown as a small public music feed."}
             </p>
           </div>
 
@@ -108,7 +111,7 @@ export function RecentSpotifyLikes() {
         ) : null}
 
         {loading ? (
-          <div className="mt-6 grid gap-3 md:grid-cols-2">
+          <div className={cn("mt-6 grid gap-3", !compact && "md:grid-cols-2")}>
             {Array.from({ length: 6 }).map((_, index) => (
               <div
                 key={index}
@@ -119,9 +122,21 @@ export function RecentSpotifyLikes() {
         ) : null}
 
         {!loading && tracks.length ? (
-          <div className="mt-6 grid gap-3 md:grid-cols-2">
+          <div
+            className={cn(
+              "mt-6 grid gap-3",
+              compact
+                ? "max-h-[520px] overflow-y-auto pr-1"
+                : "md:grid-cols-2"
+            )}
+          >
             {tracks.map((track, index) => (
-              <TrackCard key={track.id} track={track} index={index} />
+              <TrackCard
+                key={track.id}
+                track={track}
+                index={index}
+                compact={compact}
+              />
             ))}
           </div>
         ) : null}
@@ -143,10 +158,28 @@ export function RecentSpotifyLikes() {
   );
 }
 
-function TrackCard({ track, index }: { track: SpotifyTrack; index: number }) {
+function TrackCard({
+  track,
+  index,
+  compact
+}: {
+  track: SpotifyTrack;
+  index: number;
+  compact: boolean;
+}) {
   const content = (
-    <div className="group flex min-h-24 gap-3 rounded-md border border-white/10 bg-white/[0.035] p-3 transition-colors hover:border-primary/25 hover:bg-white/[0.055]">
-      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-md border border-white/10 bg-primary/10">
+    <div
+      className={cn(
+        "group flex gap-3 rounded-md border border-white/10 bg-white/[0.035] p-3 transition-colors hover:border-primary/25 hover:bg-white/[0.055]",
+        compact ? "min-h-20" : "min-h-24"
+      )}
+    >
+      <div
+        className={cn(
+          "relative shrink-0 overflow-hidden rounded-md border border-white/10 bg-primary/10",
+          compact ? "h-14 w-14" : "h-16 w-16"
+        )}
+      >
         {track.albumArt ? (
           <img
             src={track.albumArt}
