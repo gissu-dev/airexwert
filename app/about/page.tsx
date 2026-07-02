@@ -14,6 +14,7 @@ import {
   Radar,
   Wrench
 } from "lucide-react";
+import { RecentSpotifyLikes } from "@/components/recent-spotify-likes";
 import { SectionHeader } from "@/components/section-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -126,13 +127,6 @@ const interests = [
 ];
 
 type ProudProject = (typeof proudProjectHighlights)[number] & { project: Project };
-
-const spotifyPlaylistInput =
-  process.env.NEXT_PUBLIC_SPOTIFY_PLAYLIST_EMBED_URL ??
-  process.env.NEXT_PUBLIC_SPOTIFY_PLAYLIST_ID ??
-  "";
-
-const spotifyEmbedUrl = getSpotifyEmbedUrl(spotifyPlaylistInput);
 
 export default function AboutPage() {
   const proudProjects = proudProjectHighlights
@@ -340,35 +334,10 @@ export default function AboutPage() {
           <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
             <SectionHeader
               eyebrow="Current rotation"
-              title="A place for the soundtrack behind the work."
-              description="This section is ready for a public Spotify playlist later. It will stay empty until there is a playlist meant to be shared publicly."
+              title="Recently liked songs from Spotify."
+              description="A small test feed for the latest 20 songs saved to my Spotify library. This is local preview work for now, so it can be removed before shipping."
             />
-            <Card className="bg-card/75">
-              <CardContent className="p-4 sm:p-5">
-                {spotifyEmbedUrl ? (
-                  <iframe
-                    title="Current rotation Spotify playlist"
-                    src={spotifyEmbedUrl}
-                    width="100%"
-                    height="352"
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                    loading="lazy"
-                    className="rounded-md border-0"
-                  />
-                ) : (
-                  <div className="grid min-h-56 place-items-center rounded-md border border-dashed border-white/15 bg-black/[0.16] p-6 text-center">
-                    <div>
-                      <Music className="mx-auto h-8 w-8 text-primary" aria-hidden="true" />
-                      <h2 className="mt-4 text-xl font-semibold">Soundtrack placeholder</h2>
-                      <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted-foreground">
-                        A public playlist can live here when it is ready. Private
-                        liked songs stay private.
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            <RecentSpotifyLikes />
           </div>
         </div>
       </section>
@@ -400,28 +369,4 @@ export default function AboutPage() {
       </section>
     </>
   );
-}
-
-function getSpotifyEmbedUrl(value: string) {
-  const trimmed = value.trim();
-
-  if (!trimmed) {
-    return "";
-  }
-
-  if (trimmed.includes("/embed/playlist/")) {
-    return trimmed;
-  }
-
-  const playlistMatch = trimmed.match(/playlist\/([a-zA-Z0-9]+)/);
-
-  if (playlistMatch?.[1]) {
-    return `https://open.spotify.com/embed/playlist/${playlistMatch[1]}`;
-  }
-
-  if (/^[a-zA-Z0-9]+$/.test(trimmed)) {
-    return `https://open.spotify.com/embed/playlist/${trimmed}`;
-  }
-
-  return "";
 }
