@@ -35,7 +35,7 @@ export function ProjectCard({ project }: { project: Project }) {
           <img
             src={imageUrl}
             alt={`${project.title} preview`}
-            className="aspect-video w-full bg-black/[0.18] object-contain"
+            className="aspect-video w-full object-cover"
           />
         ) : (
           <div className="relative aspect-video overflow-hidden p-5">
