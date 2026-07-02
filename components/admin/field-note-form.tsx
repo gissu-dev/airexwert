@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Save } from "lucide-react";
+import { Eye, Save } from "lucide-react";
 import {
   fieldNoteCategories,
   fieldNoteStatuses,
@@ -38,6 +38,13 @@ export function FieldNoteForm({ fieldNoteId }: FieldNoteFormProps) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const mode = fieldNoteId ? "edit" : "new";
+
+  const previewTags = useMemo(() => parseListInput(tagsText), [tagsText]);
+
+  const contentPreview = useMemo(
+    () => createContentPreview(note.content),
+    [note.content]
+  );
 
   useEffect(() => {
     if (!fieldNoteId) {
@@ -154,180 +161,233 @@ export function FieldNoteForm({ fieldNoteId }: FieldNoteFormProps) {
         </div>
       </div>
 
-      <Card className="bg-card/75">
-        <CardHeader>
-          <CardTitle>Note basics</CardTitle>
-        </CardHeader>
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(320px,420px)] xl:items-start">
+        <div className="grid gap-6">
+          <Card className="bg-card/75">
+            <CardHeader>
+              <CardTitle>Note basics</CardTitle>
+            </CardHeader>
 
-        <CardContent className="grid gap-5">
-          <div className="grid gap-5 md:grid-cols-2">
-            <Field label="Title" htmlFor="title">
-              <Input
-                id="title"
-                value={note.title}
-                placeholder="Field note title"
-                required
-                onChange={(event) => {
-                  const title = event.target.value;
+            <CardContent className="grid gap-5">
+              <div className="grid gap-5 md:grid-cols-2">
+                <Field label="Title" htmlFor="title">
+                  <Input
+                    id="title"
+                    value={note.title}
+                    placeholder="Field note title"
+                    required
+                    onChange={(event) => {
+                      const title = event.target.value;
 
-                  setNote((current) => ({
-                    ...current,
-                    title,
-                    slug: current.slug || slugify(title)
-                  }));
-                }}
-              />
-            </Field>
+                      setNote((current) => ({
+                        ...current,
+                        title,
+                        slug: current.slug || slugify(title)
+                      }));
+                    }}
+                  />
+                </Field>
 
-            <Field label="Slug" htmlFor="slug">
-              <Input
-                id="slug"
-                value={note.slug}
-                placeholder="field-note-slug"
-                onChange={(event) =>
-                  setNote((current) => ({
-                    ...current,
-                    slug: slugify(event.target.value)
-                  }))
-                }
-              />
-            </Field>
-          </div>
+                <Field label="Slug" htmlFor="slug">
+                  <Input
+                    id="slug"
+                    value={note.slug}
+                    placeholder="field-note-slug"
+                    onChange={(event) =>
+                      setNote((current) => ({
+                        ...current,
+                        slug: slugify(event.target.value)
+                      }))
+                    }
+                  />
+                </Field>
+              </div>
 
-          <div className="grid gap-5 md:grid-cols-4">
-            <Field label="Category" htmlFor="category">
-              <Select
-                id="category"
-                value={note.category}
-                onChange={(event) =>
-                  setNote((current) => ({
-                    ...current,
-                    category: event.target.value as FieldNote["category"]
-                  }))
-                }
-              >
-                {fieldNoteCategories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </Select>
-            </Field>
+              <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+                <Field label="Category" htmlFor="category">
+                  <Select
+                    id="category"
+                    value={note.category}
+                    onChange={(event) =>
+                      setNote((current) => ({
+                        ...current,
+                        category: event.target.value as FieldNote["category"]
+                      }))
+                    }
+                  >
+                    {fieldNoteCategories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </Select>
+                </Field>
 
-            <Field label="Status" htmlFor="status">
-              <Select
-                id="status"
-                value={note.status}
-                onChange={(event) =>
-                  setNote((current) => ({
-                    ...current,
-                    status: event.target.value as FieldNote["status"]
-                  }))
-                }
-              >
-                {fieldNoteStatuses.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </Select>
-            </Field>
+                <Field label="Status" htmlFor="status">
+                  <Select
+                    id="status"
+                    value={note.status}
+                    onChange={(event) =>
+                      setNote((current) => ({
+                        ...current,
+                        status: event.target.value as FieldNote["status"]
+                      }))
+                    }
+                  >
+                    {fieldNoteStatuses.map((status) => (
+                      <option key={status} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </Select>
+                </Field>
 
-            <Field label="Read time" htmlFor="readTime">
-              <Input
-                id="readTime"
-                value={note.readTime}
-                placeholder="4 min"
-                onChange={(event) =>
-                  setNote((current) => ({
-                    ...current,
-                    readTime: event.target.value
-                  }))
-                }
-              />
-            </Field>
+                <Field label="Read time" htmlFor="readTime">
+                  <Input
+                    id="readTime"
+                    value={note.readTime}
+                    placeholder="4 min"
+                    onChange={(event) =>
+                      setNote((current) => ({
+                        ...current,
+                        readTime: event.target.value
+                      }))
+                    }
+                  />
+                </Field>
 
-            <Field label="Published date" htmlFor="publishedAt">
-              <Input
-                id="publishedAt"
-                type="date"
-                value={formatDateInput(note.publishedAt)}
-                onChange={(event) =>
-                  setNote((current) => ({
-                    ...current,
-                    publishedAt: event.target.value
-                      ? new Date(`${event.target.value}T12:00:00.000Z`).toISOString()
-                      : ""
-                  }))
-                }
-              />
-            </Field>
-          </div>
+                <Field label="Published date" htmlFor="publishedAt">
+                  <Input
+                    id="publishedAt"
+                    type="date"
+                    value={formatDateInput(note.publishedAt)}
+                    onChange={(event) =>
+                      setNote((current) => ({
+                        ...current,
+                        publishedAt: event.target.value
+                          ? new Date(`${event.target.value}T12:00:00.000Z`).toISOString()
+                          : ""
+                      }))
+                    }
+                  />
+                </Field>
+              </div>
 
-          <label className="flex items-center gap-3 text-sm text-muted-foreground">
-            <input
-              type="checkbox"
-              checked={note.featured}
-              onChange={(event) =>
-                setNote((current) => ({
-                  ...current,
-                  featured: event.target.checked
-                }))
-              }
-            />
-            Featured field note
-          </label>
+              <label className="flex items-center gap-3 text-sm text-muted-foreground">
+                <input
+                  type="checkbox"
+                  checked={note.featured}
+                  onChange={(event) =>
+                    setNote((current) => ({
+                      ...current,
+                      featured: event.target.checked
+                    }))
+                  }
+                />
+                Featured field note
+              </label>
 
-          <Field label="Excerpt" htmlFor="excerpt">
-            <Textarea
-              id="excerpt"
-              value={note.excerpt}
-              placeholder="Short card description."
-              required
-              onChange={(event) =>
-                setNote((current) => ({
-                  ...current,
-                  excerpt: event.target.value
-                }))
-              }
-            />
-          </Field>
-        </CardContent>
-      </Card>
+              <Field label="Excerpt" htmlFor="excerpt">
+                <Textarea
+                  id="excerpt"
+                  value={note.excerpt}
+                  placeholder="Short card description."
+                  required
+                  onChange={(event) =>
+                    setNote((current) => ({
+                      ...current,
+                      excerpt: event.target.value
+                    }))
+                  }
+                />
+              </Field>
+            </CardContent>
+          </Card>
 
-      <Card className="bg-card/75">
-        <CardHeader>
-          <CardTitle>Note content</CardTitle>
-        </CardHeader>
+          <Card className="bg-card/75">
+            <CardHeader>
+              <CardTitle>Note content</CardTitle>
+            </CardHeader>
 
-        <CardContent className="grid gap-5">
-          <Field label="Content" htmlFor="content">
-            <Textarea
-              id="content"
-              className="min-h-[320px]"
-              value={note.content}
-              placeholder="Write the note here. Separate paragraphs with a blank line."
-              required
-              onChange={(event) =>
-                setNote((current) => ({
-                  ...current,
-                  content: event.target.value
-                }))
-              }
-            />
-          </Field>
+            <CardContent className="grid gap-5">
+              <Field label="Content" htmlFor="content">
+                <Textarea
+                  id="content"
+                  className="min-h-[320px]"
+                  value={note.content}
+                  placeholder="Write the note here. Separate paragraphs with a blank line."
+                  required
+                  onChange={(event) =>
+                    setNote((current) => ({
+                      ...current,
+                      content: event.target.value
+                    }))
+                  }
+                />
+              </Field>
 
-          <Field label="Tags" htmlFor="tags">
-            <Textarea
-              id="tags"
-              value={tagsText}
-              placeholder={"WertWorks\nBuild log\nAutomation"}
-              onChange={(event) => setTagsText(event.target.value)}
-            />
-            <p className="text-xs text-muted-foreground">One tag per line.</p>
-          </Field>
-        </CardContent>
-      </Card>
+              <Field label="Tags" htmlFor="tags">
+                <Textarea
+                  id="tags"
+                  value={tagsText}
+                  placeholder={"WertWorks\nBuild log\nAutomation"}
+                  onChange={(event) => setTagsText(event.target.value)}
+                />
+                <p className="text-xs text-muted-foreground">One tag per line.</p>
+              </Field>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Card className="bg-card/75 xl:sticky xl:top-24">
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <Eye className="h-4 w-4 text-primary" aria-hidden="true" />
+              <CardTitle>Live preview</CardTitle>
+            </div>
+          </CardHeader>
+
+          <CardContent>
+            <div className="rounded-lg border border-white/10 bg-background/40 p-5">
+              <div className="flex flex-wrap gap-2">
+                <Badge>{note.category}</Badge>
+                <Badge variant={note.status === "published" ? "default" : "secondary"}>
+                  {formatStatus(note.status)}
+                </Badge>
+                <Badge variant="outline">{note.readTime || "Read time needed"}</Badge>
+                {note.featured ? <Badge variant="amber">Featured</Badge> : null}
+              </div>
+
+              <h3 className="mt-5 text-2xl font-semibold">
+                {note.title || "Untitled field note"}
+              </h3>
+
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                {note.excerpt || "Draft placeholder: user content needed."}
+              </p>
+
+              {previewTags.length ? (
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {previewTags.map((tag) => (
+                    <Badge key={tag} variant="outline">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              ) : null}
+
+              <div className="mt-6 rounded-md border border-white/10 bg-white/[0.03] p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  Content preview
+                </p>
+                <p className="mt-3 whitespace-pre-line text-sm leading-7 text-muted-foreground">
+                  {contentPreview}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       <div className="flex flex-col gap-3 rounded-lg border border-white/10 bg-white/[0.035] p-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs leading-5 text-muted-foreground">{timestampLabel}</p>
@@ -387,4 +447,22 @@ function formatDateInput(value: string) {
   }
 
   return date.toISOString().slice(0, 10);
+}
+
+function formatStatus(status: FieldNote["status"]) {
+  if (status === "draft") {
+    return "Draft placeholder";
+  }
+
+  return status;
+}
+
+function createContentPreview(content: string) {
+  const trimmed = content.trim();
+
+  if (!trimmed) {
+    return "Draft placeholder: user content needed.";
+  }
+
+  return trimmed.length > 420 ? `${trimmed.slice(0, 420).trim()}...` : trimmed;
 }

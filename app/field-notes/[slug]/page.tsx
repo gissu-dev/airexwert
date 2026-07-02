@@ -117,5 +117,7 @@ function formatContent(content: string) {
     .map((paragraph) => paragraph.trim())
     .filter(Boolean);
 
-  return paragraphs.length ? paragraphs : ["This note is being drafted."];
+  return paragraphs.length
+    ? paragraphs
+    : ["Draft placeholder: user content needed for this field note."];
 }

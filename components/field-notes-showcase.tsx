@@ -17,13 +17,13 @@ import {
   type LucideIcon
 } from "lucide-react";
 import {
-  fieldNoteCategories,
   seedFieldNotes,
   type FieldNote,
   type FieldNoteCategory
 } from "@/data/field-notes";
 import {
   readPublicFieldNotes,
+  getFieldNoteCategories,
   type FieldNoteFilter
 } from "@/lib/field-notes";
 import { Badge } from "@/components/ui/badge";
@@ -48,8 +48,8 @@ export function FieldNotesShowcase() {
   }, []);
 
   const filters = useMemo(
-    () => ["All", ...fieldNoteCategories] as FieldNoteFilter[],
-    []
+    () => getFieldNoteCategories(notes) as FieldNoteFilter[],
+    [notes]
   );
 
   const visibleNotes = useMemo(() => {
@@ -72,8 +72,8 @@ export function FieldNotesShowcase() {
           <div>
             <SectionHeader
               eyebrow="Working archive"
-              title="Part build log, part journal, part idea board."
-              description="Some notes are build logs from websites, bots, and automation experiments. Others are project updates, aviation thoughts, career notes, ideas, tools, or observations from whatever I am learning next. This is not meant to be a polished corporate blog."
+              title="Build logs, learning notes, and working thoughts."
+              description="Field Notes is a personal working archive for what is being built, tested, revised, and learned. It is meant to feel useful and honest: closer to a project notebook than a fake blog or corporate content page."
             />
             <p className="mt-5 max-w-2xl text-sm leading-7 text-muted-foreground">
               Place and urbex-related notes stay general: atmosphere, history,
@@ -118,8 +118,8 @@ export function FieldNotesShowcase() {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeader
             eyebrow="Note grid"
-            title="Notes and placeholders."
-            description="Published admin notes appear here. If there are no saved notes yet, the original placeholder cards keep the archive structure visible."
+            title="Notes and draft placeholders."
+            description="Published admin notes appear here. Until real notes are published, draft placeholders keep the archive structure visible and clearly mark where user content is still needed."
           />
           <Button asChild variant="outline" className="w-fit">
             <Link href="/projects">
@@ -133,7 +133,7 @@ export function FieldNotesShowcase() {
           <p className="mt-6 text-sm text-muted-foreground">Loading field notes...</p>
         ) : null}
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {visibleNotes.map((note) => (
             <FieldNoteCard key={note.id} note={note} />
           ))}
@@ -142,7 +142,8 @@ export function FieldNotesShowcase() {
         {!visibleNotes.length ? (
           <Card className="mt-8 bg-card/75">
             <CardContent className="p-6 text-sm text-muted-foreground">
-              No notes match this filter yet.
+              No notes match this filter yet. User content can be added from the
+              admin Field Notes editor.
             </CardContent>
           </Card>
         ) : null}
@@ -159,8 +160,8 @@ export function FieldNotesShowcase() {
                 </h2>
                 <p className="mt-4 max-w-2xl text-sm leading-7 text-muted-foreground">
                   Reach out about a role, project, website, bot, automation
-                  problem, or planning conversation. Field Notes will keep
-                  documenting what changes along the way.
+                  problem, or planning conversation. Field Notes keeps the
+                  working context close to the public project hub.
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
@@ -199,15 +200,27 @@ function FeaturedNote({ note, loaded }: { note: FieldNote; loaded: boolean }) {
               <div className="flex flex-wrap gap-2">
                 <Badge>{note.category}</Badge>
                 <Badge variant={note.status === "published" ? "default" : "secondary"}>
-                  {note.status === "published" ? "Published" : "Draft placeholder"}
+                  {formatStatus(note.status)}
                 </Badge>
                 <Badge variant="outline">{note.readTime}</Badge>
+                {note.publishedAt ? (
+                  <Badge variant="outline">{formatDate(note.publishedAt)}</Badge>
+                ) : null}
               </div>
               <p className="mt-4 text-sm leading-7 text-muted-foreground">
                 {loaded && note.status === "published"
                   ? "This note is live from the Field Notes admin system."
-                  : "This placeholder sets the tone until the first public note is published from the admin dashboard."}
+                  : "Draft placeholder: user content needed before this becomes a real public note."}
               </p>
+              {note.tags.length ? (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {note.tags.map((tag) => (
+                    <Badge key={tag} variant="outline">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              ) : null}
             </div>
             <Button asChild variant="outline">
               <Link href={`/field-notes/${note.slug}`}>
@@ -241,14 +254,46 @@ function FieldNoteCard({ note }: { note: FieldNote }) {
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             <Badge variant={note.status === "published" ? "default" : "outline"}>
-              {note.status === "published" ? "Published" : "Draft"}
+              {formatStatus(note.status)}
             </Badge>
             <Badge variant="outline">{note.readTime}</Badge>
+            {note.featured ? <Badge variant="amber">Featured</Badge> : null}
           </div>
+          {note.tags.length ? (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {note.tags.slice(0, 3).map((tag) => (
+                <Badge key={tag} variant="outline">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          ) : null}
         </CardContent>
       </Card>
     </Link>
   );
+}
+
+function formatStatus(status: FieldNote["status"]) {
+  if (status === "draft") {
+    return "Draft placeholder";
+  }
+
+  return status;
+}
+
+function formatDate(value: string) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  }).format(date);
 }
 
 function getNoteIcon(category: FieldNoteCategory): LucideIcon {

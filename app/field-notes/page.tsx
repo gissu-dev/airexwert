@@ -18,7 +18,7 @@ export default function FieldNotesPage() {
       <PageIntro
         eyebrow="Field Notes"
         title="Field Notes"
-        description="Field Notes is where I document what I am building, learning, testing, and thinking through."
+        description="A personal build-log and notes archive for what is being built, tested, revised, and learned across WertWorks."
       />
 
       <FieldNotesShowcase />

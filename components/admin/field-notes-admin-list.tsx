@@ -127,8 +127,15 @@ export function FieldNotesAdminList() {
                     onClick={async () => {
                       setWorkingId(note.id);
                       try {
+                        setError("");
                         await archiveFieldNote(note.id);
                         await refreshNotes();
+                      } catch (archiveError) {
+                        setError(
+                          archiveError instanceof Error
+                            ? archiveError.message
+                            : "Could not archive field note."
+                        );
                       } finally {
                         setWorkingId("");
                       }
@@ -151,8 +158,15 @@ export function FieldNotesAdminList() {
 
                       setWorkingId(note.id);
                       try {
+                        setError("");
                         await deleteFieldNote(note.id);
                         await refreshNotes();
+                      } catch (deleteError) {
+                        setError(
+                          deleteError instanceof Error
+                            ? deleteError.message
+                            : "Could not delete field note."
+                        );
                       } finally {
                         setWorkingId("");
                       }
