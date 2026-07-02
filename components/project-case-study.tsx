@@ -88,34 +88,25 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
       </div>
 
       {imageUrl ? (
-  <div className="relative h-72 overflow-hidden rounded-xl border border-white/10 bg-black md:h-80">
-    <img
-      src={imageUrl}
-      alt=""
-      aria-hidden="true"
-      className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl opacity-35"
-    />
-
-    <div className="absolute inset-0 bg-black/45" />
-
+  <div className="rounded-xl border border-white/10 bg-white/[0.035] p-3">
     <img
       src={imageUrl}
       alt={project.title}
-      className="relative z-10 h-full w-full object-contain"
+      className="mx-auto block h-auto max-h-[34rem] max-w-full rounded-lg object-contain"
     />
   </div>
 ) : (
-        <div className="grid min-h-72 place-items-center rounded-xl border border-white/10 bg-white/[0.035] p-8">
-          <div className="grid gap-3 text-center">
-            <FolderKanban className="mx-auto h-10 w-10 text-primary" aria-hidden="true" />
-            <p className="text-sm uppercase tracking-[0.24em] text-muted-foreground">
-              {project.category}
-            </p>
-            <p className="text-2xl font-semibold">Project brief</p>
-            <p className="text-muted-foreground">{project.title}</p>
-          </div>
-        </div>
-      )}
+  <div className="grid min-h-72 place-items-center rounded-xl border border-white/10 bg-white/[0.035] p-8">
+    <div className="grid gap-3 text-center">
+      <FolderKanban className="mx-auto h-10 w-10 text-primary" aria-hidden="true" />
+      <p className="text-sm uppercase tracking-[0.24em] text-muted-foreground">
+        {project.category}
+      </p>
+      <p className="text-2xl font-semibold">Project brief</p>
+      <p className="text-muted-foreground">{project.title}</p>
+    </div>
+  </div>
+)}
 
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="grid gap-6">
