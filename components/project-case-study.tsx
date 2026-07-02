@@ -88,11 +88,11 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
       </div>
 
       {imageUrl ? (
-        <div className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.035]">
+        <div className="flex h-[clamp(20rem,48vw,44rem)] items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-black/[0.22]">
           <img
             src={imageUrl}
-            alt=""
-            className="h-72 w-full object-cover"
+            alt={`${project.title} preview`}
+            className="h-full w-full object-contain"
           />
         </div>
       ) : (
