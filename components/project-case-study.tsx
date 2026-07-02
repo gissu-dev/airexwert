@@ -88,14 +88,23 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
       </div>
 
       {imageUrl ? (
-        <div className="overflow-hidden rounded-xl border border-white/10 bg-white/[0.035]">
-          <img
-            src={imageUrl}
-            alt=""
-            className="h-72 w-full object-contain bg-black"
-          />
-        </div>
-      ) : (
+  <div className="relative h-72 overflow-hidden rounded-xl border border-white/10 bg-black md:h-80">
+    <img
+      src={imageUrl}
+      alt=""
+      aria-hidden="true"
+      className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl opacity-35"
+    />
+
+    <div className="absolute inset-0 bg-black/45" />
+
+    <img
+      src={imageUrl}
+      alt={project.title}
+      className="relative z-10 h-full w-full object-contain"
+    />
+  </div>
+) : (
         <div className="grid min-h-72 place-items-center rounded-xl border border-white/10 bg-white/[0.035] p-8">
           <div className="grid gap-3 text-center">
             <FolderKanban className="mx-auto h-10 w-10 text-primary" aria-hidden="true" />
