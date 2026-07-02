@@ -145,6 +145,38 @@ export const projects: Project[] = [
     updatedAt: "2026-06-30T00:00:00.000Z"
   },
   {
+    id: "spotify-liked-songs-feed",
+    title: "Spotify Liked Songs Feed",
+    slug: "spotify-liked-songs-feed",
+    category: "Automation Tools",
+    status: "published",
+    stage: "In progress",
+    featured: false,
+    shortDescription:
+      "A small website feed that pulls the latest 20 saved Spotify tracks into the About page.",
+    fullDescription:
+      "The Spotify Liked Songs Feed connects WertWorks to Spotify's Web API and shows a compact list of recently saved tracks on the About page. It uses server-side Spotify credentials, a refresh token, album art, track metadata, save dates, and direct Spotify links without exposing private API secrets in the browser.",
+    problem:
+      "Music is part of the personal context behind the site, but embedding a whole playlist can feel too static and too separate from what is actually being listened to recently.",
+    solution:
+      "Use the Spotify Web API to fetch the latest 20 saved tracks from the account library and render them as a compact, scrollable About-page card with album art, artists, timestamps, and links.",
+    features: [
+      "Server-side Spotify token refresh using private environment variables.",
+      "Recent 20 liked songs with album art, artist names, save dates, and track duration.",
+      "Compact About-page card with a styled internal scrollbar.",
+      "Fallback preview and disconnected states for local testing and missing credentials."
+    ],
+    techUsed: ["Next.js", "Spotify Web API", "TypeScript", "Environment variables"],
+    nextStep: "Decide whether to keep it as a live pull from Spotify or cache new likes into a small archive later.",
+    caseStudyStatus: "ready",
+    githubUrl: "",
+    liveUrl: "/about",
+    caseStudyUrl: "",
+    imageUrl: "",
+    createdAt: "2026-07-02T00:00:00.000Z",
+    updatedAt: "2026-07-02T00:00:00.000Z"
+  },
+  {
     id: "personal-job-search-dashboard",
     title: "Personal Job Search Dashboard",
     slug: "personal-job-search-dashboard",
