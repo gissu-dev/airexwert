@@ -24,9 +24,13 @@ create table if not exists public.projects (
   live_url text not null default '',
   case_study_url text not null default '',
   image_url text not null default '',
+  case_study_images text[] not null default '{}',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.projects
+  add column if not exists case_study_images text[] not null default '{}';
 
 create index if not exists projects_status_idx on public.projects (status);
 create index if not exists projects_featured_idx on public.projects (featured);

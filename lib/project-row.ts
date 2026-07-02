@@ -22,6 +22,7 @@ export type ProjectRow = {
   live_url: string;
   case_study_url: string;
   image_url: string;
+  case_study_images?: string[] | null;
   created_at: string;
   updated_at: string;
 };
@@ -47,6 +48,9 @@ export function rowToProject(row: ProjectRow): Project {
     liveUrl: row.live_url,
     caseStudyUrl: row.case_study_url,
     imageUrl: row.image_url,
+    caseStudyImages: Array.isArray(row.case_study_images)
+      ? row.case_study_images.map((image) => sanitizeHref(String(image))).filter(Boolean)
+      : [],
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -73,6 +77,7 @@ export function projectToRow(project: Project) {
     live_url: sanitizeHref(project.liveUrl),
     case_study_url: sanitizeHref(project.caseStudyUrl),
     image_url: sanitizeHref(project.imageUrl),
+    case_study_images: project.caseStudyImages.map((image) => sanitizeHref(image)).filter(Boolean),
   };
 }
 
@@ -97,6 +102,11 @@ export function projectPatchToRow(project: Partial<Project>) {
   if (project.liveUrl !== undefined) row.live_url = sanitizeHref(project.liveUrl);
   if (project.caseStudyUrl !== undefined) row.case_study_url = sanitizeHref(project.caseStudyUrl);
   if (project.imageUrl !== undefined) row.image_url = sanitizeHref(project.imageUrl);
+  if (project.caseStudyImages !== undefined) {
+    row.case_study_images = project.caseStudyImages
+      .map((image) => sanitizeHref(image))
+      .filter(Boolean);
+  }
 
   return row;
 }

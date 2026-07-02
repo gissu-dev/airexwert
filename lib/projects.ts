@@ -176,6 +176,7 @@ export function createEmptyProject(): Project {
     liveUrl: "",
     caseStudyUrl: "",
     imageUrl: "",
+    caseStudyImages: [],
     createdAt: now,
     updatedAt: now,
   };
@@ -250,6 +251,9 @@ export function normalizeProject(project: Partial<Project>): Project {
     liveUrl: sanitizeHref(project.liveUrl),
     caseStudyUrl: sanitizeHref(project.caseStudyUrl),
     imageUrl: sanitizeHref(project.imageUrl),
+    caseStudyImages: Array.isArray(project.caseStudyImages)
+      ? project.caseStudyImages.map((image) => sanitizeHref(String(image))).filter(Boolean)
+      : [],
     createdAt: String(project.createdAt ?? now),
     updatedAt: String(project.updatedAt ?? now),
   };
@@ -297,5 +301,6 @@ function cloneProjects(projects: Project[]) {
     ...project,
     features: [...project.features],
     techUsed: [...project.techUsed],
+    caseStudyImages: [...(project.caseStudyImages ?? [])],
   }));
 }

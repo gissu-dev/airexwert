@@ -5,6 +5,9 @@ Run this SQL in the Supabase SQL editor to add the Spotify Liked Songs Feed to t
 ```sql
 create extension if not exists pgcrypto;
 
+alter table public.projects
+  add column if not exists case_study_images text[] not null default '{}';
+
 with project_data as (
   select
     'spotify-liked-songs-feed'::text as slug,
@@ -29,7 +32,8 @@ with project_data as (
     ''::text as github_url,
     '/about'::text as live_url,
     ''::text as case_study_url,
-    ''::text as image_url
+    ''::text as image_url,
+    array[]::text[] as case_study_images
 ),
 target as (
   select
@@ -59,6 +63,7 @@ updated as (
     live_url = target.live_url,
     case_study_url = target.case_study_url,
     image_url = target.image_url,
+    case_study_images = target.case_study_images,
     updated_at = now()
   from target
   where projects.id = target.existing_id
@@ -84,6 +89,7 @@ insert into public.projects (
   live_url,
   case_study_url,
   image_url,
+  case_study_images,
   created_at,
   updated_at
 )
@@ -107,6 +113,7 @@ select
   live_url,
   case_study_url,
   image_url,
+  case_study_images,
   now(),
   now()
 from target

@@ -54,7 +54,12 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
     );
   }
 
-  const imageUrl = sanitizeHref(project.imageUrl);
+  const profileImageUrl = sanitizeHref(project.imageUrl);
+  const caseStudyImages = (project.caseStudyImages ?? [])
+    .map((image) => sanitizeHref(image))
+    .filter(Boolean);
+  const primaryImageUrl = caseStudyImages[0] ?? profileImageUrl;
+  const galleryImageUrls = caseStudyImages.slice(1);
   const githubUrl = sanitizeHref(project.githubUrl);
   const liveUrl = sanitizeHref(project.liveUrl);
   const caseStudyUrl = sanitizeHref(project.caseStudyUrl);
@@ -87,10 +92,10 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
         </p>
       </div>
 
-      {imageUrl ? (
+      {primaryImageUrl ? (
         <div className="relative overflow-hidden rounded-xl border border-white/10 bg-black shadow-2xl shadow-black/25">
           <img
-            src={imageUrl}
+            src={primaryImageUrl}
             alt=""
             aria-hidden="true"
             className="absolute inset-0 h-full w-full scale-110 object-cover opacity-30 blur-2xl saturate-75"
@@ -101,8 +106,12 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
           />
           <div className="relative flex min-h-[18rem] items-center justify-center p-3 sm:min-h-[22rem] sm:p-4 lg:min-h-[28rem]">
             <img
-              src={imageUrl}
-              alt={`${project.title} preview`}
+              src={primaryImageUrl}
+              alt={
+                caseStudyImages.length
+                  ? `${project.title} screenshot`
+                  : `${project.title} profile image`
+              }
               className="max-h-[34rem] max-w-full rounded-lg border border-white/10 object-contain shadow-2xl shadow-black/40"
             />
           </div>
@@ -119,6 +128,22 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
           </div>
         </div>
       )}
+
+      {galleryImageUrls.length ? (
+        <section className="grid gap-3">
+          <h2 className="text-xl font-semibold">Screenshots</h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {galleryImageUrls.map((screenshotUrl, index) => (
+              <img
+                key={`${screenshotUrl}-${index}`}
+                src={screenshotUrl}
+                alt={`${project.title} screenshot ${index + 2}`}
+                className="aspect-video w-full rounded-lg border border-white/10 bg-black/[0.18] object-contain"
+              />
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="grid gap-6">

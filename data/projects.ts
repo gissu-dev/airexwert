@@ -43,6 +43,7 @@ export type Project = {
   liveUrl: string;
   caseStudyUrl: string;
   imageUrl: string;
+  caseStudyImages: string[];
   createdAt: string;
   updatedAt: string;
 };
@@ -77,6 +78,7 @@ export const projects: Project[] = [
     liveUrl: "",
     caseStudyUrl: "",
     imageUrl: "",
+    caseStudyImages: [],
     createdAt: "2026-06-30T00:00:00.000Z",
     updatedAt: "2026-06-30T00:00:00.000Z"
   },
@@ -109,6 +111,7 @@ export const projects: Project[] = [
     liveUrl: "",
     caseStudyUrl: "",
     imageUrl: "",
+    caseStudyImages: [],
     createdAt: "2026-06-30T00:00:00.000Z",
     updatedAt: "2026-06-30T00:00:00.000Z"
   },
@@ -141,6 +144,7 @@ export const projects: Project[] = [
     liveUrl: "",
     caseStudyUrl: "",
     imageUrl: "",
+    caseStudyImages: [],
     createdAt: "2026-06-30T00:00:00.000Z",
     updatedAt: "2026-06-30T00:00:00.000Z"
   },
@@ -173,6 +177,7 @@ export const projects: Project[] = [
     liveUrl: "/about",
     caseStudyUrl: "",
     imageUrl: "",
+    caseStudyImages: [],
     createdAt: "2026-07-02T00:00:00.000Z",
     updatedAt: "2026-07-02T00:00:00.000Z"
   },
@@ -205,6 +210,7 @@ export const projects: Project[] = [
     liveUrl: "",
     caseStudyUrl: "",
     imageUrl: "",
+    caseStudyImages: [],
     createdAt: "2026-06-30T00:00:00.000Z",
     updatedAt: "2026-06-30T00:00:00.000Z"
   },
@@ -237,6 +243,7 @@ export const projects: Project[] = [
     liveUrl: "",
     caseStudyUrl: "",
     imageUrl: "",
+    caseStudyImages: [],
     createdAt: "2026-06-30T00:00:00.000Z",
     updatedAt: "2026-06-30T00:00:00.000Z"
   },
@@ -269,6 +276,7 @@ export const projects: Project[] = [
     liveUrl: "/resume",
     caseStudyUrl: "",
     imageUrl: "",
+    caseStudyImages: [],
     createdAt: "2026-06-30T00:00:00.000Z",
     updatedAt: "2026-06-30T00:00:00.000Z"
   },
@@ -301,6 +309,7 @@ export const projects: Project[] = [
     liveUrl: "/",
     caseStudyUrl: "",
     imageUrl: "",
+    caseStudyImages: [],
     createdAt: "2026-06-30T00:00:00.000Z",
     updatedAt: "2026-06-30T00:00:00.000Z"
   },
@@ -333,6 +342,7 @@ export const projects: Project[] = [
     liveUrl: "",
     caseStudyUrl: "",
     imageUrl: "",
+    caseStudyImages: [],
     createdAt: "2026-06-30T00:00:00.000Z",
     updatedAt: "2026-06-30T00:00:00.000Z"
   },
@@ -365,6 +375,7 @@ export const projects: Project[] = [
     liveUrl: "/aerial-planning",
     caseStudyUrl: "",
     imageUrl: "",
+    caseStudyImages: [],
     createdAt: "2026-06-30T00:00:00.000Z",
     updatedAt: "2026-06-30T00:00:00.000Z"
   }

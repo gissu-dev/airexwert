@@ -36,6 +36,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
   const [project, setProject] = useState<Project>(() => createEmptyProject());
   const [featuresText, setFeaturesText] = useState("");
   const [techText, setTechText] = useState("");
+  const [caseStudyImagesText, setCaseStudyImagesText] = useState("");
   const [loaded, setLoaded] = useState(!projectId);
   const [notFound, setNotFound] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -61,6 +62,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
         setProject(existing);
         setFeaturesText(formatListInput(existing.features));
         setTechText(formatListInput(existing.techUsed));
+        setCaseStudyImagesText(formatListInput(existing.caseStudyImages));
       } catch {
         setError("Could not load this project. Make sure your admin session is active.");
       } finally {
@@ -115,11 +117,13 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
             slug: project.slug || slugify(project.title),
             features: parseListInput(featuresText),
             techUsed: parseListInput(techText),
+            caseStudyImages: parseListInput(caseStudyImagesText),
           });
 
           setProject(saved);
           setFeaturesText(formatListInput(saved.features));
           setTechText(formatListInput(saved.techUsed));
+          setCaseStudyImagesText(formatListInput(saved.caseStudyImages));
           router.push(`/admin/projects/${saved.id}/edit`);
           router.refresh();
         } catch {
@@ -429,7 +433,7 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
             />
           </Field>
 
-          <Field label="Image URL" htmlFor="imageUrl">
+          <Field label="Project card / profile image URL" htmlFor="imageUrl">
             <Input
               id="imageUrl"
               value={project.imageUrl}
@@ -442,6 +446,20 @@ export function ProjectForm({ projectId }: ProjectFormProps) {
               }
             />
           </Field>
+
+          <div className="md:col-span-2">
+            <Field label="Case study screenshot URLs" htmlFor="caseStudyImages">
+              <Textarea
+                id="caseStudyImages"
+                value={caseStudyImagesText}
+                placeholder={"https://...\nhttps://..."}
+                onChange={(event) => setCaseStudyImagesText(event.target.value)}
+              />
+              <p className="text-xs text-muted-foreground">
+                One screenshot per line. The first screenshot becomes the main case-study image.
+              </p>
+            </Field>
+          </div>
         </CardContent>
       </Card>
 
