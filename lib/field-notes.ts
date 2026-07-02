@@ -128,6 +128,8 @@ export function createEmptyFieldNote(): FieldNote {
     tags: [],
     readTime: "4 min",
     publishedAt: "",
+    coverImage: "",
+    coverImageAlt: "",
     createdAt: now,
     updatedAt: now
   };
@@ -174,6 +176,8 @@ export function normalizeFieldNote(note: Partial<FieldNote>): FieldNote {
     tags: Array.isArray(note.tags) ? note.tags.map(String) : [],
     readTime: String(note.readTime ?? "4 min"),
     publishedAt: String(note.publishedAt ?? ""),
+    coverImage: String(note.coverImage ?? ""),
+    coverImageAlt: String(note.coverImageAlt ?? ""),
     createdAt: String(note.createdAt ?? now),
     updatedAt: String(note.updatedAt ?? now)
   };
@@ -217,6 +221,8 @@ async function createFieldNotesError(response: Response, fallback: string) {
 function cloneFieldNotes(notes: FieldNote[]) {
   return notes.map((note) => ({
     ...note,
-    tags: [...note.tags]
+    tags: [...note.tags],
+    coverImage: note.coverImage ?? "",
+    coverImageAlt: note.coverImageAlt ?? ""
   }));
 }

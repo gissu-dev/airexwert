@@ -12,6 +12,8 @@ export type FieldNoteRow = {
   tags: string[];
   read_time: string;
   published_at: string | null;
+  cover_image: string | null;
+  cover_image_alt: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -29,6 +31,8 @@ export function rowToFieldNote(row: FieldNoteRow): FieldNote {
     tags: row.tags ?? [],
     readTime: row.read_time,
     publishedAt: row.published_at ?? "",
+    coverImage: row.cover_image ?? "",
+    coverImageAlt: row.cover_image_alt ?? "",
     createdAt: row.created_at,
     updatedAt: row.updated_at
   };
@@ -46,7 +50,9 @@ export function fieldNoteToRow(note: FieldNote) {
     content: note.content,
     tags: note.tags,
     read_time: note.readTime,
-    published_at: note.publishedAt || null
+    published_at: note.publishedAt || null,
+    cover_image: note.coverImage || null,
+    cover_image_alt: note.coverImageAlt || null
   };
 }
 
@@ -63,6 +69,8 @@ export function fieldNotePatchToRow(note: Partial<FieldNote>) {
   if (note.tags !== undefined) row.tags = note.tags;
   if (note.readTime !== undefined) row.read_time = note.readTime;
   if (note.publishedAt !== undefined) row.published_at = note.publishedAt || null;
+  if (note.coverImage !== undefined) row.cover_image = note.coverImage || null;
+  if (note.coverImageAlt !== undefined) row.cover_image_alt = note.coverImageAlt || null;
 
   return row;
 }

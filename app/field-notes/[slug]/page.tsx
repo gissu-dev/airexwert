@@ -28,7 +28,19 @@ export async function generateMetadata({
 
   return {
     title: `${note.title} | Field Notes`,
-    description: note.excerpt
+    description: note.excerpt,
+    openGraph: {
+      title: `${note.title} | Field Notes`,
+      description: note.excerpt,
+      images: note.coverImage
+        ? [
+            {
+              url: note.coverImage,
+              alt: note.coverImageAlt || note.title
+            }
+          ]
+        : undefined
+    }
   };
 }
 
@@ -55,9 +67,12 @@ export default async function FieldNotePage({
         <div className="flex flex-wrap gap-2">
           <Badge>{note.category}</Badge>
           <Badge variant={note.status === "published" ? "default" : "secondary"}>
-            {note.status === "published" ? "Published" : "Draft placeholder"}
+            {note.status === "published" ? "Published" : "Draft"}
           </Badge>
           <Badge variant="outline">{note.readTime}</Badge>
+          {note.publishedAt ? (
+            <Badge variant="outline">{formatDate(note.publishedAt)}</Badge>
+          ) : null}
         </div>
 
         <h1 className="mt-5 text-balance text-4xl font-semibold tracking-normal sm:text-5xl">
@@ -69,13 +84,15 @@ export default async function FieldNotePage({
         </p>
       </div>
 
-      <Card className="mt-10 bg-card/75">
-        <CardContent className="grid gap-5 p-6 text-base leading-8 text-muted-foreground">
-          {formatContent(note.content).map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </CardContent>
-      </Card>
+      {note.coverImage ? (
+        <div className="mt-10 overflow-hidden rounded-lg border border-white/10 bg-card/75">
+          <img
+            src={note.coverImage}
+            alt={note.coverImageAlt || ""}
+            className="aspect-[16/9] w-full object-cover"
+          />
+        </div>
+      ) : null}
 
       {note.tags.length ? (
         <div className="mt-8 flex flex-wrap gap-2">
@@ -86,6 +103,14 @@ export default async function FieldNotePage({
           ))}
         </div>
       ) : null}
+
+      <Card className="mt-10 bg-card/75">
+        <CardContent className="grid gap-5 p-6 text-base leading-8 text-muted-foreground">
+          {formatContent(note.content).map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+        </CardContent>
+      </Card>
     </article>
   );
 }
@@ -105,7 +130,7 @@ async function findPublicFieldNoteBySlug(slug: string): Promise<FieldNote | null
       return rowToFieldNote(data as FieldNoteRow);
     }
   } catch {
-    // Fall back to local placeholders if Supabase is not configured yet.
+    // Fall back to local seed notes if Supabase is not configured yet.
   }
 
   return seedFieldNotes.find((note) => note.slug === slug) ?? null;
@@ -119,5 +144,19 @@ function formatContent(content: string) {
 
   return paragraphs.length
     ? paragraphs
-    : ["Draft placeholder: user content needed for this field note."];
+    : ["Content is not available for this field note yet."];
+}
+
+function formatDate(value: string) {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "";
+  }
+
+  return new Intl.DateTimeFormat("en", {
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  }).format(date);
 }

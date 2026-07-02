@@ -287,6 +287,51 @@ export function FieldNoteForm({ fieldNoteId }: FieldNoteFormProps) {
                 Featured field note
               </label>
 
+              <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] md:items-end">
+                <Field label="Cover image URL/path" htmlFor="coverImage">
+                  <Input
+                    id="coverImage"
+                    value={note.coverImage}
+                    placeholder="/images/field-notes/example.jpg"
+                    onChange={(event) =>
+                      setNote((current) => ({
+                        ...current,
+                        coverImage: event.target.value
+                      }))
+                    }
+                  />
+                </Field>
+
+                <Field label="Cover image alt text" htmlFor="coverImageAlt">
+                  <Input
+                    id="coverImageAlt"
+                    value={note.coverImageAlt}
+                    placeholder="Describe the cover image"
+                    onChange={(event) =>
+                      setNote((current) => ({
+                        ...current,
+                        coverImageAlt: event.target.value
+                      }))
+                    }
+                  />
+                </Field>
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={!note.coverImage && !note.coverImageAlt}
+                  onClick={() =>
+                    setNote((current) => ({
+                      ...current,
+                      coverImage: "",
+                      coverImageAlt: ""
+                    }))
+                  }
+                >
+                  Remove cover
+                </Button>
+              </div>
+
               <Field label="Excerpt" htmlFor="excerpt">
                 <Textarea
                   id="excerpt"
@@ -349,6 +394,16 @@ export function FieldNoteForm({ fieldNoteId }: FieldNoteFormProps) {
 
           <CardContent>
             <div className="rounded-lg border border-white/10 bg-background/40 p-5">
+              {note.coverImage ? (
+                <div className="mb-5 overflow-hidden rounded-md border border-white/10 bg-white/[0.03]">
+                  <img
+                    src={note.coverImage}
+                    alt={note.coverImageAlt || "Field note cover preview"}
+                    className="aspect-[16/9] w-full object-cover"
+                  />
+                </div>
+              ) : null}
+
               <div className="flex flex-wrap gap-2">
                 <Badge>{note.category}</Badge>
                 <Badge variant={note.status === "published" ? "default" : "secondary"}>
@@ -363,7 +418,7 @@ export function FieldNoteForm({ fieldNoteId }: FieldNoteFormProps) {
               </h3>
 
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                {note.excerpt || "Draft placeholder: user content needed."}
+                {note.excerpt || "User content needed."}
               </p>
 
               {previewTags.length ? (
@@ -451,7 +506,7 @@ function formatDateInput(value: string) {
 
 function formatStatus(status: FieldNote["status"]) {
   if (status === "draft") {
-    return "Draft placeholder";
+    return "Draft";
   }
 
   return status;
@@ -461,7 +516,7 @@ function createContentPreview(content: string) {
   const trimmed = content.trim();
 
   if (!trimmed) {
-    return "Draft placeholder: user content needed.";
+    return "User content needed.";
   }
 
   return trimmed.length > 420 ? `${trimmed.slice(0, 420).trim()}...` : trimmed;

@@ -73,7 +73,7 @@ export function FieldNotesShowcase() {
             <SectionHeader
               eyebrow="Working archive"
               title="Build logs, learning notes, and working thoughts."
-              description="Field Notes is a personal working archive for what is being built, tested, revised, and learned. It is meant to feel useful and honest: closer to a project notebook than a fake blog or corporate content page."
+              description="Field Notes is a personal working archive for projects, decisions, lessons, and observations that are useful to keep close to the work."
             />
             <p className="mt-5 max-w-2xl text-sm leading-7 text-muted-foreground">
               Place and urbex-related notes stay general: atmosphere, history,
@@ -110,16 +110,14 @@ export function FieldNotesShowcase() {
         </div>
       </section>
 
-      {featuredNote ? (
-        <FeaturedNote note={featuredNote} loaded={loaded} />
-      ) : null}
+      {featuredNote ? <FeaturedNote note={featuredNote} /> : null}
 
       <section id="notes" className="section-shell scroll-mt-24">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <SectionHeader
             eyebrow="Note grid"
-            title="Notes and draft placeholders."
-            description="Published admin notes appear here. Until real notes are published, draft placeholders keep the archive structure visible and clearly mark where user content is still needed."
+            title="Published field notes."
+            description="Build logs, project notes, career notes, aviation planning, and smaller observations from the WertWorks archive."
           />
           <Button asChild variant="outline" className="w-fit">
             <Link href="/projects">
@@ -142,8 +140,7 @@ export function FieldNotesShowcase() {
         {!visibleNotes.length ? (
           <Card className="mt-8 bg-card/75">
             <CardContent className="p-6 text-sm text-muted-foreground">
-              No notes match this filter yet. User content can be added from the
-              admin Field Notes editor.
+              No published notes match this filter yet.
             </CardContent>
           </Card>
         ) : null}
@@ -180,7 +177,7 @@ export function FieldNotesShowcase() {
   );
 }
 
-function FeaturedNote({ note, loaded }: { note: FieldNote; loaded: boolean }) {
+function FeaturedNote({ note }: { note: FieldNote }) {
   const Icon = getNoteIcon(note.category);
 
   return (
@@ -193,9 +190,17 @@ function FeaturedNote({ note, loaded }: { note: FieldNote; loaded: boolean }) {
         />
         <Card className="mt-8 bg-card/75">
           <CardContent className="grid gap-6 p-6 md:grid-cols-[auto_1fr_auto] md:items-center">
-            <span className="flex h-12 w-12 items-center justify-center rounded-md border border-primary/25 bg-primary/10 text-primary">
-              <Icon className="h-6 w-6" aria-hidden="true" />
-            </span>
+            {note.coverImage ? (
+              <img
+                src={note.coverImage}
+                alt={note.coverImageAlt || ""}
+                className="aspect-video w-full rounded-md border border-white/10 object-cover md:h-28 md:w-44"
+              />
+            ) : (
+              <span className="flex h-12 w-12 items-center justify-center rounded-md border border-primary/25 bg-primary/10 text-primary">
+                <Icon className="h-6 w-6" aria-hidden="true" />
+              </span>
+            )}
             <div>
               <div className="flex flex-wrap gap-2">
                 <Badge>{note.category}</Badge>
@@ -208,9 +213,7 @@ function FeaturedNote({ note, loaded }: { note: FieldNote; loaded: boolean }) {
                 ) : null}
               </div>
               <p className="mt-4 text-sm leading-7 text-muted-foreground">
-                {loaded && note.status === "published"
-                  ? "This note is live from the Field Notes admin system."
-                  : "Draft placeholder: user content needed before this becomes a real public note."}
+                Open the full note for the complete writeup.
               </p>
               {note.tags.length ? (
                 <div className="mt-4 flex flex-wrap gap-2">
@@ -240,7 +243,14 @@ function FieldNoteCard({ note }: { note: FieldNote }) {
 
   return (
     <Link href={`/field-notes/${note.slug}`} className="focus-ring rounded-lg">
-      <Card className="flex h-full flex-col bg-card/75 hover:border-primary/25">
+      <Card className="flex h-full flex-col overflow-hidden bg-card/75 hover:border-primary/25">
+        {note.coverImage ? (
+          <img
+            src={note.coverImage}
+            alt={note.coverImageAlt || ""}
+            className="aspect-[16/9] w-full border-b border-white/10 object-cover"
+          />
+        ) : null}
         <CardContent className="flex h-full flex-col p-5">
           <div className="flex items-start justify-between gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-primary/25 bg-primary/10 text-primary">
@@ -257,6 +267,9 @@ function FieldNoteCard({ note }: { note: FieldNote }) {
               {formatStatus(note.status)}
             </Badge>
             <Badge variant="outline">{note.readTime}</Badge>
+            {note.publishedAt ? (
+              <Badge variant="outline">{formatDate(note.publishedAt)}</Badge>
+            ) : null}
             {note.featured ? <Badge variant="amber">Featured</Badge> : null}
           </div>
           {note.tags.length ? (
@@ -276,7 +289,7 @@ function FieldNoteCard({ note }: { note: FieldNote }) {
 
 function formatStatus(status: FieldNote["status"]) {
   if (status === "draft") {
-    return "Draft placeholder";
+    return "Draft";
   }
 
   return status;
@@ -298,6 +311,10 @@ function formatDate(value: string) {
 
 function getNoteIcon(category: FieldNoteCategory): LucideIcon {
   switch (category) {
+    case "Projects":
+      return Compass;
+    case "Case Notes":
+      return FileText;
     case "Website Notes":
       return Globe2;
     case "Bot Notes":
@@ -310,6 +327,7 @@ function getNoteIcon(category: FieldNoteCategory): LucideIcon {
       return Wrench;
     case "Project Updates":
       return Compass;
+    case "Career":
     case "Career Notes":
       return Briefcase;
     case "Places":
