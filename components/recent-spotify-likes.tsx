@@ -126,7 +126,7 @@ export function RecentSpotifyLikes({ compact = false }: { compact?: boolean }) {
             className={cn(
               "mt-6 grid gap-3",
               compact
-                ? "max-h-[520px] overflow-y-auto pr-1"
+                ? "max-h-[520px] overflow-y-auto pr-2 [scrollbar-color:rgba(31,214,154,0.45)_rgba(255,255,255,0.06)] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-white/[0.04] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary/35 [&::-webkit-scrollbar-thumb:hover]:bg-primary/55"
                 : "md:grid-cols-2"
             )}
           >
