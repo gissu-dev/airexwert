@@ -92,7 +92,7 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
           <img
             src={imageUrl}
             alt=""
-            className="h-72 w-full object-cover"
+            className="h-72 w-full object-contain bg-black"
           />
         </div>
       ) : (
