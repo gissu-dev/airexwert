@@ -88,25 +88,37 @@ export function ProjectCaseStudy({ slug }: { slug: string }) {
       </div>
 
       {imageUrl ? (
-  <div className="rounded-xl border border-white/10 bg-white/[0.035] p-3">
-    <img
-      src={imageUrl}
-      alt={project.title}
-      className="mx-auto block h-auto max-h-[34rem] max-w-full rounded-lg object-contain"
-    />
-  </div>
-) : (
-  <div className="grid min-h-72 place-items-center rounded-xl border border-white/10 bg-white/[0.035] p-8">
-    <div className="grid gap-3 text-center">
-      <FolderKanban className="mx-auto h-10 w-10 text-primary" aria-hidden="true" />
-      <p className="text-sm uppercase tracking-[0.24em] text-muted-foreground">
-        {project.category}
-      </p>
-      <p className="text-2xl font-semibold">Project brief</p>
-      <p className="text-muted-foreground">{project.title}</p>
-    </div>
-  </div>
-)}
+        <div className="relative overflow-hidden rounded-xl border border-white/10 bg-black shadow-2xl shadow-black/25">
+          <img
+            src={imageUrl}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full scale-110 object-cover opacity-30 blur-2xl saturate-75"
+          />
+          <div
+            className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(255,255,255,0.12),transparent_42%),linear-gradient(180deg,rgba(6,10,18,0.2),rgba(6,10,18,0.72))]"
+            aria-hidden="true"
+          />
+          <div className="relative flex min-h-[18rem] items-center justify-center p-3 sm:min-h-[22rem] sm:p-4 lg:min-h-[28rem]">
+            <img
+              src={imageUrl}
+              alt={`${project.title} preview`}
+              className="max-h-[34rem] max-w-full rounded-lg border border-white/10 object-contain shadow-2xl shadow-black/40"
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="grid min-h-72 place-items-center rounded-xl border border-white/10 bg-white/[0.035] p-8">
+          <div className="grid gap-3 text-center">
+            <FolderKanban className="mx-auto h-10 w-10 text-primary" aria-hidden="true" />
+            <p className="text-sm uppercase tracking-[0.24em] text-muted-foreground">
+              {project.category}
+            </p>
+            <p className="text-2xl font-semibold">Project brief</p>
+            <p className="text-muted-foreground">{project.title}</p>
+          </div>
+        </div>
+      )}
 
       <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="grid gap-6">
