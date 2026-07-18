@@ -12,10 +12,10 @@ export const timeline = [
       "Built steady communication habits, reliability, and calm presence in people-focused environments."
   },
   {
-    title: "Automation, bots, and career systems",
+    title: "Automation, bots, and internal tools",
     timeframe: "Active build track",
     description:
-      "Building Discord bots, workflow tools, private trackers, dashboards, and automation that solve concrete daily problems."
+      "Building Discord bots, workflow tools, dashboards, and automation that solve concrete daily problems."
   },
   {
     title: "Websites and practical tech",

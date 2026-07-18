@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Briefcase, FileText, FolderKanban, NotebookText } from "lucide-react";
+import { FileText, FolderKanban, NotebookText } from "lucide-react";
 
 import { LogoutButton } from "@/components/admin/logout-button";
 import { PageIntro } from "@/components/page-intro";
@@ -12,13 +12,6 @@ const adminCards = [
     description: "Add, edit, publish, feature, archive, and delete project records.",
     href: "/admin/projects",
     icon: FolderKanban,
-    active: true,
-  },
-  {
-    title: "Jobs",
-    description: "Private tracker for saved roles, applications, interviews, and follow-ups.",
-    href: "/admin/jobs",
-    icon: Briefcase,
     active: true,
   },
   {
@@ -55,7 +48,7 @@ export default async function AdminPage() {
       <PageIntro
         eyebrow="Admin"
         title="Private WertWorks dashboard."
-        description="Manage private site tools, project records, job tracking, and future admin-only content."
+        description="Manage project records, Field Notes, and future admin-only content."
       />
 
       <section className="section-shell pt-0">

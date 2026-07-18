@@ -4,7 +4,6 @@ import {
   CheckCircle2,
   ExternalLink,
   Bot,
-  BriefcaseBusiness,
   ClipboardCheck,
   Globe2,
   Plane,
@@ -161,8 +160,6 @@ function getProjectIcon(category: Project["category"]) {
       return Bot;
     case "Automation Tools":
       return Workflow;
-    case "Job Search Tools":
-      return BriefcaseBusiness;
     case "Websites":
       return Globe2;
     case "Aviation Systems":

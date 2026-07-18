@@ -14,7 +14,6 @@ const reasons = [
   "Job opportunity",
   "Automation / bot project",
   "Website project",
-  "Job tool idea",
   "Aerial planning conversation",
   "General contact",
 ];

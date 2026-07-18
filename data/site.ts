@@ -103,13 +103,6 @@ export const buildAreas = [
     icon: Globe2
   },
   {
-    title: "Career Systems",
-    description:
-      "Application tracking, resume organization, follow-up notes, and interview prep workflows.",
-    href: "/projects#personal-job-search-dashboard",
-    icon: Briefcase
-  },
-  {
     title: "Aviation-Inspired Workflows",
     description:
       "Checklist thinking, handoff discipline, safety gates, and structured operating routines.",
@@ -131,7 +124,6 @@ export const currentStatusGroups = [
     items: [
       "Personal website",
       "Discord bot documentation",
-      "Private career dashboard",
       "Automation systems"
     ]
   },
@@ -169,7 +161,7 @@ export const quickStats = [
   },
   {
     title: "Websites and tools",
-    description: "Creating clean sites, forms, dashboards, and job-search systems.",
+    description: "Creating clean sites, forms, dashboards, and practical web tools.",
     icon: Globe2
   },
   {

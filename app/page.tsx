@@ -18,11 +18,11 @@ import { profile } from "@/data/profile";
 
 export const metadata = {
   description:
-    "WertWorks is Airex Wert's personal hub for automation tools, Discord bots, websites, field notes, career systems, aviation-inspired workflows, and future aerial planning.",
+    "WertWorks is Airex Wert's personal hub for automation tools, Discord bots, websites, field notes, aviation-inspired workflows, and future aerial planning.",
   openGraph: {
     title: "WertWorks | Practical Systems, Bots, Websites & Automation",
     description:
-      "A practical project hub for automation tools, Discord bots, websites, field notes, career systems, and future aerial planning."
+      "A practical project hub for automation tools, Discord bots, websites, field notes, and future aerial planning."
   }
 };
 
@@ -103,7 +103,7 @@ export default function HomePage() {
           <SectionHeader
             eyebrow="What I'm building"
             title="A cleaner project hub for practical systems."
-            description="The work is grouped by use: bots, websites, career systems, aviation-inspired workflows, and future aerial planning."
+            description="The work is grouped by use: bots, websites, aviation-inspired workflows, and future aerial planning."
           />
 
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">

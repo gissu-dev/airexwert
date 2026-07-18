@@ -2,7 +2,7 @@
 
 This is my personal website and project hub.
 
-I built it to have one place for my resume, contact info, bot projects, automation ideas, job-search tools, and future aerial planning work. It is not meant to look like a big agency site. It is more like a polished workshop for the things I am learning, building, and organizing.
+I built it to have one place for my resume, contact info, bot projects, automation ideas, and future aerial planning work. It is not meant to look like a big agency site. It is more like a polished workshop for the things I am learning, building, and organizing.
 
 The main idea behind WertWorks is simple: practical tools, clear information, and projects that solve real problems I have actually run into.
 
@@ -14,7 +14,6 @@ The main idea behind WertWorks is simple: practical tools, clear information, an
 - Automation and Discord bot project page
 - Resume download and contact page
 - Contact page with profile details and a draft-email form
-- Job tools and admin pages for tracking applications
 - Aerial planning page for future drone-service ideas
 - Supabase-backed project admin area
 
@@ -153,13 +152,12 @@ Vercel watches the GitHub repo and redeploys from `main`.
 
 Things I still want to improve:
 
-- Keep refreshing the resume image when the resume changes
+- Keep refreshing the resume PDF when the resume changes
 - Finish connecting the contact form to a real backend
 - Keep improving the project admin workflow
 - Add better screenshots for projects
 - Add deeper case studies for the bots
 - Keep the aerial planning page careful and claim-safe
-- Add reminders or calendar export for the job tools
 - Keep cleaning up anything that feels overbuilt or too fake
 
 ## Why This Exists

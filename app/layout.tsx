@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: "%s | WertWorks"
   },
   description:
-    "WertWorks is the personal project hub of Airex Wert, a NEPA-based Army veteran building automation tools, Discord bots, websites, career systems, aviation-inspired workflows, field notes, and future aerial planning.",
+    "WertWorks is the personal project hub of Airex Wert, a NEPA-based Army veteran building automation tools, Discord bots, websites, aviation-inspired workflows, field notes, and future aerial planning.",
   keywords: [
     "WertWorks",
     "Airex Wert",
@@ -22,7 +22,6 @@ export const metadata: Metadata = {
     "automation",
     "Discord bots",
     "websites",
-    "career systems",
     "field notes",
     "Army veteran"
   ],
@@ -31,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "WertWorks | Practical Systems, Bots, Websites & Automation",
     description:
-      "Automation tools, Discord bots, websites, career systems, field notes, aviation-inspired workflows, and future aerial planning from Airex Wert.",
+      "Automation tools, Discord bots, websites, field notes, aviation-inspired workflows, and future aerial planning from Airex Wert.",
     url: profile.siteUrl,
     siteName: profile.brandName,
     images: [
@@ -49,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "WertWorks | Practical Systems, Bots, Websites & Automation",
     description:
-      "Automation tools, Discord bots, websites, career systems, field notes, aviation-inspired workflows, and future aerial planning from Airex Wert.",
+      "Automation tools, Discord bots, websites, field notes, aviation-inspired workflows, and future aerial planning from Airex Wert.",
     images: ["/images/wertworks-og.svg"]
   },
   robots: {

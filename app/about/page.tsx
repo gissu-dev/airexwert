@@ -55,7 +55,7 @@ const buildTracks = [
   {
     title: "Dashboards and internal tools",
     description:
-      "Private systems for career tracking, project organization, and messy information that needs a home.",
+      "Private systems for project organization and messy information that needs a home.",
     icon: ClipboardCheck
   },
   {
@@ -94,7 +94,7 @@ const currentFocus = [
   "Building Sky Pals Dispatch toward a responsible launch",
   "Career rebuild and finding better work",
   "Discord bots and server tools",
-  "Personal automation and private dashboards",
+  "Personal automation and internal tools",
   "Improving WertWorks as a personal brand and project archive"
 ];
 

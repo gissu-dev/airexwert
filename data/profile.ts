@@ -3,7 +3,7 @@ export const profile = {
   name: "Airex Wert",
   tagline: "Practical systems, bots, websites, automation, and field notes.",
   headline:
-    "Practical builder focused on automation tools, Discord bots, websites, career systems, aviation-inspired workflows, field notes, and future aerial planning.",
+    "Practical builder focused on automation tools, Discord bots, websites, aviation-inspired workflows, field notes, and future aerial planning.",
   location: "Wilkes-Barre / Northeastern Pennsylvania",
   regionShort: "Wilkes-Barre / NEPA",
   email: "airexwert@yahoo.com",

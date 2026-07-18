@@ -1,11 +1,9 @@
 import {
   Bot,
-  ClipboardList,
   FileText,
   LayoutDashboard,
   MessageSquare,
   Radar,
-  Search,
   Wrench
 } from "lucide-react";
 
@@ -25,7 +23,7 @@ export const automationSkills = [
   {
     title: "Simple dashboards",
     description:
-      "Focused dashboards for jobs, projects, contacts, aerial planning leads, and personal operations.",
+      "Focused dashboards for projects, contacts, aerial planning leads, and personal operations.",
     icon: LayoutDashboard
   },
   {
@@ -33,12 +31,6 @@ export const automationSkills = [
     description:
       "Structured intake, quote routing, response capture, and ready-to-integrate contact forms.",
     icon: FileText
-  },
-  {
-    title: "Resume and career systems",
-    description:
-      "Application tracking, targeted summaries, document organization, and follow-up systems.",
-    icon: Search
   },
   {
     title: "Website automation",
@@ -49,18 +41,6 @@ export const automationSkills = [
 ];
 
 export const automationIdeas = [
-  {
-    title: "Job tracker",
-    description:
-      "Kanban and table views for leads, applications, interviews, follow-ups, and offers.",
-    icon: ClipboardList
-  },
-  {
-    title: "Application organizer",
-    description:
-      "Central place for links, pay notes, role details, contacts, and document versions.",
-    icon: Search
-  },
   {
     title: "Reminder bot",
     description:

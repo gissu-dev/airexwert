@@ -3,6 +3,7 @@
   projectCategories,
   projectStages,
   projects as seedProjects,
+  retiredProjectSlugs,
   type Project,
   type ProjectCaseStudyStatus,
   type ProjectCategory,
@@ -46,7 +47,9 @@ export async function readPublicProjects(): Promise<Project[]> {
     }
 
     const data = await response.json();
-    return mergeCanonicalPublicProjects(data.projects ?? []);
+    return mergeCanonicalPublicProjects(
+      removeRetiredProjects(data.projects ?? []),
+    );
   } catch {
     return cloneProjects(seedProjects).filter(
       (project) => project.status === "published",
@@ -336,4 +339,9 @@ function mergeCanonicalPublicProjects(projects: Project[]) {
         : [...canonicalSkyPals.caseStudyImages],
     };
   });
+}
+
+function removeRetiredProjects(projects: Project[]) {
+  const retiredSlugs = new Set<string>(retiredProjectSlugs);
+  return projects.filter((project) => !retiredSlugs.has(project.slug));
 }

@@ -9,11 +9,11 @@ import { profile } from "@/data/profile";
 export const metadata = {
   title: "Contact WertWorks",
   description:
-    "Contact WertWorks and Airex Wert about job opportunities, aerial services planning, automation, bot projects, websites, career systems, and applied technology work.",
+    "Contact WertWorks and Airex Wert about job opportunities, aerial services planning, automation, bot projects, websites, and applied technology work.",
   openGraph: {
     title: "Contact WertWorks",
     description:
-      "Start a professional conversation with Airex Wert about automation, websites, bots, career systems, aerial planning, or applied technology."
+      "Start a professional conversation with Airex Wert about automation, websites, bots, aerial planning, or applied technology."
   }
 };
 
@@ -22,7 +22,6 @@ export default function ContactPage() {
     "Job opportunities",
     "Bot projects",
     "Website work",
-    "Career systems",
     "Aerial planning"
   ];
 
@@ -37,7 +36,7 @@ export default function ContactPage() {
       <PageIntro
         eyebrow="Contact"
         title={`Contact ${profile.name}.`}
-        description="Use this page for job opportunities, bot and automation projects, website work, career systems, aerial planning, or general follow-up."
+        description="Use this page for job opportunities, bot and automation projects, website work, aerial planning, or general follow-up."
       />
 
       <section className="section-shell pt-4">

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Bot, ClipboardList, FileText, LayoutDashboard, Wrench } from "lucide-react";
+import { ArrowRight, Bot, ClipboardList, FileText, Wrench } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { PageIntro } from "@/components/page-intro";
 import { ProjectCard } from "@/components/project-card";
@@ -13,7 +13,7 @@ import { projects } from "@/data/projects";
 export const metadata = {
   title: "Automation & Bots | WertWorks",
   description:
-    "WertWorks automation and bot projects covering Discord bots, reminders, dashboards, career workflows, form organization, tracking, and website tools.",
+    "WertWorks automation and bot projects covering Discord bots, reminders, form organization, tracking, and website tools.",
   openGraph: {
     title: "Automation & Bots | WertWorks",
     description:
@@ -24,13 +24,6 @@ export const metadata = {
 const botProjectSlugs = ["kith-wave-bot", "kith-bot", "clocktower"];
 
 const automationSystemTracks = [
-  {
-    title: "Career workflows",
-    description:
-      "Application tracking, follow-up reminders, resume notes, and status visibility.",
-    href: "/projects#personal-job-search-dashboard",
-    icon: LayoutDashboard
-  },
   {
     title: "Form organization",
     description:
@@ -68,7 +61,7 @@ export default function AutomationBotsPage() {
       <PageIntro
         eyebrow="Automation & Bots"
         title="Small useful tools, Discord bots, and workflow automation."
-        description="This page focuses on practical bots and automation systems: Discord utilities, reminders, career workflows, form organization, tracking, and website tools."
+        description="This page focuses on practical bots and automation systems: Discord utilities, reminders, form organization, tracking, and website tools."
       />
 
       <section className="section-shell pt-4">
@@ -125,7 +118,7 @@ export default function AutomationBotsPage() {
           <SectionHeader
             eyebrow="Capabilities"
             title="Reusable automation capabilities."
-            description="These are the skill areas that connect the bot projects, career systems, and website work."
+            description="These are the skill areas that connect the bot projects, workflow automation, and website work."
           />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {automationSkills.map((skill) => {
@@ -153,7 +146,7 @@ export default function AutomationBotsPage() {
             title="Useful MVPs before bigger systems."
             description="These ideas are intentionally small enough to finish and useful enough to justify expanding."
           />
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {automationIdeas.map((idea) => {
               const Icon = idea.icon;
 

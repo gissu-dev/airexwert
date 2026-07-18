@@ -1,5 +1,6 @@
 ﻿import { NextRequest, NextResponse } from "next/server";
 import type { Project } from "@/data/projects";
+import { retiredProjectSlugs } from "@/data/projects";
 import { getCurrentAdmin } from "@/lib/admin-auth";
 import { normalizeProject } from "@/lib/projects";
 import { createSupabaseAdminClient } from "@/lib/supabase-admin";
@@ -49,7 +50,9 @@ export async function GET(request: NextRequest) {
       .order("created_at", { ascending: false });
 
     if (!wantsAdmin) {
-      query = query.eq("status", "published");
+      query = query
+        .eq("status", "published")
+        .not("slug", "in", `(${retiredProjectSlugs.join(",")})`);
     }
 
     const { data, error } = await query;
