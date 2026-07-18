@@ -10,8 +10,8 @@ export const profile = {
   phone: "(272) 301-9071",
   discord: "daehzushriexh",
   discordUrl: "https://discordapp.com/users/565334237226467353",
-  resumeDownloadPath: "/resume.png",
-  resumePdfPath: "/resume.png",
+  resumeDownloadPath: "/resume.pdf",
+  resumePdfPath: "/resume.pdf",
   githubUrl: "",
   linkedinUrl: "https://www.linkedin.com/in/airex-wert-4326a1155/",
   siteUrl: "https://airexwert.com"
@@ -19,6 +19,6 @@ export const profile = {
 
 export const profileEditNotes = {
   contactFile: "data/profile.ts",
-  resumeFile: "public/resume.png",
+  resumeFile: "public/resume.pdf",
   resumePdfFile: "public/resume.pdf"
 };

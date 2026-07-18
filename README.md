@@ -111,19 +111,19 @@ That file controls:
 
 ## Resume Asset
 
-The active downloadable resume is a PNG:
+The active downloadable resume is a US Letter PDF:
 
 ```text
-/resume.png
+/resume.pdf
 ```
 
 The source file is:
 
 ```text
-public/resume.png
+public/resume.pdf
 ```
 
-The site uses `profile.resumeDownloadPath` from `data/profile.ts`, and that should stay pointed at `/resume.png` unless I intentionally change the active resume file.
+The site uses `profile.resumeDownloadPath` from `data/profile.ts`, and that should stay pointed at `/resume.pdf` unless I intentionally change the active resume file.
 
 ## Build Check
 
