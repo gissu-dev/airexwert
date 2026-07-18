@@ -67,7 +67,7 @@ const buildTracks = [
   {
     title: "Service ideas",
     description:
-      "Future-facing plans like Keystone Aerial Services, treated as roadmaps until they are ready.",
+      "Pre-launch work like Sky Pals Dispatch, built openly while launch requirements are completed.",
     icon: Lightbulb
   }
 ];
@@ -91,6 +91,7 @@ const thinkingNotes = [
 ];
 
 const currentFocus = [
+  "Building Sky Pals Dispatch toward a responsible launch",
   "Career rebuild and finding better work",
   "Discord bots and server tools",
   "Personal automation and private dashboards",
@@ -112,7 +113,7 @@ const proudProjectHighlights = [
   },
   {
     slug: "keystone-aerial-services-aerial-planning",
-    note: "A responsible roadmap for a future aerial services idea before presenting it as fully launched."
+    note: "The flagship pre-launch business: inspection and documentation services first, with fire-service applications as a later exploration goal."
   }
 ];
 
@@ -246,10 +247,10 @@ export default function AboutPage() {
                   visible and useful.
                 </p>
                 <p>
-                  Drone and aerial services are part of the future-facing plan,
-                  especially through Keystone Aerial Services planning, but I
-                  treat that as a roadmap until equipment, licensing, insurance,
-                  safety, and scope are ready.
+                  Sky Pals Dispatch is my flagship pre-launch business. The website
+                  and service plan are taking shape now, with inspection and
+                  documentation services as the launch focus. Exploring how drones
+                  could help fire services is a later goal after the core business is established.
                 </p>
               </div>
             </CardContent>

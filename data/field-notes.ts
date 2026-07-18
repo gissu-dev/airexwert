@@ -141,14 +141,14 @@ The lesson is simple: small tools are worth building when they solve a clear pro
   },
   {
     id: "keystone-aerial-services-roadmap",
-    title: "KAS Business Roadmap",
+    title: "Sky Pals Dispatch Roadmap (Draft)",
     slug: "kas-business-roadmap",
     category: "Aviation",
-    status: "published",
+    status: "draft",
     featured: false,
     excerpt:
-      "A roadmap for building Keystone Aerial Services carefully, from Part 107 preparation and equipment planning to portfolio work, outreach, and long-term growth.",
-    content: `Keystone Aerial Services is still in the pre-launch stage.
+      "A working roadmap for launching Sky Pals Dispatch with inspection services first and exploring fire-service applications later.",
+    content: `Sky Pals Dispatch is still in the pre-launch stage.
 
 The goal is to build it carefully before presenting it as an active drone service business. The working direction is a practical aerial services company for Northeastern Pennsylvania, focused on useful imaging, inspection support, mapping, documentation, and future thermal services.
 
@@ -173,12 +173,12 @@ The ninth phase is the first 90 days after launch. The first 30 days focus on Pa
 The tenth phase is long-term growth. Possible paths include monthly construction progress contracts, roofing partnerships, property management documentation, commercial real estate packages, thermal inspection support, properly qualified public safety or local government support, mapping/reporting, subcontracting for larger drone companies, and expanding beyond NEPA. Long-term systems include a CRM, automated quote system, follow-up system, SOPs, safety manual, maintenance schedule, insurance review, portfolio updates, case studies, and a referral program.
 
 The main rule is simple: launch small, but launch professionally. Do not wait until everything is perfect, but do build the legal foundation, create simple services, practice the workflow, publish a clean website, and start getting local conversations.`,
-    tags: ["KAS", "Drones", "Part 107", "Aviation", "Business roadmap"],
+    tags: ["Sky Pals Dispatch", "Drones", "Part 107", "Public safety", "Business roadmap"],
     readTime: "6 min",
     publishedAt: now,
     coverImage: "",
     coverImageAlt:
-      "Drone business planning roadmap for Keystone Aerial Services in Northeastern Pennsylvania",
+      "Business planning roadmap for Sky Pals Dispatch in Northeastern Pennsylvania",
     createdAt: now,
     updatedAt: now
   },

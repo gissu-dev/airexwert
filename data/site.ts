@@ -119,7 +119,7 @@ export const buildAreas = [
   {
     title: "Aerial Planning",
     description:
-      "Future aerial services planning with launch requirements clearly separated from active offers.",
+      "Sky Pals Dispatch inspection-service development, with future fire-service exploration separated from active offers.",
     href: "/aerial-planning",
     icon: Crosshair
   }
@@ -138,6 +138,7 @@ export const currentStatusGroups = [
   {
     label: "In progress",
     items: [
+      "Sky Pals Dispatch pre-launch business",
       "Project case studies",
       "Field notes",
       "Resume page",
@@ -148,7 +149,6 @@ export const currentStatusGroups = [
   {
     label: "Future",
     items: [
-      "Aerial services launch planning",
       "Part 107 and insurance readiness",
       "Equipment planning",
       "Client intake process"

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -48,6 +48,11 @@ export default async function FieldNotePage({
   params
 }: FieldNotePageProps) {
   const { slug } = await params;
+
+  if (slug === "kas-business-roadmap") {
+    redirect("/aerial-planning/roadmap");
+  }
+
   const note = await findPublicFieldNoteBySlug(slug);
 
   if (!note) {
@@ -133,7 +138,11 @@ async function findPublicFieldNoteBySlug(slug: string): Promise<FieldNote | null
     // Fall back to local seed notes if Supabase is not configured yet.
   }
 
-  return seedFieldNotes.find((note) => note.slug === slug) ?? null;
+  return (
+    seedFieldNotes.find(
+      (note) => note.slug === slug && note.status === "published"
+    ) ?? null
+  );
 }
 
 function formatContent(content: string) {

@@ -11,6 +11,7 @@ const routes = [
   "/field-notes",
   "/automation-bots",
   "/aerial-planning",
+  "/aerial-planning/roadmap",
   "/resume",
   "/contact"
 ];

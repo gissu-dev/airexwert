@@ -33,14 +33,20 @@ import { SectionHeader } from "@/components/section-header";
 import { cn } from "@/lib/utils";
 
 export function FieldNotesShowcase() {
-  const [notes, setNotes] = useState<FieldNote[]>(seedFieldNotes);
+  const [notes, setNotes] = useState<FieldNote[]>(
+    seedFieldNotes.filter((note) => note.status === "published")
+  );
   const [loaded, setLoaded] = useState(false);
   const [activeCategory, setActiveCategory] = useState<FieldNoteFilter>("All");
 
   useEffect(() => {
     async function loadFieldNotes() {
       const publicNotes = await readPublicFieldNotes();
-      setNotes(publicNotes.length ? publicNotes : seedFieldNotes);
+      setNotes(
+        publicNotes.length
+          ? publicNotes
+          : seedFieldNotes.filter((note) => note.status === "published")
+      );
       setLoaded(true);
     }
 

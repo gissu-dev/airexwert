@@ -36,13 +36,19 @@ export async function readPublicFieldNotes(): Promise<FieldNote[]> {
     });
 
     if (!response.ok) {
-      return cloneFieldNotes(seedFieldNotes);
+      return cloneFieldNotes(seedFieldNotes).filter(
+        (note) => note.status === "published"
+      );
     }
 
     const data = await response.json();
-    return data.fieldNotes ?? [];
+    return (data.fieldNotes ?? []).filter(
+      (note: FieldNote) => note.id !== "keystone-aerial-services-roadmap"
+    );
   } catch {
-    return cloneFieldNotes(seedFieldNotes);
+    return cloneFieldNotes(seedFieldNotes).filter(
+      (note) => note.status === "published"
+    );
   }
 }
 

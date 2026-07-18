@@ -46,7 +46,7 @@ export async function readPublicProjects(): Promise<Project[]> {
     }
 
     const data = await response.json();
-    return data.projects ?? [];
+    return mergeCanonicalPublicProjects(data.projects ?? []);
   } catch {
     return cloneProjects(seedProjects).filter(
       (project) => project.status === "published",
@@ -303,4 +303,37 @@ function cloneProjects(projects: Project[]) {
     techUsed: [...project.techUsed],
     caseStudyImages: [...(project.caseStudyImages ?? [])],
   }));
+}
+
+function mergeCanonicalPublicProjects(projects: Project[]) {
+  const canonicalSkyPals = seedProjects.find(
+    (project) => project.id === "keystone-aerial-services-aerial-planning",
+  );
+
+  if (!canonicalSkyPals) {
+    return projects;
+  }
+
+  const storedSkyPals = projects.find(
+    (project) => project.id === canonicalSkyPals.id,
+  );
+
+  if (!storedSkyPals) {
+    return [...projects, cloneProjects([canonicalSkyPals])[0]];
+  }
+
+  return projects.map((project) => {
+    if (project.id !== canonicalSkyPals.id) {
+      return project;
+    }
+
+    return {
+      ...project,
+      ...canonicalSkyPals,
+      imageUrl: project.imageUrl || canonicalSkyPals.imageUrl,
+      caseStudyImages: project.caseStudyImages.length
+        ? [...project.caseStudyImages]
+        : [...canonicalSkyPals.caseStudyImages],
+    };
+  });
 }

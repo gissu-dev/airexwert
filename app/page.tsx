@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Briefcase, FolderOpen, Mail } from "lucide-react";
 import { Hero } from "@/components/hero";
 import { ProjectCard } from "@/components/project-card";
+import { FeaturedProjectCard } from "@/components/featured-project-card";
 import { SectionHeader } from "@/components/section-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -28,8 +29,15 @@ export const metadata = {
 export default function HomePage() {
   const publishedProjects = projects.filter((project) => project.status === "published");
   const featuredProjects = publishedProjects
-    .filter((project) => project.featured)
-    .slice(0, 6);
+    .filter(
+      (project) =>
+        project.featured &&
+        project.id !== "keystone-aerial-services-aerial-planning"
+    )
+    .slice(0, 3);
+  const flagshipProject = publishedProjects.find(
+    (project) => project.id === "keystone-aerial-services-aerial-planning"
+  );
 
   return (
     <>
@@ -153,9 +161,9 @@ export default function HomePage() {
         <div className="section-shell">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <SectionHeader
-              eyebrow="Featured projects"
-              title="Current project tracks with honest status and next steps."
-              description="Project cards use the central project data file and avoid fake metrics, fake clients, and broken case-study links."
+              eyebrow="Flagship and featured work"
+              title="A real business in development, supported by practical project work."
+              description="Sky Pals Dispatch is the primary build. Other featured projects show the tools, systems, and technical work supporting the broader direction."
             />
             <Button asChild variant="outline" className="w-fit">
               <Link href="/projects">
@@ -165,7 +173,13 @@ export default function HomePage() {
             </Button>
           </div>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {flagshipProject ? (
+            <div className="mt-10">
+              <FeaturedProjectCard project={flagshipProject} />
+            </div>
+          ) : null}
+
+          <div className="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {featuredProjects.map((project) => (
               <ProjectCard key={project.id} project={project} />
             ))}

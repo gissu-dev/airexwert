@@ -24,10 +24,10 @@ export const timeline = [
       "Creating portfolio, intake, and project sites with direct messaging, clear structure, and deploy-ready foundations."
   },
   {
-    title: "Future drone/aerial planning",
-    timeframe: "Future capability",
+    title: "Sky Pals Dispatch",
+    timeframe: "Pre-launch business",
     description:
-      "Planning aerial work carefully around capability growth, local needs, launch requirements, and responsible boundaries."
+      "Building a drone inspection and documentation business first, with responsible fire-service applications as a longer-term area to explore."
   }
 ];
 

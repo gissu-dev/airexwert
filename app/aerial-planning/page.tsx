@@ -3,6 +3,7 @@ import {
   BadgeCheck,
   ClipboardCheck,
   Crosshair,
+  Flame,
   FileText,
   Map,
   Plane,
@@ -30,28 +31,28 @@ export const metadata = {
 
 const possibleFutureServices = [
   {
-    title: "Property documentation planning",
+    title: "Roof and exterior documentation",
     description:
-      "Future visual documentation for properties, structures, lots, and progress records when launch requirements are met.",
-    icon: Map
-  },
-  {
-    title: "Inspection support concepts",
-    description:
-      "Planning around roof, site, or structure documentation where equipment, permissions, and scope support responsible work.",
+      "Planned aerial visual inspection support for roofs, exteriors, and difficult-to-view areas, with scope and deliverables clearly defined.",
     icon: Crosshair
   },
   {
-    title: "Mapping and records",
+    title: "Property and site overviews",
     description:
-      "Future organized deliverables for site context, progress capture, and visual records.",
+      "Organized aerial imagery for properties, lots, access points, site context, and visual records.",
+    icon: Map
+  },
+  {
+    title: "Progress and recurring records",
+    description:
+      "Repeatable documentation for construction progress, exterior conditions, and projects that benefit from consistent viewpoints over time.",
     icon: FileText
   },
   {
-    title: "Thermal use-case research",
+    title: "Future fire-service exploration",
     description:
-      "Researching thermal-capable use cases with equipment, training, legal, and project boundaries clearly defined.",
-    icon: Radar
+      "A later goal to test how drones may help fire services after the inspection business is established and the required training, policies, and agency relationships are understood.",
+    icon: Flame
   }
 ];
 
@@ -65,7 +66,7 @@ const launchRequirements = [
   {
     title: "Licensing / Part 107",
     description:
-      "Confirm licensing requirements, airspace awareness, operating limits, and compliance before presenting active services.",
+      "Part 107 certification is complete. Keep the temporary certificate available while the permanent certificate is pending, and document airspace checks for every mission.",
     icon: BadgeCheck
   },
   {
@@ -94,20 +95,20 @@ const launchRequirements = [
 ];
 
 const roadmap = [
-  "Clarify service boundaries and future use cases.",
-  "Complete licensing, insurance, and equipment decisions.",
-  "Build safety checklists and client intake workflow.",
-  "Document sample deliverables and operating process.",
-  "Decide when the concept is ready for an official launch."
+  "Form the business and define clear ownership, scope, and launch boundaries.",
+  "Complete licensing, insurance, equipment, and training decisions.",
+  "Define the initial inspection services, client intake, deliverables, and operating procedures.",
+  "Practice safe workflows and build sample inspection-style documentation.",
+  "Launch the core inspection business, then explore fire-service use cases through research and local conversations."
 ];
 
 export default function AerialPlanningPage() {
   return (
     <>
       <PageIntro
-        eyebrow="Aerial Planning"
-        title="Future aerial services planning, not an active launch."
-        description="This page organizes the roadmap for Keystone Aerial Services / aerial planning. It is for launch preparation, use-case research, equipment planning, licensing boundaries, safety process, and planning conversations."
+        eyebrow="Sky Pals Dispatch"
+        title="Building an inspection-focused drone business."
+        description="Sky Pals Dispatch is a pre-launch business founded and independently developed by Airex Wert. The website is live while LLC formation, inspection services, equipment readiness, operating procedures, and clear deliverables are developed."
       />
 
       <section className="section-shell pt-4">
@@ -115,25 +116,25 @@ export default function AerialPlanningPage() {
           <Card className="bg-card/75">
             <CardContent className="p-6">
               <Radar className="h-9 w-9 text-primary" aria-hidden="true" />
-              <h2 className="mt-5 text-2xl font-semibold">Launch status</h2>
+              <h2 className="mt-5 text-2xl font-semibold">Pre-launch status</h2>
               <p className="mt-4 text-sm leading-7 text-muted-foreground">
-                Aerial services are not officially launched yet. The current
-                purpose is responsible planning: define what this could become,
-                what must be true before launch, and what conversations are
-                appropriate while the roadmap is still in development.
+                Sky Pals Dispatch has a live website and a defined launch direction:
+                practical aerial inspection support and organized visual documentation.
+                Fire-service applications are a later area to explore, not a current
+                service or agency affiliation.
               </p>
               <Badge variant="amber" className="mt-6 leading-5">
-                In development - future capabilities depend on equipment,
-                licensing, insurance, location, safety process, and project
-                requirements.
+                Target launch: August 24, 2026 - only if LLC formation, equipment,
+                insurance, training, procedures, financing, and operational-readiness
+                gates are complete.
               </Badge>
               <div className="mt-6 flex flex-col gap-3">
                 <Button asChild>
-                  <Link href="#roadmap">View launch roadmap</Link>
+                  <Link href="/aerial-planning/roadmap">Read the official roadmap</Link>
                 </Button>
                 <Button asChild variant="outline">
                   <Link href="/contact?reason=Aerial%20planning%20conversation">
-                    Start a planning conversation
+                    Start a Sky Pals conversation
                   </Link>
                 </Button>
                 <Button asChild variant="amber">
@@ -146,8 +147,8 @@ export default function AerialPlanningPage() {
           <div>
             <SectionHeader
               eyebrow="What this could become"
-              title="Possible future services being evaluated."
-              description="These are planning categories, not active service offers. Each one depends on launch readiness and project-specific requirements."
+              title="Inspection services come first."
+              description="The first business goal is useful aerial inspection support and documentation. Fire-service applications remain a later research and relationship-building goal."
             />
             <div className="mt-8 grid gap-5 sm:grid-cols-2">
               {possibleFutureServices.map((item) => {
@@ -174,8 +175,8 @@ export default function AerialPlanningPage() {
         <div className="section-shell">
           <SectionHeader
             eyebrow="Launch requirements"
-            title="What needs to be ready before aerial work is presented as active."
-            description="The roadmap separates planning conversations from commercial availability."
+            title="What must be ready before inspection services are offered."
+            description="The roadmap separates active business development from services that are not yet available."
           />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {launchRequirements.map((item) => {
@@ -201,8 +202,8 @@ export default function AerialPlanningPage() {
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
           <SectionHeader
             eyebrow="Roadmap"
-            title="A clear path from concept to responsible launch."
-            description="This is the current planning sequence. It should evolve before any official aerial-services launch language is used."
+            title="A clear path from pre-launch business to responsible operations."
+            description="This high-level sequence begins with inspection services. The complete official roadmap documents the detailed launch gates, milestones, service boundaries, and longer-term goals."
           />
           <Card className="bg-card/75">
             <CardContent className="p-6">
@@ -219,6 +220,9 @@ export default function AerialPlanningPage() {
                   </li>
                 ))}
               </ol>
+              <Button asChild className="mt-7 w-full">
+                <Link href="/aerial-planning/roadmap">Open the complete roadmap</Link>
+              </Button>
             </CardContent>
           </Card>
         </div>

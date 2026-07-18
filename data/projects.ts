@@ -12,6 +12,7 @@ export const projectStatuses = ["draft", "published", "archived"] as const;
 export const projectStages = [
   "Active",
   "In progress",
+  "Pre-launch",
   "Future planning",
   "Documenting"
 ] as const;
@@ -348,32 +349,33 @@ export const projects: Project[] = [
   },
   {
     id: "keystone-aerial-services-aerial-planning",
-    title: "Keystone Aerial Services / Aerial Planning",
+    title: "Sky Pals Dispatch",
     slug: "keystone-aerial-services-aerial-planning",
     category: "Aerial Planning",
     status: "published",
-    stage: "Future planning",
+    stage: "Pre-launch",
     featured: true,
     shortDescription:
-      "A future aerial-services planning track for launch requirements, use cases, equipment, safety, and intake workflows.",
+      "A pre-launch drone business being built around visual inspection support, clear documentation, practical aerial awareness, and disciplined operations.",
     fullDescription:
-      "Keystone Aerial Services / Aerial Planning is explicitly a planning track, not an active service offer. It organizes future possibilities, launch requirements, licensing boundaries, equipment planning, and responsible operating process.",
+      "Sky Pals Dispatch is a pre-launch drone inspection and documentation business founded and independently developed by Airex Wert. The brand and website are live while business formation, equipment readiness, licensing, insurance, operating procedures, and service deliverables are developed for a responsible launch.",
     problem:
-      "Future aerial work needs clear boundaries before it is presented publicly: licensing, equipment, safety, insurance, operating area, intake, and legal requirements all matter.",
+      "Properties, roofs, sites, and active projects can be difficult, time-consuming, or risky to document from the ground. Clients need useful aerial visuals delivered with clear scope, safe procedures, and organized records.",
     solution:
-      "Keep aerial planning in a dedicated roadmap that states what is being researched, what is required before launch, and what conversations are appropriate today.",
+      "Launch Sky Pals Dispatch around practical visual inspection support and documentation services, then improve the workflow through real experience. After the core business is established, explore how drones may responsibly assist fire services through research, training, and agency conversations.",
     features: [
-      "Launch-status language that avoids claiming active commercial service.",
-      "Possible future service categories and operating boundaries.",
-      "Part 107, insurance, safety, equipment, and intake planning.",
-      "Roadmap structure for deciding when the concept is ready to launch."
+      "Visual inspection support and organized documentation are the initial service focus.",
+      "The business website is live at skypalsdispatch.com.",
+      "FAA Part 107 certification is complete; the temporary certificate is held while the permanent certificate is pending.",
+      "August 24, 2026 is the target launch date, subject to every required readiness gate.",
+      "Fire-service drone applications are a later exploration goal, dependent on training, readiness, and agency coordination."
     ],
-    techUsed: ["Launch planning", "Aviation workflow", "Intake design", "Research"],
-    nextStep: "Define equipment requirements, licensing timeline, and intake checklist.",
-    caseStudyStatus: "coming-soon",
+    techUsed: ["Roof mapping", "Site documentation", "Aviation workflow", "Operating procedures"],
+    nextStep: "Form the LLC, secure sustainable financing and insurance, acquire the Matrice 4T, and complete the inspection-readiness practice plan.",
+    caseStudyStatus: "ready",
     githubUrl: "",
-    liveUrl: "/aerial-planning",
-    caseStudyUrl: "",
+    liveUrl: "https://skypalsdispatch.com",
+    caseStudyUrl: "/aerial-planning/roadmap",
     imageUrl: "",
     caseStudyImages: [],
     createdAt: "2026-06-30T00:00:00.000Z",
